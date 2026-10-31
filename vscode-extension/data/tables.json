@@ -1,0 +1,3074 @@
+{
+ "args": {
+  "aff": "weapons.md#special-afflictions",
+  "ben nbr": "weapons.md#special-benefits",
+  "look": "weapons.md#visual-effects-look",
+  "objective": "monsters.md#objectives",
+  "path": "monsters.md#magic-paths-path",
+  "path nbr": "monsters.md#magic-paths-path",
+  "plane": "monsters.md#plane-numbers",
+  "plane nbr": "monsters.md#plane-numbers",
+  "planenr": "monsters.md#plane-numbers",
+  "player": "events.md#player-numbers",
+  "player nbr": "events.md#player-numbers",
+  "player number": "events.md#player-numbers",
+  "pow nbr": "monsters.md#ritual-schools-pow-nbr",
+  "res nbr": "classes.md#resource-types",
+  "resource type": "classes.md#resource-types",
+  "sound": "weapons.md#sound-effects-sound",
+  "terr nbr": "monsters.md#negative-terrain-numbers",
+  "terrain": "monsters.md#negative-terrain-numbers",
+  "terrain nbr": "monsters.md#negative-terrain-numbers",
+  "to player": "events.md#player-numbers"
+ },
+ "tables": {
+  "classes.md#class-numbers": {
+   "flags": false,
+   "origin": "vanilla",
+   "rows": [
+    [
+     "1",
+     "baron"
+    ],
+    [
+     "2",
+     "necro"
+    ],
+    [
+     "3",
+     "demon"
+    ],
+    [
+     "4",
+     "witch"
+    ],
+    [
+     "5",
+     "priestess"
+    ],
+    [
+     "6",
+     "bakemono"
+    ],
+    [
+     "7",
+     "barbarian"
+    ],
+    [
+     "8",
+     "senator"
+    ],
+    [
+     "9",
+     "agartha"
+    ],
+    [
+     "10",
+     "druid"
+    ],
+    [
+     "11",
+     "hoburg"
+    ],
+    [
+     "12",
+     "warlock"
+    ],
+    [
+     "13",
+     "mictlan"
+    ],
+    [
+     "14",
+     "troll"
+    ],
+    [
+     "15",
+     "enchanter"
+    ],
+    [
+     "16",
+     "beholder (non-playable)"
+    ],
+    [
+     "17",
+     "archmage (non-playable)"
+    ],
+    [
+     "18",
+     "goblin king (non-playable)"
+    ],
+    [
+     "19",
+     "cultist"
+    ],
+    [
+     "20",
+     "dwarf"
+    ],
+    [
+     "21",
+     "priest"
+    ],
+    [
+     "22",
+     "illusionist"
+    ],
+    [
+     "23",
+     "markgraf"
+    ],
+    [
+     "24",
+     "dryad queen"
+    ],
+    [
+     "25",
+     "scourge lord"
+    ],
+    [
+     "26",
+     "cloud lord"
+    ],
+    [
+     "27",
+     "kobold"
+    ],
+    [
+     "28",
+     "maharaja"
+    ],
+    [
+     "29",
+     "raksharaja"
+    ]
+   ],
+   "title": "Class Numbers"
+  },
+  "classes.md#resource-types": {
+   "flags": false,
+   "origin": "vanilla",
+   "rows": [
+    [
+     "0",
+     "gold"
+    ],
+    [
+     "1",
+     "iron"
+    ],
+    [
+     "2",
+     "herbs"
+    ],
+    [
+     "3",
+     "fungus"
+    ],
+    [
+     "4",
+     "sacr"
+    ],
+    [
+     "5",
+     "hands"
+    ],
+    [
+     "6",
+     "weed"
+    ],
+    [
+     "7",
+     "fire"
+    ],
+    [
+     "8",
+     "water"
+    ],
+    [
+     "9",
+     "air"
+    ],
+    [
+     "10",
+     "earth"
+    ],
+    [
+     "11",
+     "trade"
+    ],
+    [
+     "12",
+     "relics"
+    ],
+    [
+     "13",
+     "lifeforce"
+    ],
+    [
+     "14",
+     "human corpses"
+    ],
+    [
+     "15",
+     "gems"
+    ],
+    [
+     "16",
+     "expendable units"
+    ],
+    [
+     "17",
+     "corpses"
+    ],
+    [
+     "18",
+     "goblins"
+    ]
+   ],
+   "title": "Resource Types"
+  },
+  "events.md#player-numbers": {
+   "flags": false,
+   "origin": "vanilla",
+   "rows": [
+    [
+     "0-23",
+     "player number"
+    ],
+    [
+     "24",
+     "Independents"
+    ],
+    [
+     "25",
+     "Special monsters"
+    ],
+    [
+     "26",
+     "Horrors"
+    ],
+    [
+     "27",
+     "Hades"
+    ],
+    [
+     "28",
+     "Inferno"
+    ],
+    [
+     "29",
+     "Celestial"
+    ],
+    [
+     "30",
+     "Kingdom/Empire"
+    ],
+    [
+     "-1",
+     "everyone (only for messages and a few triggers)"
+    ],
+    [
+     "-2",
+     "event player (current player)"
+    ],
+    [
+     "-3",
+     "square owner"
+    ],
+    [
+     "-4",
+     "army owner"
+    ]
+   ],
+   "title": "Player Numbers"
+  },
+  "items.md#magic-item-types": {
+   "flags": false,
+   "origin": "vanilla",
+   "rows": [
+    [
+     "1",
+     "weapon"
+    ],
+    [
+     "3",
+     "helm"
+    ],
+    [
+     "4",
+     "armor"
+    ],
+    [
+     "5",
+     "glove"
+    ],
+    [
+     "6",
+     "boots"
+    ],
+    [
+     "7",
+     "misc"
+    ]
+   ],
+   "title": "Magic Item Types"
+  },
+  "monster-traits.md#hated-kinds": {
+   "flags": false,
+   "origin": "coe5se",
+   "rows": [
+    [
+     "1",
+     "fire beings"
+    ],
+    [
+     "2",
+     "air beings"
+    ],
+    [
+     "3",
+     "water beings"
+    ],
+    [
+     "4",
+     "earth beings"
+    ],
+    [
+     "5",
+     "witches & cultists"
+    ],
+    [
+     "6",
+     "snake beings"
+    ]
+   ],
+   "title": "Hated kinds"
+  },
+  "monsters.md#magic-paths-path": {
+   "flags": false,
+   "origin": "vanilla",
+   "rows": [
+    [
+     "1",
+     "Infernal Magic"
+    ],
+    [
+     "2",
+     "Elemental Magic"
+    ],
+    [
+     "3",
+     "Pyromancy"
+    ],
+    [
+     "4",
+     "Hydromancy"
+    ],
+    [
+     "5",
+     "Storm Magic"
+    ],
+    [
+     "6",
+     "Geomancy"
+    ],
+    [
+     "7",
+     "Hedge Magic"
+    ],
+    [
+     "8",
+     "Unlife"
+    ],
+    [
+     "9",
+     "Dark Magic"
+    ],
+    [
+     "10",
+     "Foul Magic"
+    ],
+    [
+     "11",
+     "Blood Magic"
+    ],
+    [
+     "12",
+     "Crystal Sorcery"
+    ],
+    [
+     "13",
+     "Garnet Sorcery"
+    ],
+    [
+     "14",
+     "Jade Sorcery"
+    ],
+    [
+     "15",
+     "Onyx Sorcery"
+    ],
+    [
+     "16",
+     "White Magic"
+    ],
+    [
+     "17",
+     "Spiritism"
+    ],
+    [
+     "18",
+     "Fortune Magic"
+    ],
+    [
+     "19",
+     "Solar Magic"
+    ],
+    [
+     "20",
+     "Mysticism"
+    ],
+    [
+     "21",
+     "Serpent Magic"
+    ],
+    [
+     "22",
+     "Golden Magic"
+    ],
+    [
+     "23",
+     "Iron Arcana"
+    ],
+    [
+     "24",
+     "Kuro Do"
+    ],
+    [
+     "25",
+     "Prayers"
+    ],
+    [
+     "26",
+     "Enchantment"
+    ],
+    [
+     "27",
+     "Frost Magic"
+    ],
+    [
+     "28",
+     "Dark Prayers"
+    ],
+    [
+     "29",
+     "Wizardry"
+    ],
+    [
+     "30",
+     "Shamanism"
+    ],
+    [
+     "31",
+     "War and the Sun"
+    ],
+    [
+     "32",
+     "Night"
+    ],
+    [
+     "33",
+     "Rain"
+    ],
+    [
+     "34",
+     "Bloody Mother"
+    ],
+    [
+     "35",
+     "Nahualli Magic"
+    ],
+    [
+     "36",
+     "Command"
+    ],
+    [
+     "37",
+     "Black Magic"
+    ],
+    [
+     "38",
+     "Necromancy"
+    ],
+    [
+     "39",
+     "Druidism"
+    ],
+    [
+     "40",
+     "Witchery"
+    ],
+    [
+     "41",
+     "Troll Magic"
+    ],
+    [
+     "42",
+     "Void Magic"
+    ],
+    [
+     "43",
+     "Illusionism"
+    ],
+    [
+     "44",
+     "Sage Magic"
+    ],
+    [
+     "45",
+     "Dwarf Magic"
+    ],
+    [
+     "46",
+     "Maladies"
+    ],
+    [
+     "47",
+     "Beast Wards"
+    ],
+    [
+     "48",
+     "Warrior Wards"
+    ],
+    [
+     "49",
+     "Paladin Magic"
+    ],
+    [
+     "50",
+     "Famine Magic"
+    ],
+    [
+     "51",
+     "High Arcana"
+    ],
+    [
+     "52",
+     "Moon Magic"
+    ],
+    [
+     "53",
+     "Silver Arcana"
+    ],
+    [
+     "54",
+     "Forest Magic"
+    ],
+    [
+     "55",
+     "Alchemy"
+    ],
+    [
+     "56",
+     "Gold Arcana"
+    ],
+    [
+     "57",
+     "Metal Arcana"
+    ],
+    [
+     "58",
+     "Sky"
+    ],
+    [
+     "59",
+     "Death"
+    ],
+    [
+     "60",
+     "Tree Magic"
+    ],
+    [
+     "61",
+     "Astrology"
+    ],
+    [
+     "62",
+     "Defilement"
+    ],
+    [
+     "63",
+     "Bile Magic"
+    ],
+    [
+     "64",
+     "Divine Magic"
+    ],
+    [
+     "65",
+     "Sidhe Magic"
+    ],
+    [
+     "66",
+     "Akashic Magic"
+    ],
+    [
+     "67",
+     "Destruction"
+    ],
+    [
+     "68",
+     "Maya Manipulation"
+    ]
+   ],
+   "title": "Magic Paths (path)"
+  },
+  "monsters.md#nametypes": {
+   "flags": false,
+   "origin": "vanilla",
+   "rows": [
+    [
+     "0",
+     "Misc male"
+    ],
+    [
+     "1",
+     "Abysian (Dominions 3)"
+    ],
+    [
+     "2",
+     "Anglo-Saxon male"
+    ],
+    [
+     "3",
+     "Anglo-Saxon female"
+    ],
+    [
+     "4",
+     "Germanic male"
+    ],
+    [
+     "5",
+     "Undead"
+    ],
+    [
+     "6",
+     "Roman male"
+    ],
+    [
+     "7",
+     "Greek male"
+    ],
+    [
+     "8",
+     "Greek female"
+    ],
+    [
+     "9",
+     "Pangaea male"
+    ],
+    [
+     "10",
+     "Pangaea female"
+    ],
+    [
+     "11",
+     "Early Persian male"
+    ],
+    [
+     "12",
+     "Early Persian female"
+    ],
+    [
+     "13",
+     "Egyptian male"
+    ],
+    [
+     "14",
+     "French & Spanish"
+    ],
+    [
+     "15",
+     "Old Nordic male"
+    ],
+    [
+     "16",
+     "Old Nordic female"
+    ],
+    [
+     "17",
+     "Deep Ones"
+    ],
+    [
+     "18",
+     "Roman female"
+    ],
+    [
+     "19",
+     "Misc female"
+    ],
+    [
+     "20",
+     "Egyptian female"
+    ],
+    [
+     "21",
+     "Chinese male"
+    ],
+    [
+     "22",
+     "Chinese female"
+    ],
+    [
+     "23",
+     "Mesoamerican male"
+    ],
+    [
+     "24",
+     "Mesoamerican female"
+    ],
+    [
+     "25",
+     "African male"
+    ],
+    [
+     "26",
+     "African female"
+    ],
+    [
+     "29",
+     "Indian male"
+    ],
+    [
+     "30",
+     "Indian female"
+    ],
+    [
+     "31",
+     "Early Germanic male"
+    ],
+    [
+     "32",
+     "Early Germanic female"
+    ],
+    [
+     "33",
+     "Japanese male"
+    ],
+    [
+     "34",
+     "Japanese female"
+    ],
+    [
+     "35",
+     "Amazon"
+    ],
+    [
+     "36",
+     "Sauromatian"
+    ],
+    [
+     "37",
+     "Celtic male"
+    ],
+    [
+     "38",
+     "Celtic female"
+    ],
+    [
+     "39",
+     "Angelic"
+    ],
+    [
+     "40",
+     "Demonic"
+    ],
+    [
+     "41",
+     "Inuit"
+    ],
+    [
+     "42",
+     "Gaelic (Tir na n'Og) male"
+    ],
+    [
+     "43",
+     "Gaelic (Tir na n'Og) female"
+    ],
+    [
+     "44",
+     "Nature beasts"
+    ],
+    [
+     "45",
+     "Wooden beasts"
+    ],
+    [
+     "46",
+     "Russian male"
+    ],
+    [
+     "47",
+     "Russian female"
+    ],
+    [
+     "48",
+     "Middle Eastern male"
+    ],
+    [
+     "49",
+     "Rephaite"
+    ],
+    [
+     "50",
+     "Middle Eastern female"
+    ],
+    [
+     "51",
+     "Pale Ones male"
+    ],
+    [
+     "52",
+     "Pale Ones female"
+    ],
+    [
+     "55",
+     "Ancient Forest"
+    ],
+    [
+     "56",
+     "Scourge Lord"
+    ],
+    [
+     "57",
+     "Kobold"
+    ]
+   ],
+   "title": "Nametypes"
+  },
+  "monsters.md#negative-terrain-numbers": {
+   "flags": false,
+   "origin": "vanilla",
+   "rows": [
+    [
+     "-1",
+     "anywhere"
+    ],
+    [
+     "-2",
+     "temples"
+    ],
+    [
+     "-3",
+     "libraries"
+    ],
+    [
+     "-4",
+     "mines"
+    ],
+    [
+     "-5",
+     "mountains"
+    ],
+    [
+     "-6",
+     "forests and jungles"
+    ],
+    [
+     "-7",
+     "mountains, forests and jungles"
+    ],
+    [
+     "-8",
+     "villages and smaller human settlements"
+    ],
+    [
+     "-9",
+     "fortified citadels"
+    ],
+    [
+     "-10",
+     "forests, jungles and swamps"
+    ],
+    [
+     "-11",
+     "forests"
+    ],
+    [
+     "-12",
+     "greater mines"
+    ],
+    [
+     "-13",
+     "farms"
+    ],
+    [
+     "-14",
+     "human settlements"
+    ],
+    [
+     "-15",
+     "ancient forests and old battlefields"
+    ],
+    [
+     "-16",
+     "village size settlement"
+    ],
+    [
+     "-17",
+     "near water areas"
+    ],
+    [
+     "-18",
+     "temples and pyramids"
+    ],
+    [
+     "-19",
+     "gold and silver mines"
+    ],
+    [
+     "-20",
+     "swamps and bogs"
+    ],
+    [
+     "-21",
+     "outdoors areas"
+    ],
+    [
+     "-22",
+     "capital locations"
+    ],
+    [
+     "-23",
+     "citadels"
+    ],
+    [
+     "-24",
+     "villages and smaller settlements"
+    ],
+    [
+     "-25",
+     "the north"
+    ],
+    [
+     "-26",
+     "the mid"
+    ],
+    [
+     "-27",
+     "the south"
+    ],
+    [
+     "-28",
+     "towns and cities"
+    ],
+    [
+     "-29",
+     "hamlets or larger"
+    ],
+    [
+     "-30",
+     "gem deposits and crystal forests"
+    ],
+    [
+     "-31",
+     "fortified locations"
+    ],
+    [
+     "-32",
+     "villages or larger settlements"
+    ],
+    [
+     "-33",
+     "somewhat important squares"
+    ],
+    [
+     "-34",
+     "blessable squares"
+    ],
+    [
+     "-35",
+     "citadels and graveyards"
+    ],
+    [
+     "-36",
+     "infernal citadels"
+    ],
+    [
+     "-37",
+     "hades citadels"
+    ],
+    [
+     "-38",
+     "forests and jungles"
+    ],
+    [
+     "-39",
+     "magic locations"
+    ],
+    [
+     "-40",
+     "hamlets"
+    ],
+    [
+     "-41",
+     "hamlets, tent villages and villages"
+    ],
+    [
+     "-42",
+     "land locations"
+    ],
+    [
+     "-43",
+     "underwater locations"
+    ],
+    [
+     "-44",
+     "elemental plane of fire"
+    ],
+    [
+     "-45",
+     "elemental plane of water"
+    ],
+    [
+     "-46",
+     "elemental plane of air"
+    ],
+    [
+     "-47",
+     "elemental plane of earth"
+    ],
+    [
+     "-48",
+     "fire citadels"
+    ],
+    [
+     "-49",
+     "water citadels"
+    ],
+    [
+     "-50",
+     "air citadels"
+    ],
+    [
+     "-51",
+     "earth citadels"
+    ],
+    [
+     "-52",
+     "ice citadels"
+    ],
+    [
+     "-53",
+     "void gateways"
+    ],
+    [
+     "-54",
+     "second suns"
+    ],
+    [
+     "-55",
+     "damned capitals"
+    ],
+    [
+     "-56",
+     "level 2 libraries"
+    ],
+    [
+     "-57",
+     "level 3 libraries"
+    ],
+    [
+     "-58",
+     "gold income locations"
+    ],
+    [
+     "-59",
+     "non mines"
+    ],
+    [
+     "-60",
+     "non forest citadels"
+    ],
+    [
+     "-61",
+     "forge location"
+    ],
+    [
+     "-62",
+     "ancient forests and any sacred grove"
+    ],
+    [
+     "-63",
+     "ancient forests and sacred groves"
+    ],
+    [
+     "-64",
+     "farms and hamlets"
+    ],
+    [
+     "-65",
+     "any sacred grove"
+    ],
+    [
+     "-66",
+     "groves of gaia and primal forests"
+    ],
+    [
+     "-67",
+     "forests and ancient forests"
+    ],
+    [
+     "-68",
+     "capitals or fallen capitals"
+    ],
+    [
+     "-69",
+     "any normal location"
+    ],
+    [
+     "-70",
+     "graveyards"
+    ],
+    [
+     "-71",
+     "flat terrains"
+    ],
+    [
+     "-72",
+     "kokytos"
+    ],
+    [
+     "-73",
+     "pandemonium"
+    ],
+    [
+     "-74",
+     "inferno"
+    ],
+    [
+     "-75",
+     "abyss"
+    ],
+    [
+     "-76",
+     "void plane"
+    ],
+    [
+     "-77",
+     "celestial plane"
+    ],
+    [
+     "-78",
+     "hades plane"
+    ],
+    [
+     "-79",
+     "unsiegable locations"
+    ],
+    [
+     "-80",
+     "stonehenges or ancient forests"
+    ],
+    [
+     "-81",
+     "ruby locations"
+    ],
+    [
+     "-82",
+     "sapphire locations"
+    ],
+    [
+     "-83",
+     "diamond locations"
+    ],
+    [
+     "-84",
+     "emerald locations"
+    ],
+    [
+     "-85",
+     "forests, jungles, swamps and caves"
+    ],
+    [
+     "-86",
+     "not on sky plane"
+    ],
+    [
+     "-87",
+     "terrains suitable for ant hills"
+    ],
+    [
+     "-88",
+     "ruby locations and towers"
+    ],
+    [
+     "-89",
+     "sapphire locations and towers"
+    ],
+    [
+     "-90",
+     "diamond locations and towers"
+    ],
+    [
+     "-91",
+     "emerald locations and towers"
+    ],
+    [
+     "-92",
+     "trade locations"
+    ],
+    [
+     "-93",
+     "ports"
+    ],
+    [
+     "-94",
+     "temples and fortified locations"
+    ],
+    [
+     "-95",
+     "citadels and settlements"
+    ],
+    [
+     "-96",
+     "lakes"
+    ],
+    [
+     "-97",
+     "ancient forests and similar"
+    ],
+    [
+     "-98",
+     "Elysium plane"
+    ],
+    [
+     "-99",
+     "forest like locations"
+    ],
+    [
+     "-100",
+     "forest or jungle like locations"
+    ],
+    [
+     "-101",
+     "snowy location"
+    ],
+    [
+     "-102",
+     "near fresh water"
+    ],
+    [
+     "-103",
+     "plain-like terrains"
+    ],
+    [
+     "-104",
+     "hills and coal mines"
+    ],
+    [
+     "-105",
+     "non-void"
+    ],
+    [
+     "-106",
+     "sky plane"
+    ],
+    [
+     "-107",
+     "deep earth gem deposits"
+    ],
+    [
+     "-108",
+     "castles suitable for the Baron"
+    ],
+    [
+     "-109",
+     "buildings of power"
+    ],
+    [
+     "-110",
+     "desert-like terrains"
+    ],
+    [
+     "-111",
+     "iron producing terrains"
+    ],
+    [
+     "-112",
+     "non-iron producing terrains"
+    ],
+    [
+     "-113",
+     "cities"
+    ],
+    [
+     "-114",
+     "elemental plane"
+    ],
+    [
+     "-115",
+     "hamlet or larger, incl. dead/ruined ones"
+    ]
+   ],
+   "title": "Negative Terrain Numbers"
+  },
+  "monsters.md#objectives": {
+   "flags": false,
+   "origin": "vanilla",
+   "rows": [
+    [
+     "1",
+     "walk randomly on same plane"
+    ],
+    [
+     "2",
+     "crusade"
+    ],
+    [
+     "3",
+     "inquisition/saint"
+    ],
+    [
+     "4",
+     "rider"
+    ],
+    [
+     "5",
+     "angel"
+    ],
+    [
+     "6",
+     "devil"
+    ],
+    [
+     "7",
+     "ghost"
+    ],
+    [
+     "8",
+     "visit citadels & settlements"
+    ],
+    [
+     "9",
+     "dragon"
+    ],
+    [
+     "10",
+     "merchant"
+    ],
+    [
+     "11",
+     "celestial angel"
+    ],
+    [
+     "12",
+     "primal gods"
+    ],
+    [
+     "13",
+     "wild hunt"
+    ],
+    [
+     "14",
+     "vassal"
+    ],
+    [
+     "15",
+     "orchard of souls"
+    ],
+    [
+     "16",
+     "pirate captain"
+    ],
+    [
+     "17",
+     "teleporting horror"
+    ],
+    [
+     "18",
+     "hunt enemy armies if on home plane"
+    ],
+    [
+     "19",
+     "hunt player squares if on home plane"
+    ]
+   ],
+   "title": "Objectives"
+  },
+  "monsters.md#plane-numbers": {
+   "flags": false,
+   "origin": "vanilla",
+   "rows": [
+    [
+     "-2",
+     "Elysium like planes (sky, agartha, elysium)"
+    ],
+    [
+     "-1",
+     "All planes"
+    ],
+    [
+     "0",
+     "Elysium"
+    ],
+    [
+     "1",
+     "Celestial"
+    ],
+    [
+     "2",
+     "Sky"
+    ],
+    [
+     "3",
+     "Agartha"
+    ],
+    [
+     "4",
+     "Inferno"
+    ],
+    [
+     "5",
+     "Hades"
+    ],
+    [
+     "6",
+     "Aztlan"
+    ],
+    [
+     "7",
+     "Primal"
+    ],
+    [
+     "8",
+     "Elemental Planes"
+    ],
+    [
+     "9",
+     "The Void"
+    ]
+   ],
+   "title": "Plane Numbers"
+  },
+  "monsters.md#ritual-schools-pow-nbr": {
+   "flags": false,
+   "origin": "vanilla",
+   "rows": [
+    [
+     "1",
+     "necro"
+    ],
+    [
+     "3",
+     "demon"
+    ],
+    [
+     "4",
+     "witch"
+    ],
+    [
+     "5",
+     "druid"
+    ],
+    [
+     "6",
+     "baron"
+    ],
+    [
+     "7",
+     "bakemono"
+    ],
+    [
+     "8",
+     "baal"
+    ],
+    [
+     "9",
+     "hoburg"
+    ],
+    [
+     "10",
+     "clock"
+    ],
+    [
+     "11",
+     "enchanter"
+    ],
+    [
+     "12",
+     "mictlan"
+    ],
+    [
+     "13",
+     "spirit"
+    ],
+    [
+     "14",
+     "shaman"
+    ],
+    [
+     "15",
+     "agartha"
+    ],
+    [
+     "16",
+     "reveller"
+    ],
+    [
+     "18",
+     "warlock fire"
+    ],
+    [
+     "19",
+     "warlock water"
+    ],
+    [
+     "20",
+     "warlock air"
+    ],
+    [
+     "21",
+     "warlock earth"
+    ],
+    [
+     "22",
+     "troll"
+    ],
+    [
+     "23",
+     "rylle"
+    ],
+    [
+     "24",
+     "void"
+    ],
+    [
+     "25",
+     "priest"
+    ],
+    [
+     "26",
+     "illusion"
+    ],
+    [
+     "27",
+     "monk"
+    ],
+    [
+     "28",
+     "dvala"
+    ],
+    [
+     "29",
+     "rune smith"
+    ],
+    [
+     "30",
+     "councilor"
+    ],
+    [
+     "31",
+     "senator"
+    ],
+    [
+     "32",
+     "empress"
+    ],
+    [
+     "33",
+     "warpriest"
+    ],
+    [
+     "34",
+     "bloodpriest"
+    ],
+    [
+     "35",
+     "skypriest"
+    ],
+    [
+     "36",
+     "rainpriest"
+    ],
+    [
+     "37",
+     "nightpriest"
+    ],
+    [
+     "38",
+     "deathpriest"
+    ],
+    [
+     "39",
+     "nekromant"
+    ],
+    [
+     "40",
+     "fire giant"
+    ],
+    [
+     "41",
+     "frost giant"
+    ],
+    [
+     "42",
+     "mountain giant"
+    ],
+    [
+     "43",
+     "storm giant"
+    ],
+    [
+     "44",
+     "sea giant"
+    ],
+    [
+     "45",
+     "dark emperor"
+    ],
+    [
+     "46",
+     "god emperor"
+    ],
+    [
+     "47",
+     "dryad queen"
+    ],
+    [
+     "48",
+     "scourge lord"
+    ],
+    [
+     "49",
+     "cloud lord"
+    ],
+    [
+     "50",
+     "renatus"
+    ],
+    [
+     "51",
+     "kobold"
+    ],
+    [
+     "52",
+     "kobold red"
+    ],
+    [
+     "53",
+     "kobold blue"
+    ],
+    [
+     "54",
+     "kobold white"
+    ],
+    [
+     "55",
+     "kobold green"
+    ],
+    [
+     "56",
+     "alchemist"
+    ],
+    [
+     "57",
+     "governor"
+    ],
+    [
+     "58",
+     "crystal amazon"
+    ],
+    [
+     "59",
+     "garnet amazon"
+    ],
+    [
+     "60",
+     "jade amazon"
+    ],
+    [
+     "61",
+     "onyx amazon"
+    ]
+   ],
+   "title": "Ritual Schools (pow nbr)"
+  },
+  "ritual-effects.md#item-groups": {
+   "flags": true,
+   "origin": "coe5se",
+   "rows": [
+    [
+     "1",
+     "fire"
+    ],
+    [
+     "2",
+     "water"
+    ],
+    [
+     "4",
+     "air"
+    ],
+    [
+     "8",
+     "earth"
+    ],
+    [
+     "16",
+     "books"
+    ]
+   ],
+   "title": "Item groups"
+  },
+  "weapons.md#damage-types-dmgtype": {
+   "flags": false,
+   "origin": "vanilla",
+   "rows": [
+    [
+     "1",
+     "slash"
+    ],
+    [
+     "2",
+     "blunt"
+    ],
+    [
+     "3",
+     "pierce"
+    ],
+    [
+     "4",
+     "fire"
+    ],
+    [
+     "5",
+     "cold"
+    ],
+    [
+     "6",
+     "shock"
+    ],
+    [
+     "7",
+     "magic"
+    ],
+    [
+     "8",
+     "fear"
+    ],
+    [
+     "9",
+     "poison"
+    ],
+    [
+     "10",
+     "acid"
+    ],
+    [
+     "11",
+     "release (for magic mirrors)"
+    ],
+    [
+     "12",
+     "special affliction"
+    ],
+    [
+     "13",
+     "special benefit"
+    ],
+    [
+     "14",
+     "charm"
+    ],
+    [
+     "15",
+     "polymorph"
+    ],
+    [
+     "16",
+     "sleep"
+    ],
+    [
+     "17",
+     "paralyze"
+    ],
+    [
+     "18",
+     "summon"
+    ],
+    [
+     "19",
+     "enslave (like charm but decommanderized)"
+    ],
+    [
+     "20",
+     "swallow"
+    ],
+    [
+     "21",
+     "mirror image"
+    ],
+    [
+     "22",
+     "corrupt (charm vs morale)"
+    ],
+    [
+     "23",
+     "banish"
+    ],
+    [
+     "24",
+     "petrify"
+    ],
+    [
+     "25",
+     "animate (dmg: 1=tree, 2=fungus)"
+    ]
+   ],
+   "title": "Damage Types (dmgtype)"
+  },
+  "weapons.md#fly-modes-flymode": {
+   "flags": false,
+   "origin": "vanilla",
+   "rows": [
+    [
+     "1",
+     "use a sprite instead of particles"
+    ],
+    [
+     "2",
+     "standard"
+    ],
+    [
+     "3",
+     "fast"
+    ],
+    [
+     "4",
+     "faster"
+    ],
+    [
+     "5",
+     "line"
+    ],
+    [
+     "6",
+     "standard*"
+    ],
+    [
+     "7",
+     "line*"
+    ],
+    [
+     "8",
+     "slow line"
+    ],
+    [
+     "9",
+     "meteor"
+    ]
+   ],
+   "title": "Fly Modes (flymode)"
+  },
+  "weapons.md#fly-sprites-flyspr": {
+   "flags": false,
+   "origin": "vanilla",
+   "rows": [
+    [
+     "0",
+     "Arrow"
+    ],
+    [
+     "1",
+     "Javelin"
+    ],
+    [
+     "2",
+     "Sling stone"
+    ],
+    [
+     "3-6",
+     "Spinning blade"
+    ],
+    [
+     "7",
+     "Ballista bolt"
+    ],
+    [
+     "8-11",
+     "Spinning axe"
+    ],
+    [
+     "12",
+     "Web"
+    ],
+    [
+     "13",
+     "Vine arrow"
+    ],
+    [
+     "15-19",
+     "Fire bola"
+    ],
+    [
+     "20",
+     "Web"
+    ],
+    [
+     "25-28",
+     "Black Vortex"
+    ],
+    [
+     "31",
+     "Spikes"
+    ],
+    [
+     "32",
+     "Boulder"
+    ],
+    [
+     "33",
+     "Stone"
+    ],
+    [
+     "34",
+     "Shard"
+    ],
+    [
+     "35",
+     "Spike"
+    ]
+   ],
+   "title": "Fly Sprites (flyspr)"
+  },
+  "weapons.md#sound-effects-sound": {
+   "flags": false,
+   "origin": "vanilla",
+   "rows": [
+    [
+     "1",
+     "Spear"
+    ],
+    [
+     "8",
+     "Sword"
+    ],
+    [
+     "9",
+     "Whip"
+    ],
+    [
+     "11",
+     "Heavy Blow"
+    ],
+    [
+     "13",
+     "Crossbow"
+    ],
+    [
+     "14",
+     "Bow"
+    ],
+    [
+     "15",
+     "Sling"
+    ],
+    [
+     "16",
+     "Fire"
+    ],
+    [
+     "18",
+     "Life Drain"
+    ],
+    [
+     "19",
+     "Javelin"
+    ],
+    [
+     "22",
+     "Fear"
+    ],
+    [
+     "24",
+     "Lightning"
+    ],
+    [
+     "27",
+     "Thunder Strike"
+    ],
+    [
+     "29",
+     "Blessing"
+    ],
+    [
+     "31",
+     "Magic Enchantment"
+    ],
+    [
+     "32",
+     "Pain"
+    ],
+    [
+     "39",
+     "Frost"
+    ],
+    [
+     "40",
+     "Shatter"
+    ],
+    [
+     "44",
+     "Luck"
+    ],
+    [
+     "46",
+     "Blowpipe"
+    ],
+    [
+     "57",
+     "Summoning"
+    ],
+    [
+     "66",
+     "Wind"
+    ],
+    [
+     "68",
+     "Small Fire"
+    ],
+    [
+     "88",
+     "Water"
+    ],
+    [
+     "89",
+     "Water"
+    ],
+    [
+     "96",
+     "Breath Weapon"
+    ],
+    [
+     "97",
+     "Sleep"
+    ],
+    [
+     "104",
+     "Spell Flysound"
+    ],
+    [
+     "105",
+     "Tail Sweep"
+    ],
+    [
+     "114",
+     "Horn"
+    ]
+   ],
+   "title": "Sound Effects (sound)"
+  },
+  "weapons.md#special-afflictions": {
+   "flags": true,
+   "origin": "vanilla",
+   "rows": [
+    [
+     "1",
+     "Disease"
+    ],
+    [
+     "2",
+     "Curse"
+    ],
+    [
+     "4",
+     "Decay"
+    ],
+    [
+     "8",
+     "Sleep"
+    ],
+    [
+     "16",
+     "Paralyzation"
+    ],
+    [
+     "32",
+     "Burn"
+    ],
+    [
+     "64",
+     "Stun"
+    ],
+    [
+     "128",
+     "Bleeding"
+    ],
+    [
+     "256",
+     "Earth Grip"
+    ],
+    [
+     "512",
+     "Entanglement"
+    ],
+    [
+     "1024",
+     "Imprison in Ice"
+    ],
+    [
+     "2048",
+     "Weakness"
+    ],
+    [
+     "4096",
+     "Transform into Tree"
+    ],
+    [
+     "8192",
+     "Insanity"
+    ],
+    [
+     "16384",
+     "Horrormark"
+    ],
+    [
+     "32768",
+     "Horrormark - Great"
+    ],
+    [
+     "65536",
+     "Summoning Sickness"
+    ],
+    [
+     "262144",
+     "Confusion"
+    ],
+    [
+     "524288",
+     "Turn into Gold"
+    ],
+    [
+     "1048576",
+     "Lost an Eye"
+    ],
+    [
+     "2097152",
+     "Lost the Other Eye"
+    ],
+    [
+     "4194304",
+     "Chest Wound"
+    ],
+    [
+     "8388608",
+     "Never Healing Wound"
+    ],
+    [
+     "16777216",
+     "Battle Fright"
+    ],
+    [
+     "33554432",
+     "Feeblemind"
+    ],
+    [
+     "67108864",
+     "Blindness"
+    ],
+    [
+     "134217728",
+     "Temporary Insanity"
+    ],
+    [
+     "268435456",
+     "Death wish (+1 rank)"
+    ],
+    [
+     "536870912",
+     "Debilitating wound"
+    ],
+    [
+     "1073741824",
+     "Festering wound"
+    ],
+    [
+     "2147483648",
+     "Afraid"
+    ],
+    [
+     "4294967296",
+     "Stuck in net"
+    ],
+    [
+     "17179869184",
+     "Stationary, cannot move on world map permanently"
+    ],
+    [
+     "34359738368",
+     "Exhausted, -1 str, 1 dmg when attacking, chance to not move"
+    ],
+    [
+     "68719476736",
+     "Petrified"
+    ],
+    [
+     "274877906944",
+     "Slimed, 50% chance of not attacking, temporary"
+    ],
+    [
+     "1099511627776",
+     "Ghost shackles"
+    ],
+    [
+     "8796093022208",
+     "Frozen, can get this after taking cold damage"
+    ]
+   ],
+   "title": "Special Afflictions"
+  },
+  "weapons.md#special-benefits": {
+   "flags": true,
+   "origin": "vanilla",
+   "rows": [
+    [
+     "1",
+     "Invulnerability"
+    ],
+    [
+     "2",
+     "Armor +1"
+    ],
+    [
+     "4",
+     "Fire Resistance"
+    ],
+    [
+     "8",
+     "Cold Resistance"
+    ],
+    [
+     "16",
+     "Poison Resistance"
+    ],
+    [
+     "32",
+     "Shock Resistance"
+    ],
+    [
+     "64",
+     "Magic Resistance +2"
+    ],
+    [
+     "128",
+     "Luck"
+    ],
+    [
+     "256",
+     "Etherealness"
+    ],
+    [
+     "512",
+     "Strength / Damage +2"
+    ],
+    [
+     "1024",
+     "Fire Shield (3)"
+    ],
+    [
+     "2048",
+     "Air Shield"
+    ],
+    [
+     "4096",
+     "Regeneration"
+    ],
+    [
+     "8192",
+     "Awe (+1)"
+    ],
+    [
+     "32768",
+     "Gone Berserk"
+    ],
+    [
+     "65536",
+     "Blessed"
+    ],
+    [
+     "131072",
+     "Armor +2"
+    ],
+    [
+     "262144",
+     "Pierce Resistance"
+    ],
+    [
+     "524288",
+     "Slash Resistance"
+    ],
+    [
+     "1048576",
+     "Blunt Resistance"
+    ],
+    [
+     "2097152",
+     "Displaced"
+    ],
+    [
+     "4194304",
+     "Non-Magical Invulnerability"
+    ],
+    [
+     "8388608",
+     "Swamp Soul (Witch ritual)"
+    ],
+    [
+     "16777216",
+     "Stygian Bath (Trolls receive permanent non-magical invulnerability, others lesser effect)"
+    ],
+    [
+     "33554432",
+     "Stygian Paths (moves fast in death realm)"
+    ],
+    [
+     "67108864",
+     "Twiceborn (Necromancer ritual)"
+    ],
+    [
+     "134217728",
+     "Twiceborn (cast on a graveyard)"
+    ],
+    [
+     "268435456",
+     "The simulacrum"
+    ],
+    [
+     "536870912",
+     "The original, will revive as the simulacrum"
+    ],
+    [
+     "1073741824",
+     "Quickness"
+    ],
+    [
+     "2147483648",
+     "Primal animal (increased stats)"
+    ],
+    [
+     "4294967296",
+     "Twist fate"
+    ],
+    [
+     "8589934592",
+     "Wind Guide, +1 range +1 dmg for missiles"
+    ],
+    [
+     "17179869184",
+     "Lucky Strike, x2 dmg for next strike"
+    ],
+    [
+     "68719476736",
+     "Promise of the Ancestors (Barbarian ritual)"
+    ]
+   ],
+   "title": "Special Benefits"
+  },
+  "weapons.md#target-ranks-trgrank": {
+   "flags": false,
+   "origin": "vanilla",
+   "rows": [
+    [
+     "0",
+     "self"
+    ],
+    [
+     "1",
+     "front row enemy"
+    ],
+    [
+     "5",
+     "border square (for summoning)"
+    ],
+    [
+     "6",
+     "border square, but not behind walls (for summoning)"
+    ],
+    [
+     "7",
+     "target a square (for summoning)"
+    ],
+    [
+     "8",
+     "a rear enemy"
+    ],
+    [
+     "9",
+     "any enemy"
+    ],
+    [
+     "-9",
+     "a friendly unit"
+    ]
+   ],
+   "title": "Target Ranks (trgrank)"
+  },
+  "weapons.md#visual-effects-look": {
+   "flags": false,
+   "origin": "vanilla",
+   "rows": [
+    [
+     "1",
+     "Pain"
+    ],
+    [
+     "71",
+     "Phantasmal Ray (line)"
+    ],
+    [
+     "2",
+     "White Dust"
+    ],
+    [
+     "72",
+     "Bolts of Light (fly)"
+    ],
+    [
+     "3",
+     "White Flare"
+    ],
+    [
+     "73",
+     "Ray of Light (line)"
+    ],
+    [
+     "4",
+     "Horror Mark"
+    ],
+    [
+     "74",
+     "Drain Life (line)"
+    ],
+    [
+     "5",
+     "Fear"
+    ],
+    [
+     "75",
+     "Soul Drain (line)"
+    ],
+    [
+     "7",
+     "Poison Cloud"
+    ],
+    [
+     "76",
+     "Bling Circle"
+    ],
+    [
+     "8",
+     "Poison Cloud"
+    ],
+    [
+     "77",
+     "Bane Fire"
+    ],
+    [
+     "9",
+     "Charm"
+    ],
+    [
+     "78",
+     "Bane Smoke"
+    ],
+    [
+     "10",
+     "Charm"
+    ],
+    [
+     "79",
+     "Death Gaze (line)"
+    ],
+    [
+     "11",
+     "Sleep"
+    ],
+    [
+     "80",
+     "Golden Gaze (line)"
+    ],
+    [
+     "12",
+     "Cold"
+    ],
+    [
+     "81",
+     "Black Gaze (line)"
+    ],
+    [
+     "13",
+     "Sleeping"
+    ],
+    [
+     "82",
+     "Fear"
+    ],
+    [
+     "14",
+     "Burning"
+    ],
+    [
+     "83",
+     "White Flare"
+    ],
+    [
+     "15",
+     "Summoning"
+    ],
+    [
+     "84",
+     "Meteor"
+    ],
+    [
+     "16",
+     "Ben"
+    ],
+    [
+     "85",
+     "Meteor Smoke"
+    ],
+    [
+     "17",
+     "Water"
+    ],
+    [
+     "86",
+     "Meteor Shower"
+    ],
+    [
+     "18",
+     "Iron Storm"
+    ],
+    [
+     "87",
+     "Meteor Shower Smoke"
+    ],
+    [
+     "19",
+     "Sun Flare"
+    ],
+    [
+     "88",
+     "Frost (fly)"
+    ],
+    [
+     "20",
+     "Bolt of Unlife"
+    ],
+    [
+     "89",
+     "Freeze (line)"
+    ],
+    [
+     "21",
+     "Iron Bolt (fly)"
+    ],
+    [
+     "90",
+     "Frost"
+    ],
+    [
+     "22",
+     "Briar Cage"
+    ],
+    [
+     "91",
+     "Frost Smoke"
+    ],
+    [
+     "23",
+     "Dark Purplish"
+    ],
+    [
+     "92",
+     "Blizzard"
+    ],
+    [
+     "24",
+     "Huge Lightning"
+    ],
+    [
+     "93",
+     "Frost Smoke"
+    ],
+    [
+     "25",
+     "Small Lightning"
+    ],
+    [
+     "94",
+     "Icicle (fly)"
+    ],
+    [
+     "26",
+     "Wind"
+    ],
+    [
+     "95",
+     "Fiery Breath (fly)"
+    ],
+    [
+     "27",
+     "Earth"
+    ],
+    [
+     "96",
+     "Smoke Breath (fly)"
+    ],
+    [
+     "28",
+     "Stellar Bolt"
+    ],
+    [
+     "97",
+     "Icy Breath (fly)"
+    ],
+    [
+     "29",
+     "Words of the Void"
+    ],
+    [
+     "98",
+     "Frost Smoke Breath (fly)"
+    ],
+    [
+     "30",
+     "Mind Burn"
+    ],
+    [
+     "99",
+     "Acid Breath (line)"
+    ],
+    [
+     "31",
+     "Soul Slay"
+    ],
+    [
+     "100",
+     "Acid Breath (line)"
+    ],
+    [
+     "32",
+     "Dimension Shift"
+    ],
+    [
+     "101",
+     "Summon Shade (line)"
+    ],
+    [
+     "33",
+     "Lashes of Death"
+    ],
+    [
+     "102",
+     "Summon Shade (line)"
+    ],
+    [
+     "34",
+     "Blood Burst"
+    ],
+    [
+     "103",
+     "Purple Summon Circle"
+    ],
+    [
+     "35",
+     "Pillar of Fire"
+    ],
+    [
+     "104",
+     "Blood Demon (line)"
+    ],
+    [
+     "36",
+     "Shooting Thorns"
+    ],
+    [
+     "105",
+     "Blood Summon (line)"
+    ],
+    [
+     "37",
+     "Syllable of Death"
+    ],
+    [
+     "106",
+     "Blood Summon Circle"
+    ],
+    [
+     "38",
+     "Purify"
+    ],
+    [
+     "107",
+     "Symbol of Light (line)"
+    ],
+    [
+     "39",
+     "Darkness"
+    ],
+    [
+     "108",
+     "Hypno Ray (line)"
+    ],
+    [
+     "40",
+     "Smite"
+    ],
+    [
+     "109",
+     "Frozen Heart (line)"
+    ],
+    [
+     "41",
+     "Blood Boil"
+    ],
+    [
+     "110",
+     "Hail Storm"
+    ],
+    [
+     "42",
+     "Dehydration"
+    ],
+    [
+     "111",
+     "Combustion (line)"
+    ],
+    [
+     "43",
+     "Sailor's Death"
+    ],
+    [
+     "112",
+     "Combustion Smoke"
+    ],
+    [
+     "44",
+     "Stone Skin"
+    ],
+    [
+     "113",
+     "Poison Dart (fly)"
+    ],
+    [
+     "45",
+     "Iron Skin"
+    ],
+    [
+     "114",
+     "Poison Mist (fx)"
+    ],
+    [
+     "46",
+     "Strength"
+    ],
+    [
+     "115",
+     "Paralyze (line)"
+    ],
+    [
+     "47",
+     "Smokeless Flame"
+    ],
+    [
+     "116",
+     "Disintegrate (line)"
+    ],
+    [
+     "48",
+     "Confusion"
+    ],
+    [
+     "117",
+     "Confusion (line)"
+    ],
+    [
+     "49",
+     "Acid Splash"
+    ],
+    [
+     "118",
+     "Cloud of Death (fly)"
+    ],
+    [
+     "50",
+     "Rain of Blood"
+    ],
+    [
+     "119",
+     "Cloud of Death"
+    ],
+    [
+     "51",
+     "Golden Flare"
+    ],
+    [
+     "120",
+     "Sleep (line)"
+    ],
+    [
+     "52",
+     "Harm"
+    ],
+    [
+     "121",
+     "Hold (line)"
+    ],
+    [
+     "54",
+     "Color Spray"
+    ],
+    [
+     "122",
+     "Enslave (line)"
+    ],
+    [
+     "55",
+     "Divine Flames"
+    ],
+    [
+     "123",
+     "Web (fly)"
+    ],
+    [
+     "56",
+     "Small Flame"
+    ],
+    [
+     "124",
+     "Finger of Death (line)"
+    ],
+    [
+     "57",
+     "Phantasmal Flame"
+    ],
+    [
+     "125",
+     "Purple Dust"
+    ],
+    [
+     "58",
+     "Drag Lightning"
+    ],
+    [
+     "126",
+     "Wither (fly)"
+    ],
+    [
+     "59",
+     "Drag Chasm"
+    ],
+    [
+     "127",
+     "Disease (fly)"
+    ],
+    [
+     "60",
+     "Poison Bolts (fly)"
+    ],
+    [
+     "128",
+     "Decay (fly)"
+    ],
+    [
+     "61",
+     "Venom (line)"
+    ],
+    [
+     "129",
+     "Bolt of Unlife (fly)"
+    ],
+    [
+     "62",
+     "Poison Cloud (fly)"
+    ],
+    [
+     "130",
+     "Black Cloud (fly)"
+    ],
+    [
+     "63",
+     "Poison Breath (fly)"
+    ],
+    [
+     "131",
+     "Black Smoke"
+    ],
+    [
+     "64",
+     "Poison Breath (fly)"
+    ],
+    [
+     "132",
+     "Strength Sap (line)"
+    ],
+    [
+     "65",
+     "Fireball (fly)"
+    ],
+    [
+     "133",
+     "Dark Red Smoke"
+    ],
+    [
+     "66",
+     "Flame (line)"
+    ],
+    [
+     "134",
+     "Weakness (fly)"
+    ],
+    [
+     "67",
+     "Blood (line)"
+    ],
+    [
+     "135",
+     "Dark Power (line)"
+    ],
+    [
+     "68",
+     "Flame"
+    ],
+    [
+     "136",
+     "White Dust"
+    ],
+    [
+     "69",
+     "Flame Smoke"
+    ],
+    [
+     "137",
+     "Wild Growth"
+    ],
+    [
+     "70",
+     "Phantasmal Bolts (fly)"
+    ],
+    [
+     "138-139",
+     "Acid Rain (fly)"
+    ],
+    [
+     "140",
+     "Invulnerability"
+    ],
+    [
+     "141-142",
+     "Death Spell"
+    ],
+    [
+     "143-145",
+     "Chill of the Dead"
+    ],
+    [
+     "146",
+     "Shade of Death"
+    ],
+    [
+     "147",
+     "Tendrils of Death (line)"
+    ],
+    [
+     "150",
+     "Storm Wind (fly)"
+    ],
+    [
+     "151",
+     "Lightning (line)"
+    ],
+    [
+     "152",
+     "Orb Lightning"
+    ],
+    [
+     "153",
+     "Thunder Strike"
+    ],
+    [
+     "160",
+     "Curse of the Frog Prince"
+    ],
+    [
+     "161",
+     "Maws of the Earth"
+    ],
+    [
+     "175",
+     "Sunbeam (line)"
+    ],
+    [
+     "176",
+     "Sunlight"
+    ],
+    [
+     "177",
+     "Banishment"
+    ],
+    [
+     "178-179",
+     "Luck"
+    ],
+    [
+     "180",
+     "Awe"
+    ],
+    [
+     "181",
+     "Blessing"
+    ],
+    [
+     "190",
+     "Incinerate"
+    ],
+    [
+     "198-199",
+     "Entangle"
+    ],
+    [
+     "201",
+     "Barkskin"
+    ],
+    [
+     "211",
+     "Earth Meld"
+    ],
+    [
+     "224",
+     "Boulder Drop"
+    ],
+    [
+     "225",
+     "Boulder Impact"
+    ]
+   ],
+   "title": "Visual Effects (look)"
+  }
+ },
+ "words": {
+  "dmgtype": "weapons.md#damage-types-dmgtype",
+  "flymode": "weapons.md#fly-modes-flymode",
+  "flyspr": "weapons.md#fly-sprites-flyspr",
+  "hated": "monster-traits.md#hated-kinds",
+  "hates": "monster-traits.md#hated-kinds",
+  "look": "weapons.md#visual-effects-look",
+  "nametype": "monsters.md#nametypes",
+  "randartifact": "ritual-effects.md#item-groups",
+  "sound": "weapons.md#sound-effects-sound",
+  "trgrank": "weapons.md#target-ranks-trgrank"
+ }
+}

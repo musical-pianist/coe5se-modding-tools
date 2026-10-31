@@ -1,0 +1,65 @@
+{
+	"name": "coe5se-c5m",
+	"displayName": "CoE5 Modding (.c5m and .c5se)",
+	"description": "Autocomplete, hover help, go to definition, and typo fixes for Conquest of Elysium 5 .c5m files and CoE5SE's .c5se files.",
+	"publisher": "musical-pianist",
+	"version": "0.1.5",
+	"license": "MIT",
+	"icon": "icon.png",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/musical-pianist/coe5se-modding"
+	},
+	"engines": {
+		"vscode": "^1.60.0"
+	},
+	"categories": [
+		"Programming Languages",
+		"Linters"
+	],
+	"main": "./extension.js",
+	"activationEvents": [
+		"onLanguage:c5m",
+		"onLanguage:c5se",
+		"workspaceContains:**/*.c5m",
+		"workspaceContains:**/*.c5se"
+	],
+	"contributes": {
+		"languages": [
+			{
+				"id": "c5m",
+				"aliases": [
+					"CoE5 mod",
+					"c5m"
+				],
+				"extensions": [
+					".c5m"
+				],
+				"configuration": "./language-configuration.json"
+			},
+			{
+				"id": "c5se",
+				"aliases": [
+					"CoE5SE sidecar",
+					"c5se"
+				],
+				"extensions": [
+					".c5se"
+				],
+				"configuration": "./language-configuration.json"
+			}
+		],
+		"grammars": [
+			{
+				"language": "c5m",
+				"scopeName": "source.c5m",
+				"path": "./syntaxes/c5m.tmLanguage.json"
+			},
+			{
+				"language": "c5se",
+				"scopeName": "source.c5se",
+				"path": "./syntaxes/c5se.tmLanguage.json"
+			}
+		]
+	}
+}
