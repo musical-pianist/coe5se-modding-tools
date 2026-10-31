@@ -5,7 +5,7 @@ Write Conquest of Elysium 5 mods with the editor at your side: every mod command
 ## Install
 
 - **Cursor, VSCodium, Windsurf:** search "CoE5 Modding" in the Extensions panel.
-- **VS Code:** download `coe5-modding.vsix` from the [latest release](https://github.com/musical-pianist/coe5se-modding/releases/latest), then run "Extensions: Install from VSIX...".
+- **VS Code:** download `coe5-modding.vsix` from the [latest release](https://github.com/musical-pianist/coe5se-modding-tools/releases/latest), then run "Extensions: Install from VSIX...".
 
 ## Features
 

@@ -132,15 +132,20 @@ function indexText(uri, text) {
 	});
 }
 
+// A folder named like a mod file, or a file deleted before it is read (a build's temporary
+// copies), adds no names and shows no error.
+async function indexFile(uri) {
+	try {
+		if ((await vscode.workspace.fs.stat(uri)).type & vscode.FileType.Directory) return;
+		indexText(uri, Buffer.from(await vscode.workspace.fs.readFile(uri)).toString("utf8"));
+	} catch (e) {
+		indexText(uri, "");
+	}
+}
+
 async function indexWorkspace() {
 	const files = await vscode.workspace.findFiles("**/*.{c5m,c5se}", "**/node_modules/**", 5000);
-	for (const uri of files) {
-		try {
-			indexText(uri, Buffer.from(await vscode.workspace.fs.readFile(uri)).toString("utf8"));
-		} catch (e) {
-			// An unreadable file just adds no names.
-		}
-	}
+	for (const uri of files) await indexFile(uri);
 }
 
 // The places `name` is made, one each: copies of a file (a git worktree, a backup folder) that make it at the
@@ -497,8 +502,8 @@ function activate(context) {
 			.filter((editor) => editor.document === e.document).forEach((editor) => colourBranches(editor, decorations))));
 	indexWorkspace().then(() => vscode.workspace.textDocuments.forEach(check));
 	const watcher = vscode.workspace.createFileSystemWatcher("**/*.{c5m,c5se}");
-	watcher.onDidChange(async (uri) => indexText(uri, Buffer.from(await vscode.workspace.fs.readFile(uri)).toString("utf8")));
-	watcher.onDidCreate(async (uri) => indexText(uri, Buffer.from(await vscode.workspace.fs.readFile(uri)).toString("utf8")));
+	watcher.onDidChange(indexFile);
+	watcher.onDidCreate(indexFile);
 	watcher.onDidDelete((uri) => indexText(uri, ""));
 	context.subscriptions.push(watcher, diagnostics,
 		vscode.workspace.onDidOpenTextDocument(check),

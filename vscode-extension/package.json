@@ -3,12 +3,12 @@
 	"displayName": "CoE5 Modding (.c5m and .c5se)",
 	"description": "Autocomplete, hover help, go to definition, and typo fixes for Conquest of Elysium 5 .c5m files and CoE5SE's .c5se files.",
 	"publisher": "musical-pianist",
-	"version": "0.1.5",
+	"version": "0.1.6",
 	"license": "MIT",
 	"icon": "icon.png",
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/musical-pianist/coe5se-modding"
+		"url": "https://github.com/musical-pianist/coe5se-modding-tools"
 	},
 	"engines": {
 		"vscode": "^1.60.0"
