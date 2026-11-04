@@ -1,6 +1,6 @@
 name: Sign release
 
-# Signs each .vsix of a release with Sigstore (keyless, through this workflow's GitHub identity)
+# Signs each .vsix or mod zip of a release with Sigstore (keyless, through this workflow's GitHub identity)
 # and attaches the .sigstore.json bundles beside them. Runs on each published release, or by hand
 # for an older tag.
 
@@ -27,11 +27,16 @@ jobs:
       GH_REPO: ${{ github.repository }}
     steps:
       - uses: sigstore/cosign-installer@6f9f17788090df1f26f669e9d70d6ae9567deba6 # v4.1.2
-      - name: Download the release's .vsix files
-        run: gh release download "$TAG" --pattern '*.vsix' --dir assets
-      - name: Sign each .vsix
+      - name: Download the release's files
         run: |
-          for f in assets/*.vsix; do
+          for attempt in 1 2 3 4 5 6; do
+            gh release download "$TAG" --pattern '*.vsix' --pattern '*.zip' --dir assets --clobber && break
+            sleep 10
+          done
+          ls assets/*
+      - name: Sign each file
+        run: |
+          for f in assets/*; do
             cosign sign-blob --yes --bundle "$f.sigstore.json" "$f"
           done
       - name: Attach the signatures
