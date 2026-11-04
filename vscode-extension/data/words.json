@@ -3325,9 +3325,10 @@
  },
  "doesntaffect": {
   "args": {
-   "trait": "A vanilla trait, movement or ability command."
+   "trait": "A vanilla trait, movement or ability command, small, combatcaster, or tag \"<name>\"."
   },
   "doc": "Makes units with the trait unaffected by the weapon.",
+  "docsUrl": "https://musical-pianist.github.io/coe5se-docs/commands/weapon-traits/#doesntaffect",
   "group": "CoE5SE",
   "kinds": [
    "coe5se"
@@ -3337,9 +3338,10 @@
  },
  "doubledmgvs": {
   "args": {
-   "trait": "A vanilla trait, movement or ability command."
+   "trait": "A vanilla trait, movement or ability command, small, combatcaster, or tag \"<name>\"."
   },
   "doc": "Doubles the weapon's damage against units with the trait.",
+  "docsUrl": "https://musical-pianist.github.io/coe5se-docs/commands/weapon-traits/#doubledmgvs",
   "group": "CoE5SE",
   "kinds": [
    "coe5se"
@@ -4243,6 +4245,16 @@
   ],
   "origin": "vanilla",
   "signature": "fear <value>"
+ },
+ "feebleres": {
+  "doc": "Keeps the monster from becoming feebleminded in battle, by wound or affliction weapon; events and rituals still can.",
+  "docsUrl": "https://musical-pianist.github.io/coe5se-docs/commands/immunities/#feebleres",
+  "group": "CoE5SE",
+  "kinds": [
+   "coe5se"
+  ],
+  "origin": "coe5se",
+  "signature": "feebleres"
  },
  "female": {
   "docs": [
@@ -6402,6 +6414,16 @@
   ],
   "origin": "coe5se",
   "signature": "key"
+ },
+ "killres": {
+  "doc": "Makes the monster immune to instant death: a hit of exactly 999 does nothing to it, and casters skip it as a target.",
+  "docsUrl": "https://musical-pianist.github.io/coe5se-docs/commands/immunities/#killres",
+  "group": "CoE5SE",
+  "kinds": [
+   "coe5se"
+  ],
+  "origin": "coe5se",
+  "signature": "killres"
  },
  "killsquare": {
   "docs": [
@@ -9027,7 +9049,7 @@
  },
  "noexplode": {
   "doc": "Stops the weapon's damage die, or the dice of the addstring above, from exploding.",
-  "docsUrl": "https://musical-pianist.github.io/coe5se-docs/commands/ritual-effects/#noexplode",
+  "docsUrl": "https://musical-pianist.github.io/coe5se-docs/commands/noexplode/#noexplode",
   "forms": [
    {
     "doc": "Stops the weapon's damage die, or the dice of the addstring above, from exploding.",
@@ -9697,9 +9719,10 @@
  },
  "onlyaffects": {
   "args": {
-   "trait": "A vanilla trait, movement or ability command."
+   "trait": "A vanilla trait, movement or ability command, small, combatcaster, or tag \"<name>\"."
   },
   "doc": "Makes the weapon affect only units with the trait.",
+  "docsUrl": "https://musical-pianist.github.io/coe5se-docs/commands/weapon-traits/#onlyaffects",
   "group": "CoE5SE",
   "kinds": [
    "coe5se"
@@ -9961,7 +9984,7 @@
    "coe5se"
   ],
   "origin": "coe5se",
-  "signature": "path <nbr>, 0 to 127 (469 with CoE5SE Spell Paths Extension), or path \"<name>\""
+  "signature": "path <nbr>, 0 to 469, or path \"<name>\""
  },
  "pathboost": {
   "docs": [
@@ -9994,6 +10017,16 @@
   ],
   "origin": "vanilla",
   "signature": "petriaura <range>"
+ },
+ "petrifyres": {
+  "doc": "Makes a petrify weapon's hit (dmgtype 24) do nothing to the monster; casters skip it as a target.",
+  "docsUrl": "https://musical-pianist.github.io/coe5se-docs/commands/immunities/#petrifyres",
+  "group": "CoE5SE",
+  "kinds": [
+   "coe5se"
+  ],
+  "origin": "coe5se",
+  "signature": "petrifyres"
  },
  "phantasm": {
   "docs": [
@@ -10454,6 +10487,16 @@
   ],
   "origin": "vanilla",
   "signature": "poisonspikes <dmg>"
+ },
+ "polymorphres": {
+  "doc": "Makes a polymorph weapon's hit (dmgtype 15) do nothing to the monster; casters skip it as a target.",
+  "docsUrl": "https://musical-pianist.github.io/coe5se-docs/commands/immunities/#polymorphres",
+  "group": "CoE5SE",
+  "kinds": [
+   "coe5se"
+  ],
+  "origin": "coe5se",
+  "signature": "polymorphres"
  },
  "pop": {
   "docs": [
@@ -14248,6 +14291,19 @@
   ],
   "origin": "vanilla",
   "signature": "sweep"
+ },
+ "tag": {
+  "args": {
+   "name": "In double quotes (length limit), shared by every mod."
+  },
+  "doc": "Tags the monster for a weapon's onlyaffects, doesntaffect or doubledmgvs tag \"<name>\".",
+  "docsUrl": "https://musical-pianist.github.io/coe5se-docs/commands/monster-traits/#tag",
+  "group": "CoE5SE",
+  "kinds": [
+   "coe5se"
+  ],
+  "origin": "coe5se",
+  "signature": "tag \"<name>\""
  },
  "tangleres": {
   "docs": [
