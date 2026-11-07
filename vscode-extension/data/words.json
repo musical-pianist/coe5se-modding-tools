@@ -5,6 +5,7 @@
    "name": "The name on the setting's newsetting line."
   },
   "doc": "True when your setting is on, or with an index, when that option or key is picked. -setting is the opposite.",
+  "docsUrl": "https://musical-pianist.github.io/coe5se-docs/commands/mod-settings/#setting",
   "group": "CoE5SE",
   "kinds": [
    "coe5se-trigger"
@@ -1453,6 +1454,20 @@
   "origin": "vanilla",
   "signature": "battleslow2"
  },
+ "beamwidth": {
+  "args": {
+   "lines": "Draws a trail for each lane instead of one trail as wide as the beam.",
+   "width": "The beam's width in squares, 1 to 15."
+  },
+  "doc": "Widens the weapon's beam (aoe 10xx or 50xx) to this many squares. The side lanes hit the attacker's own units too; onlyenemy prevents it.",
+  "docsUrl": "https://musical-pianist.github.io/coe5se-docs/commands/weapon-traits/#beamwidth",
+  "group": "CoE5SE",
+  "kinds": [
+   "coe5se"
+  ],
+  "origin": "coe5se",
+  "signature": "beamwidth <width> [lines], the width 1 to 15"
+ },
  "benrestrict": {
   "docs": [
    {
@@ -1859,6 +1874,7 @@
  },
  "choice": {
   "doc": "Makes the setting a list of options; the player picks one.",
+  "docsUrl": "https://musical-pianist.github.io/coe5se-docs/commands/mod-settings/#choice",
   "group": "CoE5SE",
   "kinds": [
    "coe5se"
@@ -2861,6 +2877,7 @@
    "value": "0 or 1 for onoff; an option's number for choice; a key in double quotes for key."
   },
   "doc": "Sets the setting's starting value.",
+  "docsUrl": "https://musical-pianist.github.io/coe5se-docs/commands/mod-settings/#default",
   "group": "CoE5SE",
   "kinds": [
    "coe5se"
@@ -3538,6 +3555,7 @@
  },
  "else": {
   "doc": "Starts the last branch: its actions run when no branch before it ran, on every turn the event checks.",
+  "docsUrl": "https://musical-pianist.github.io/coe5se-docs/commands/events/#else",
   "group": "CoE5SE",
   "kinds": [
    "action",
@@ -3548,6 +3566,7 @@
  },
  "elseif": {
   "doc": "Starts another branch: its triggers, then its actions. It runs only if no branch before it ran.",
+  "docsUrl": "https://musical-pianist.github.io/coe5se-docs/commands/events/#elseif",
   "group": "CoE5SE",
   "kinds": [
    "action",
@@ -4378,6 +4397,7 @@
  },
  "fixed": {
   "doc": "Stops the player changing a key setting.",
+  "docsUrl": "https://musical-pianist.github.io/coe5se-docs/commands/mod-settings/#fixed",
   "group": "CoE5SE",
   "kinds": [
    "coe5se"
@@ -5181,6 +5201,7 @@
  },
  "group": {
   "doc": "Stops the key settings of one group from holding the same key.",
+  "docsUrl": "https://musical-pianist.github.io/coe5se-docs/commands/mod-settings/#group",
   "group": "CoE5SE",
   "kinds": [
    "coe5se"
@@ -5584,9 +5605,22 @@
   "origin": "vanilla",
   "signature": "hatesterr <terrain nbr>"
  },
+ "healarmy": {
+  "args": {
+   "trait": "One of the vanilla traits, an ability command, or tag \"<name>\", as onlyaffects takes it."
+  },
+  "doc": "Makes the units with the trait in the caster's army heal half their maximum Hit Points a turn while the caster knows the spell.",
+  "docsUrl": "https://musical-pianist.github.io/coe5se-docs/commands/army-healing/#healarmy",
+  "group": "CoE5SE",
+  "kinds": [
+   "coe5se"
+  ],
+  "origin": "coe5se",
+  "signature": "healarmy <trait>, or healarmy tag \"<name>\"; bypassnoheal after it"
+ },
  "healhumanarmy": {
-  "doc": "While the caster knows the spell, the humans and hoburghers in the caster's army heal faster.",
-  "docsUrl": "https://musical-pianist.github.io/coe5se-docs/commands/spell-modifiers/#healhumanarmy",
+  "doc": "The humans & hoburghers in the caster's army heal half their maximum Hit Points a turn while the caster knows the spell.",
+  "docsUrl": "https://musical-pianist.github.io/coe5se-docs/commands/army-healing/#healhumanarmy",
   "group": "CoE5SE",
   "kinds": [
    "coe5se"
@@ -5595,8 +5629,8 @@
   "signature": "healhumanarmy"
  },
  "heallivingarmy": {
-  "doc": "While the caster knows the spell, every living unit in the caster's army heals faster.",
-  "docsUrl": "https://musical-pianist.github.io/coe5se-docs/commands/spell-modifiers/#heallivingarmy",
+  "doc": "The units in the caster's army that heal at all heal half their maximum Hit Points a turn while the caster knows the spell.",
+  "docsUrl": "https://musical-pianist.github.io/coe5se-docs/commands/army-healing/#heallivingarmy",
   "group": "CoE5SE",
   "kinds": [
    "coe5se"
@@ -5969,6 +6003,7 @@
  },
  "if": {
   "doc": "Starts the branches. Triggers above it hold for every branch; at most one if, before the first branch's actions.",
+  "docsUrl": "https://musical-pianist.github.io/coe5se-docs/commands/events/#if",
   "group": "CoE5SE",
   "kinds": [
    "action",
@@ -6408,6 +6443,7 @@
  },
  "key": {
   "doc": "Makes the setting a hotkey the player picks; your Lua script reads it and gives the key its job.",
+  "docsUrl": "https://musical-pianist.github.io/coe5se-docs/commands/mod-settings/#key",
   "group": "CoE5SE",
   "kinds": [
    "coe5se"
@@ -6492,6 +6528,7 @@
  },
  "label": {
   "doc": "Sets the setting's text on the page, or a sub-page's name.",
+  "docsUrl": "https://musical-pianist.github.io/coe5se-docs/commands/mod-settings/#label",
   "group": "CoE5SE",
   "kinds": [
    "coe5se"
@@ -8697,6 +8734,7 @@
    "name": "The word your events and scripts read the setting by: letters, digits and _, starting with a letter."
   },
   "doc": "Creates a setting on your mod's Mod Settings page.",
+  "docsUrl": "https://musical-pianist.github.io/coe5se-docs/commands/mod-settings/#newsetting",
   "group": "CoE5SE",
   "kinds": [
    "coe5se"
@@ -8706,6 +8744,7 @@
  },
  "newsettingheader": {
   "doc": "Puts the onoff and key settings after it in a box with this title.",
+  "docsUrl": "https://musical-pianist.github.io/coe5se-docs/commands/mod-settings/#newsettingheader",
   "group": "CoE5SE",
   "kinds": [
    "coe5se"
@@ -8718,6 +8757,7 @@
    "name": "The page's name: 1 to 32 letters, digits and _, starting with a letter."
   },
   "doc": "Puts the settings after it on a sub-page, up to the next newsettingpage.",
+  "docsUrl": "https://musical-pianist.github.io/coe5se-docs/commands/mod-settings/#newsettingpage",
   "group": "CoE5SE",
   "kinds": [
    "coe5se"
@@ -9306,6 +9346,16 @@
   "origin": "vanilla",
   "signature": "nomonworldreq [<limit>]"
  },
+ "nomultiplayer": {
+  "doc": "Keeps your whole mod, scripts and content, out of LAN games on every machine, so no other player needs it.",
+  "docsUrl": "https://musical-pianist.github.io/coe5se-docs/commands/mod-loading/#nomultiplayer",
+  "group": "CoE5SE",
+  "kinds": [
+   "coe5se"
+  ],
+  "origin": "coe5se",
+  "signature": "nomultiplayer"
+ },
  "nonearby1req": {
   "docs": [
    {
@@ -9766,6 +9816,7 @@
  },
  "onoff": {
   "doc": "Makes the setting an on/off checkmark.",
+  "docsUrl": "https://musical-pianist.github.io/coe5se-docs/commands/mod-settings/#onoff",
   "group": "CoE5SE",
   "kinds": [
    "coe5se"
@@ -9779,6 +9830,7 @@
    "text": "The option's text."
   },
   "doc": "Adds an option to a choice setting.",
+  "docsUrl": "https://musical-pianist.github.io/coe5se-docs/commands/mod-settings/#option",
   "group": "CoE5SE",
   "kinds": [
    "coe5se"
@@ -9791,6 +9843,7 @@
    "number": "The number of the option it describes."
   },
   "doc": "Sets an option's hover text.",
+  "docsUrl": "https://musical-pianist.github.io/coe5se-docs/commands/mod-settings/#optiontip",
   "group": "CoE5SE",
   "kinds": [
    "coe5se"
@@ -9800,6 +9853,7 @@
  },
  "or": {
   "doc": "Between groups of triggers: the event holds when every trigger of one group holds.",
+  "docsUrl": "https://musical-pianist.github.io/coe5se-docs/commands/events/#or",
   "group": "CoE5SE",
   "kinds": [
    "action",
@@ -10001,6 +10055,16 @@
   ],
   "origin": "vanilla",
   "signature": "pathboost <path>"
+ },
+ "personalmod": {
+  "doc": "Makes your mod personal in LAN games: each player may run their own copy or none, and its script runs only on its player's machine.",
+  "docsUrl": "https://musical-pianist.github.io/coe5se-docs/commands/mod-loading/#personalmod",
+  "group": "CoE5SE",
+  "kinds": [
+   "coe5se"
+  ],
+  "origin": "coe5se",
+  "signature": "personalmod"
  },
  "petriaura": {
   "docs": [
@@ -11934,6 +11998,7 @@
  },
  "restart": {
   "doc": "Asks the player to restart when they leave your page with the setting changed.",
+  "docsUrl": "https://musical-pianist.github.io/coe5se-docs/commands/mod-settings/#restart",
   "group": "CoE5SE",
   "kinds": [
    "coe5se"
@@ -14728,6 +14793,7 @@
  },
  "tip": {
   "doc": "Sets the hover text of an onoff or key setting.",
+  "docsUrl": "https://musical-pianist.github.io/coe5se-docs/commands/mod-settings/#tip",
   "group": "CoE5SE",
   "kinds": [
    "coe5se"

@@ -167,6 +167,7 @@ function definitionsOf(name, kind) {
 // ---- Words --------------------------------------------------------------------------------------
 function wordEntry(word) {
 	if (WORDS[word]) return WORDS[word];
+	if (EDITION.coe5se && WORDS.healarmy && /^heal\w+army$/.test(word)) return WORDS.healarmy;   // heal<trait>army: CoE5SE takes any trait between heal and army
 	if ((word[0] === "+" || word[0] === "-") && word.length > 1) {
 		const own = WORDS["+" + word.slice(1)];   // CoE5SE's trigger: +setting
 		if (own && own.kinds.includes("coe5se-trigger")) return own;
