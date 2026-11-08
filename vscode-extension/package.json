@@ -3,7 +3,7 @@
 	"displayName": "CoE5 Modding (.c5m and .c5se)",
 	"description": "Validation, autocomplete, hover documentation and go to definition for Conquest of Elysium 5 .c5m files and CoE5SE .c5se files.",
 	"publisher": "musical-pianist",
-	"version": "0.1.10",
+	"version": "0.1.11",
 	"license": "MIT",
 	"icon": "icon.png",
 	"repository": {

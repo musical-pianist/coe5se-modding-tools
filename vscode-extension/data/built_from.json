@@ -1,5 +1,5 @@
 {
- "commit": "789736bf81eede59a4cb3c5eb404426cd11d9689",
+ "commit": "845bdaf98c8c728b7a63481d7f7cc48c26908c4f",
  "sources": {
   "coe5data-v5.33/Class Data v5.33.c5m": "384a4b8b5df7433c9c6215aea20d67fa6c6c4d655f58c1a081eb282ca23243d3",
   "coe5data-v5.33/How to install CoE syntax highlighting for Notepad++.txt": "cbd47861c6809c7220c64f7ae92b83e5da0da4314d6ae7193036d58330d258a3",
@@ -13,7 +13,7 @@
   "coe5data-v5.33/Weapon Data v5.33.c5m": "536e717c3395cd0c5618634c62a2d649e417dc99a08f8e4cbbe2180d734777bb",
   "docs/commands-page/army-healing.md": "b8d14f6f04552cc7da0d9266d630b3bee5b3af1a60329cd4a4663bf7e919f27d",
   "docs/commands-page/commander-names.md": "052edb161918b22bb0c74f37edbe10800fd056c19b668ad620dafaaa14dc9237",
-  "docs/commands-page/corpses.md": "5de1da198b7aa075dbf41b183b8093a0f866a464a0603863bddf3f31cf933c8c",
+  "docs/commands-page/corpses.md": "b5fe6a672af2b65d5b9a2112f4ca926c714244f88615ab27190d54d962a40727",
   "docs/commands-page/events.md": "4e72be370b6b60844ca0a053de963e5ec7bc90de7f9203b9b775ecec4bbcb64d",
   "docs/commands-page/factions.md": "1436f6fab87381873e638af6dc0d6cd70add7b30eb44df531fbad8482c615dbb",
   "docs/commands-page/immunities.md": "35c7968fdfa96619e6ff2b3429431b194f6d7b21eec41221313b62550e31228a",
@@ -33,7 +33,7 @@
   "docs/commands-page/spells.md": "687e046d244f771da7d0b90dd59c0ac4fd758992c36ba49d25a83f6182a99d11",
   "docs/commands-page/terrain-looks.md": "7557be9317ac3b419337c805c77dd2343230d2c954d1785f6fbd9d454473f1b7",
   "docs/commands-page/weapon-traits.md": "f908cc88f04b0bc540c23a9cbc4619f4e8757968e1d42322f2bf975323c6e6a5",
-  "docs/guides/coe5se-reference.md": "672211818183d358d34aa7b4101f73927e6fba4bd1bec74588455ece2c60b8ab",
+  "docs/guides/coe5se-reference.md": "b7b3b232cbcb8acd348d1aad39855ff000a8c838454e4c5e53a8c869b8f95943",
   "mod-docs/classes.md": "ad6936afdbc16bcc056af4187d6989ea20efe31ce2b45a59e07f0c3d633cd4eb",
   "mod-docs/events.md": "43f118d8c9478031a38d8f13ae4773f000783cd6c73528e24640d477c6293420",
   "mod-docs/index.md": "7ad1e11cd57c62ec256cc48ff25c3587d14253c93ac05d4d0644f3b9d4e9fc40",
@@ -47,7 +47,7 @@
   "notes/c5m-commands.txt": "7572496a4798b69b46ba1f24edb6078051ef3f2c6500557fbd02574711c16f24",
   "notes/world/terrain-looks.md": "1ad04100f2ef33f52c6d81b7bb8c587a780ede9c30e5f702d91711d84fcb227a",
   "shared/game_addresses.h": "abe08c8da951f04f6c4d40f343f900829076f5f3052405a3966dd9a2ffb5150f",
-  "tools/vscode-coe5se/hovers.json": "876c598e7b77df03cf177e845c156ab9255a06e83fffc6349760feb1299edd19",
+  "tools/vscode-coe5se/hovers.json": "c31f991d4aa8ebf8565e90fab94a44d656ac7d3ee1eaff4815c8b8fab6a020a7",
   "tools/vscode-coe5se/manual_pages.json": "246e436036c3d42f202a89cbb309808efccbd7a4db779e1f9e72feef20a69f84"
  }
 }

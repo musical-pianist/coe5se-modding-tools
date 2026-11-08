@@ -2669,6 +2669,15 @@
   "signature": "copyvar <var1> <var2>"
  },
  "corpsekind": {
+  "doc": "A CoE5SE command.",
+  "group": "CoE5SE",
+  "kinds": [
+   "coe5se"
+  ],
+  "origin": "coe5se",
+  "signature": "corpsekind"
+ },
+ "corpsetype": {
   "doc": "Sets the corpse the active monster leaves when it dies, whatever its traits.",
   "docsUrl": "https://musical-pianist.github.io/coe5se-docs/commands/corpses/#corpsekind",
   "group": "CoE5SE",
@@ -2676,7 +2685,7 @@
    "coe5se"
   ],
   "origin": "coe5se",
-  "signature": "corpsekind giant"
+  "signature": "corpsetype giant"
  },
  "cost": {
   "docs": [
@@ -3726,6 +3735,19 @@
   ],
   "origin": "vanilla",
   "signature": "eventvarreq <var>"
+ },
+ "excludecorpses": {
+  "args": {
+   "Heavy Infantry": "A corpse type in double quotes, declared with newcorpsetype."
+  },
+  "doc": "raisedead, raiseanimals and raisecorpses in this ritual will not use corpses of this type, except a raisecorpses that names it.",
+  "docsUrl": "https://musical-pianist.github.io/coe5se-docs/commands/corpses/#excludecorpses",
+  "group": "CoE5SE",
+  "kinds": [
+   "coe5se"
+  ],
+  "origin": "coe5se",
+  "signature": "excludecorpses \"Heavy Infantry\""
  },
  "expand_ritual_table": {
   "doc": "Does nothing now: CoE5SE always has room for 10000 mod rituals. Kept so older mods still load.",
@@ -7636,9 +7658,9 @@
    },
    {
     "context": "With CoE5SE",
-    "doc": "With a kind: +mincorpses, -mincorpses and removecorpses count and take only that kind.",
+    "doc": "With a type: +mincorpses, -mincorpses and removecorpses count and take only that type.",
     "origin": "coe5se",
-    "signature": "+mincorpses <amount> <kind>"
+    "signature": "+mincorpses <amount> <type>"
    }
   ],
   "group": "Event triggers (written with + or -)",
@@ -8504,6 +8526,16 @@
   "origin": "vanilla",
   "signature": "nearby99req <terrain nbr>"
  },
+ "needcorpses": {
+  "doc": "Ritual cannot be cast unless the caster's square has a corpse its raisedead, raiseanimals or raisecorpses commands can use.",
+  "docsUrl": "https://musical-pianist.github.io/coe5se-docs/commands/corpses/#needcorpses",
+  "group": "CoE5SE",
+  "kinds": [
+   "coe5se"
+  ],
+  "origin": "coe5se",
+  "signature": "needcorpses"
+ },
  "needs_coe5se": {
   "doc": "Another name of needs_script_extender; it works the same.",
   "group": "CoE5SE",
@@ -8584,17 +8616,26 @@
   "signature": "newclass"
  },
  "newcorpsekind": {
+  "doc": "A CoE5SE command.",
+  "group": "CoE5SE",
+  "kinds": [
+   "coe5se"
+  ],
+  "origin": "coe5se",
+  "signature": "newcorpsekind"
+ },
+ "newcorpsetype": {
   "args": {
    "Uruk-hai": "In double quotes."
   },
-  "doc": "Declares a corpse kind for your monsters to leave and your rituals and events to raise.",
+  "doc": "Declares a new corpse type for your monsters to leave and your rituals and events to use.",
   "docsUrl": "https://musical-pianist.github.io/coe5se-docs/commands/corpses/#newcorpsekind",
   "group": "CoE5SE",
   "kinds": [
    "coe5se"
   ],
   "origin": "coe5se",
-  "signature": "newcorpsekind \"Uruk-hai\" human"
+  "signature": "newcorpsetype \"Uruk-hai\" human"
  },
  "newfaction": {
   "args": {
@@ -10859,13 +10900,13 @@
    },
    {
     "args": {
-     "amount": "The number of corpses, as the game's putcorpses takes it: 10000 and up still scales with the sacrifice.",
-     "kind": "One vanilla kind, or your mod's kind in double quotes."
+     "amount": "Add 10000 to scale with the sacrifice amount, as in the game's putcorpses.",
+     "type": "A vanilla type, or a mod's corpse type in double quotes."
     },
     "context": "With numbers after it (CoE5SE)",
-    "doc": "With a kind: puts corpses of that kind on the caster's square instead of human corpses.",
+    "doc": "With a type, creates corpses of this type instead of human corpses. Can also be used in events.",
     "origin": "coe5se",
-    "signature": "putcorpses <amount> <kind>"
+    "signature": "putcorpses <amount> <type>"
    }
   ],
   "group": "Ritual effects, restrictions, targeting, AI hints",
@@ -10909,14 +10950,14 @@
   "signature": "raiseanimals"
  },
  "raisecorpses": {
-  "doc": "Raises a monster from a kind of corpse on the caster's square, as Raise Dead does; with none there, the ritual fails.",
+  "doc": "Like raisedead, but turns the corpses on the caster's square into this monster. A number after the name sets the max.",
   "docsUrl": "https://musical-pianist.github.io/coe5se-docs/commands/corpses/#raisecorpses",
   "group": "CoE5SE",
   "kinds": [
    "coe5se"
   ],
   "origin": "coe5se",
-  "signature": "raisecorpses largeanimal \"Fell Beast\""
+  "signature": "raisecorpses largeanimal \"Fell Beast\" 2"
  },
  "raisedead": {
   "docs": [
@@ -10929,12 +10970,13 @@
    },
    {
     "args": {
-     "kind": "A humanoid kind or humanoid for raisedead; an animal kind or animal for raiseanimals."
+     "cap": "Optional.",
+     "type": "A humanoid type or humanoid for raisedead, an animal type or animal for raiseanimals."
     },
     "context": "With numbers after it (CoE5SE)",
-    "doc": "With a kind: Raise Dead uses only that kind of corpse; raiseanimals does the same for Raise Animals.",
+    "doc": "With a type, Raise Dead will only use corpses of this type; same for raiseanimals. A number after the type sets the max.",
     "origin": "coe5se",
-    "signature": "raisedead <kind>"
+    "signature": "raisedead <type> [<cap>]"
    }
   ],
   "group": "Ritual effects, restrictions, targeting, AI hints",
