@@ -2669,7 +2669,7 @@
   "signature": "copyvar <var1> <var2>"
  },
  "corpsekind": {
-  "doc": "Sets the corpse kind the monster leaves, whatever its traits. Goes after newmonster or selectmonster.",
+  "doc": "Sets the corpse the active monster leaves when it dies, whatever its traits.",
   "docsUrl": "https://musical-pianist.github.io/coe5se-docs/commands/corpses/#corpsekind",
   "group": "CoE5SE",
   "kinds": [
@@ -8583,6 +8583,19 @@
   "origin": "vanilla",
   "signature": "newclass"
  },
+ "newcorpsekind": {
+  "args": {
+   "Uruk-hai": "In double quotes."
+  },
+  "doc": "Declares a corpse kind for your monsters to leave and your rituals and events to raise.",
+  "docsUrl": "https://musical-pianist.github.io/coe5se-docs/commands/corpses/#newcorpsekind",
+  "group": "CoE5SE",
+  "kinds": [
+   "coe5se"
+  ],
+  "origin": "coe5se",
+  "signature": "newcorpsekind \"Uruk-hai\" human"
+ },
  "newfaction": {
   "args": {
    "name": "In double quotes."
@@ -10846,11 +10859,11 @@
    },
    {
     "args": {
-     "amount": "The number of corpses, as the game's putcorpses takes it.",
-     "kind": "One kind."
+     "amount": "The number of corpses, as the game's putcorpses takes it: 10000 and up still scales with the sacrifice.",
+     "kind": "One vanilla kind, or your mod's kind in double quotes."
     },
     "context": "With numbers after it (CoE5SE)",
-    "doc": "With a kind: puts that kind on the caster's square instead of human corpses.",
+    "doc": "With a kind: puts corpses of that kind on the caster's square instead of human corpses.",
     "origin": "coe5se",
     "signature": "putcorpses <amount> <kind>"
    }
@@ -10896,7 +10909,7 @@
   "signature": "raiseanimals"
  },
  "raisecorpses": {
-  "doc": "Raises that monster from the caster's square's corpses of that kind; with none there, the ritual fails.",
+  "doc": "Raises a monster from a kind of corpse on the caster's square, as Raise Dead does; with none there, the ritual fails.",
   "docsUrl": "https://musical-pianist.github.io/coe5se-docs/commands/corpses/#raisecorpses",
   "group": "CoE5SE",
   "kinds": [
