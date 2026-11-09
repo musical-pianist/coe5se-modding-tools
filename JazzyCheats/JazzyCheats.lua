@@ -1,12 +1,14 @@
--- Jazzy Cheats: three lines in the Game Menu's own "Cheats" section, for the player whose turn
--- it is. "Resources" opens a screen that gives 10 or 100 of one resource per click. "Units" lists
--- the units of the player's class with their pictures; a click on one closes the menu, and the next
--- left click on a map square places 1 or 10 of it there. "Reveal Map" puts every plane in view
--- until the player's next turn. Two lines under the selected commander's orders on the map, each
--- turned off by its own setting: "Restore movement (cheat)" gives every unit on the next
--- left-clicked square its action points back, and "Teleport (cheat)" moves the commander and his
--- army to the next left-clicked square, as a teleport ritual does, for no action points. While
--- either waits for a square its line reads what it waits for, in PICKING_COLOR.
+-- Jazzy Cheats: four lines in the Game Menu's own "Cheats" section, for the player whose turn
+-- it is. "Resources" opens a screen that gives 10 or 100 of one resource per click, or 5000 of
+-- each with one line. "Units" lists the units of the player's class with their pictures; a click
+-- on one closes the menu, and the next left click on a map square places 1 or 10 of it there.
+-- "Reveal Map" puts every plane in view until the player's next turn. "Events", last, lists every
+-- enabled mod's events and runs one with its triggers skipped. Two lines under the
+-- selected commander's orders on the map, each turned off by its own setting: "Restore movement
+-- (cheat)" gives every unit on the next left-clicked square its action points back, and
+-- "Teleport (cheat)" moves the commander and his army to the next left-clicked square, as a
+-- teleport ritual does, for no action points. While either waits for a square its line reads
+-- what it waits for, in PICKING_COLOR.
 
 local CHEATS_SECTION = "Cheats"   -- the Game Menu section CoE5SE draws for these lines
 local ID_BACK = 9
@@ -14,6 +16,8 @@ local ID_AMOUNT_FIRST = 10     -- AMOUNTS[i] is line ID_AMOUNT_FIRST + i - 1
 local ID_RESOURCE_FIRST = 100  -- resource r is line ID_RESOURCE_FIRST + r
 local RESOURCE_LAST = 13       -- resourceName's last index (0 Gold .. 13 Lifeforce)
 local AMOUNTS = {10, 100}
+local ID_ALL_RESOURCES = 20    -- the line that adds ALL_RESOURCES_AMOUNT of every resource
+local ALL_RESOURCES_AMOUNT = 5000
 
 local amount = AMOUNTS[1]      -- the picked amount, kept until the game closes
 
@@ -31,6 +35,10 @@ local function openResources()
       coe5.ui.tooltip(string.format("Add %d %s", amount, name))
     end
     coe5.ui.sectionEnd()
+    coe5.ui.sectionBegin("All resources")
+    coe5.ui.text(ID_ALL_RESOURCES, string.format("All resources +%d", ALL_RESOURCES_AMOUNT))
+    coe5.ui.tooltip(string.format("Add %d of each resource", ALL_RESOURCES_AMOUNT))
+    coe5.ui.sectionEnd()
     coe5.ui.buttonRow()
     coe5.ui.text(ID_BACK, "Back")
     coe5.ui.bindEscape(ID_BACK)
@@ -43,12 +51,19 @@ local function openResources()
       coe5.set("slotResource", player, r, total)
       coe5.log(string.format("resource_given slot=%d resource=%d amount=%d total=%d", player, r, amount, total))
     end
+    if id == ID_ALL_RESOURCES then
+      for r = 0, RESOURCE_LAST do
+        local total = coe5.get("slotResource", player, r) + ALL_RESOURCES_AMOUNT
+        coe5.set("slotResource", player, r, total)
+        coe5.log(string.format("resource_given slot=%d resource=%d amount=%d total=%d", player, r, ALL_RESOURCES_AMOUNT, total))
+      end
+    end
   end
 end
 
 coe5.addGameMenuLine{
   label = "Resources",
-  tooltip = "Give the player whose turn it is 10 or 100 of any resource.",
+  tooltip = "Give the player whose turn it is 10 or 100 of any resource, or 5000 of each.",
   section = CHEATS_SECTION,
   visible = function() return coe5.get("activePlayer") >= 0 end,
   onClick = function()
@@ -102,6 +117,8 @@ local placing = nil          -- the picked unit until a map square takes it
 local restoring = nil        -- set by Restore movement until a map square is picked
 ---@type {player: integer, commander: integer, name: string}|nil
 local teleporting = nil      -- set by the commander's Teleport line until a map square is picked
+---@type {player: integer, index: integer, label: string}|nil
+local eventPicking = nil     -- a squareevent picked on the Events screen until a map square takes it
 local stopPicking            -- stops every pick for a square, below
 local lastButtons = 0        -- the map frame's mouseButtons a frame before, to see a press start
 local swallowing = false     -- a click the mod used: its button reads 0 until let go
@@ -380,6 +397,156 @@ coe5.addGameMenuLine{
   end,
 }
 
+-- ---- Events -------------------------------------------------------------------------------------
+-- Every enabled mod's playerevent and squareevent (coe5.modEvents), a page at a time, with a search;
+-- a click runs the event's actions for the player whose turn it is, its triggers left out
+-- (coe5.runModEvent). A playerevent runs at once; a squareevent waits for a left click on a map square,
+-- as a picked unit does. Each row's hover lists the triggers the click skips. A CoE5SE older than
+-- coe5.modEvents leaves the line out.
+local ID_EVENT_FIRST = 1000       -- the list's event i is row ID_EVENT_FIRST + i
+local EVENTS_PER_PAGE = 14        -- one-line rows a page: they fit the 600-high UI under the Search section
+local EVENT_LABEL_MAX = 64        -- a row's characters before "..."
+local NEED_LINE_MAX = 60          -- a trigger line's characters in the hover before "...", so each stays one line
+local BOX_BOTTOM, BOX_DROP, BOX_PAD = 16, 2, 5   -- the hover box's place in UI units, as Jazzy UI Tweaks reads it
+local eventPage = 0
+
+-- A row's text: the mod, then the event's first message, or its line in the mod's file.
+local function eventLabel(e)
+  local text = e.mod .. ": " .. (e.message ~= "" and e.message or ("line " .. e.line))
+  if #text > EVENT_LABEL_MAX then text = text:sub(1, EVENT_LABEL_MAX - 3) .. "..." end
+  return text
+end
+
+-- Where the game puts the hover box, in UI units, y counting up from the bottom of the screen (Jazzy
+-- UI Tweaks' ritual readout found it): for a text of n lines its bottom is at 16 less 2 for each
+-- line, its lines "tooltipLineHeight" apart, drawn from the last one up, so past about 8 lines the
+-- last ones start below the screen. `pad` blank lines at the end lift the rest, keeping the last line
+-- 5 units above the bottom; the box's top must then stay on the screen ("screenH" units tall).
+local function boxPad(n, height)
+  return math.max(0, math.ceil((BOX_DROP * n - BOX_BOTTOM + BOX_PAD) / (height - BOX_DROP)))
+end
+local function fits(n, height)
+  return BOX_BOTTOM + BOX_PAD + (n + boxPad(n, height)) * (height - BOX_DROP) <= coe5.get("screenH")
+end
+
+-- A row's hover: what a click does, then each trigger the run leaves out, as the mod writes it, as many
+-- as fit on the screen with "and n more" for the rest, then the blank lines that lift the box.
+local function eventHover(e)
+  local height = coe5.get("tooltipLineHeight")
+  local lines = {e.kind == "squareevent" and "Run on a square: click, then a map square" or "Run now"}
+  if #e.needs == 0 then
+    lines[#lines + 1] = "Needs nothing"
+  else
+    lines[#lines + 1] = "Needs (skipped):"
+    for i, need in ipairs(e.needs) do
+      local room = i == #e.needs and 1 or 2   -- the last needs no "and n more" line after it
+      if not fits(#lines + room, height) then
+        lines[#lines + 1] = string.format("and %d more", #e.needs - i + 1)
+        break
+      end
+      lines[#lines + 1] = #need > NEED_LINE_MAX and need:sub(1, NEED_LINE_MAX - 3) .. "..." or need
+    end
+  end
+  return table.concat(lines, "\n") .. string.rep("\n", boxPad(#lines, height))
+end
+
+-- The Events screen. Returns true when an event ran or waits for a square, so the Game Menu closes.
+local function openEvents()
+  local player = coe5.get("activePlayer")
+  local all = {}   -- a row for each event: its place in coe5.modEvents() and its text
+  for i, e in ipairs(coe5.modEvents()) do
+    all[i] = {index = i, label = eventLabel(e), mod = e.mod, line = e.line, kind = e.kind, needs = e.needs}
+  end
+  local class = coe5.get("slotClass", player)
+  local searchMonster = coe5.findMonster(coe5.get("classLeader", class) or "")
+  local filter = nil   -- the search text, kept until the screen closes
+  local shown, pages
+  local function applyFilter()
+    shown = all
+    if filter then
+      local wanted = filter:lower()
+      shown = {}
+      for _, e in ipairs(all) do
+        if e.label:lower():find(wanted, 1, true) then shown[#shown + 1] = e end
+      end
+    end
+    pages = math.max(1, (#shown + EVENTS_PER_PAGE - 1) // EVENTS_PER_PAGE)
+    if eventPage >= pages then eventPage = 0 end
+  end
+  applyFilter()
+  while true do
+    coe5.ui.screenBegin("Events")
+    coe5.ui.sectionBegin("Search")
+    coe5.ui.text(ID_SEARCH, filter and "Search: " .. filter or "Search")
+    coe5.ui.tooltip("Filter events by mod or message")
+    if filter then coe5.ui.text(ID_CLEAR_SEARCH, "Clear search") end
+    coe5.ui.sectionEnd()
+    coe5.ui.sectionBegin("Mods' events")
+    if #all == 0 then coe5.ui.text(0, "No enabled mod has events")
+    elseif #shown == 0 then coe5.ui.text(0, "No events match") end
+    local first = eventPage * EVENTS_PER_PAGE
+    for i = first + 1, math.min(#shown, first + EVENTS_PER_PAGE) do
+      coe5.ui.text(ID_EVENT_FIRST + i, shown[i].label)
+      coe5.ui.tooltip(eventHover(shown[i]))
+    end
+    coe5.ui.sectionEnd()
+    coe5.ui.buttonRow()
+    if pages > 1 then
+      coe5.ui.text(0, string.format("Page %d of %d", eventPage + 1, pages))
+      coe5.ui.text(ID_PREVIOUS_PAGE, "Previous page")
+      coe5.ui.text(ID_NEXT_PAGE, "Next page")
+    end
+    coe5.ui.text(ID_BACK, "Back")
+    coe5.ui.bindEscape(ID_BACK)
+    local id = coe5.ui.wait()
+    if id == ID_BACK then return false end
+    if id == ID_PREVIOUS_PAGE then eventPage = (eventPage - 1) % pages end
+    if id == ID_NEXT_PAGE then eventPage = (eventPage + 1) % pages end
+    if id == ID_SEARCH and searchMonster then
+      local text = coe5.ui.nameBox("Search events", "Text:", coe5.get("monsterSprite", searchMonster), SEARCH_LENGTH)
+      if text then
+        text = text:match("^%s*(.-)%s*$")
+        filter = text ~= "" and text or nil
+        eventPage = 0
+        applyFilter()
+        coe5.log(string.format("event_search text=%s matches=%d", filter or "", #shown))
+      end
+    end
+    if id == ID_CLEAR_SEARCH then
+      filter = nil
+      eventPage = 0
+      applyFilter()
+    end
+    local e = shown[id - ID_EVENT_FIRST]
+    if id > ID_EVENT_FIRST and e then
+      if e.kind == "squareevent" then
+        eventPicking = {player = player, index = e.index, label = e.label}
+        lastButtons = BUTTON_LEFT   -- the click that picked it may still be held when the map is back
+        coe5.log(string.format("event_picked slot=%d mod=%s line=%d", player, e.mod, e.line))
+        return true
+      end
+      if coe5.runModEvent(e.index) then   -- else logged by CoE5SE as lua_refused
+        coe5.log(string.format("event_run slot=%d mod=%s line=%d", player, e.mod, e.line))
+        return true
+      end
+    end
+  end
+end
+
+local function stopEventPicking(reason)
+  coe5.log(string.format("event_picking_stopped slot=%d reason=%s", eventPicking.player, reason))
+  eventPicking = nil
+end
+
+-- Runs the picked squareevent on square (x, y).
+local function runEventAt(x, y)
+  local p = eventPicking
+  eventPicking = nil
+  if coe5.runModEvent(p.index, x, y) then   -- else logged by CoE5SE as lua_refused
+    coe5.log(string.format("event_run slot=%d index=%d x=%d y=%d", p.player, p.index, x, y))
+  end
+end
+
 local function stopPlacing(reason)
   coe5.log(string.format("unit_placing_stopped slot=%d monster=%d reason=%s", placing.player, placing.monster, reason))
   placing = nil
@@ -613,19 +780,20 @@ local function teleport(x, y)
   teleporting = nil
 end
 
--- Stops picking a square for Units, Restore movement or Teleport.
+-- Stops picking a square for Units, Events, Restore movement or Teleport.
 function stopPicking(reason)
   if placing then stopPlacing(reason) end
   if restoring then stopRestoring(reason) end
   if teleporting then stopTeleporting(reason) end
+  if eventPicking then stopEventPicking(reason) end
 end
 
--- Each map frame while a unit is picked or Restore movement or Teleport waits for a square: the first
--- frame of a left click on a square places the unit, restores movement or teleports there; Esc, a right click, the Game
+-- Each map frame while a unit or squareevent is picked or Restore movement or Teleport waits for a square: the first
+-- frame of a left click on a square places the unit, runs the event, restores movement or teleports there; Esc, a right click, the Game
 -- Menu, or another player's turn stops. A click the mod uses never reaches the map (it would move
 -- the selected commander): mouseButtons reads 0 until the button is let go.
 coe5.wrap("MAP_SCREEN_WAIT", function(next, block, mode)
-  local picking = placing or restoring or teleporting
+  local picking = placing or restoring or teleporting or eventPicking
   if not picking and not swallowing then return next(block, mode) end
   if picking then coe5.ui.bindKey(MAP_ID_CANCEL, coe5.key.esc) end
   local id = next(block, mode)
@@ -659,17 +827,18 @@ coe5.wrap("MAP_SCREEN_WAIT", function(next, block, mode)
   if buttons ~= BUTTON_LEFT or id ~= 0 or x < 0 or y < 0 then return id end   -- the map's own lines keep their clicks
   coe5.set("mouseButtons", 0)
   swallowing = true
-  if placing then place(x, y) elseif restoring then restore(x, y) else teleport(x, y) end
+  if placing then place(x, y) elseif restoring then restore(x, y) elseif teleporting then teleport(x, y) else runEventAt(x, y) end
   return 0
 end)
 
--- While a unit is picked or Restore movement or Teleport waits, the map's menu button's hover text, "(F10)
+-- While a unit or squareevent is picked or Restore movement or Teleport waits, the map's menu button's hover text, "(F10)
 -- Menu", says what a click on the map does. A line drawn in MAP_SCREEN_WAIT's wrap isn't shown: the
 -- map lays its lines out before that wait.
 coe5.wrap("MAP_MENU_BUTTON_TEXT", function(next, text)
   if placing then return next(string.format("Placing %s x%d (right click cancels)", placing.name, placing.amount)) end
   if restoring then return next("Restoring movement (right click cancels)") end
   if teleporting then return next(string.format("Teleporting %s (right click cancels)", teleporting.name)) end
+  if eventPicking then return next(string.format("Running %s (right click cancels)", eventPicking.label)) end
   return next(text)
 end)
 
@@ -688,5 +857,17 @@ coe5.addGameMenuLine{
     if not coe5.revealMap(player) then return coe5.gameMenu.stay end   -- logged by CoE5SE as lua_refused
     coe5.log(string.format("map_revealed slot=%d turn=%d", player, coe5.turn()))
     return coe5.gameMenu.close
+  end,
+}
+
+-- The Events line, last in the Cheats section; openEvents is above.
+coe5.addGameMenuLine{
+  label = "Events",
+  tooltip = "Run any mod's event, its triggers skipped",
+  section = CHEATS_SECTION,
+  visible = function() return coe5.modEvents ~= nil and coe5.get("activePlayer") >= 0 end,
+  onClick = function()
+    if openEvents() then return coe5.gameMenu.close end
+    return coe5.gameMenu.stay
   end,
 }
