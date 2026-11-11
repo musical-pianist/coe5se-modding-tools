@@ -2173,6 +2173,12 @@
     "doc": "Removes all movement attributes from the active monster.",
     "origin": "vanilla",
     "signature": "clearmove"
+   },
+   {
+    "context": "With CoE5SE",
+    "doc": "After newitem or selectitem: removes all movement attributes from the item.",
+    "origin": "coe5se",
+    "signature": "clearmove"
    }
   ],
   "group": "Monster modding: start, basic, copy and clear, weapons",
@@ -2227,6 +2233,12 @@
     "context": "Terrain",
     "doc": "Clears the special attributes of the selected terrain.",
     "origin": "vanilla",
+    "signature": "clearspec"
+   },
+   {
+    "context": "With CoE5SE",
+    "doc": "After newitem or selectitem: removes everything special the item gives: every ability (armor, hp and other bonuses included), combatsum, combatspell, and its holder's afflictions and special benefits. The name, sprite, type and rarity stay.",
+    "origin": "coe5se",
     "signature": "clearspec"
    }
   ],
@@ -2292,6 +2304,12 @@
     "context": "Monsters",
     "doc": "Removes all weapons from the active monster.",
     "origin": "vanilla",
+    "signature": "clearweapons"
+   },
+   {
+    "context": "With CoE5SE",
+    "doc": "After newitem or selectitem: removes the item's itemwep weapon.",
+    "origin": "coe5se",
     "signature": "clearweapons"
    }
   ],
@@ -2591,6 +2609,16 @@
   "origin": "vanilla",
   "signature": "confusionaura <radius>"
  },
+ "consumableitem": {
+  "doc": "After newitem or selectitem: the holder can use the item once, like a scroll; using it destroys it. consumableitem 0 takes it off.",
+  "docsUrl": "https://musical-pianist.github.io/coe5se-docs/commands/magic-items/#consumableitem",
+  "group": "CoE5SE",
+  "kinds": [
+   "coe5se"
+  ],
+  "origin": "coe5se",
+  "signature": "consumableitem"
+ },
  "copyritual": {
   "docs": [
    {
@@ -2753,6 +2781,12 @@
     "origin": "vanilla",
     "signature": "cureoneaff <chance>",
     "url": "https://www.illwinter.com/coe5/coe5modding.pdf#page=33"
+   },
+   {
+    "context": "With CoE5SE",
+    "doc": "After newitem or selectitem: using the item has this chance of healing one battle affliction, like the Elixir of Health.",
+    "origin": "coe5se",
+    "signature": "cureoneaff <chance>"
    }
   ],
   "group": "Ritual effects, restrictions, targeting, AI hints",
@@ -3805,6 +3839,26 @@
   ],
   "origin": "vanilla",
   "signature": "extraeyes <nbr>"
+ },
+ "extralife": {
+  "doc": "After newitem or selectitem: when the holder dies, the item is destroyed and the holder lives again, like a Soul Stone.",
+  "docsUrl": "https://musical-pianist.github.io/coe5se-docs/commands/magic-items/#extralife",
+  "group": "CoE5SE",
+  "kinds": [
+   "coe5se"
+  ],
+  "origin": "coe5se",
+  "signature": "extralife"
+ },
+ "eyeitem": {
+  "doc": "After newitem or selectitem: the item is an eye, like the Spirit Eye; only a unit with a free eye can hold it.",
+  "docsUrl": "https://musical-pianist.github.io/coe5se-docs/commands/magic-items/#eyeitem",
+  "group": "CoE5SE",
+  "kinds": [
+   "coe5se"
+  ],
+  "origin": "coe5se",
+  "signature": "eyeitem"
  },
  "factionactive": {
   "doc": "Sets when the faction is active, which its citadel spawns and waiting wanderers need; portals waits for that many open gateways to its home.",
@@ -5676,6 +5730,19 @@
   "origin": "vanilla",
   "signature": "healonterr <terrain nbr>"
  },
+ "heartitem": {
+  "args": {
+   "nbr": "2 for a heart any unit can hold, like the Heart of Life."
+  },
+  "doc": "After newitem or selectitem: the item is a heart, like the Crystal Heart; a lifeless unit cannot hold it. heartitem 2: any unit can.",
+  "docsUrl": "https://musical-pianist.github.io/coe5se-docs/commands/magic-items/#heartitem",
+  "group": "CoE5SE",
+  "kinds": [
+   "coe5se"
+  ],
+  "origin": "coe5se",
+  "signature": "heartitem [<nbr>]"
+ },
  "herbs": {
   "docs": [
    {
@@ -7194,6 +7261,12 @@
     "doc": "Gives an affliction to target unit. See table Special Afflictions.",
     "origin": "vanilla",
     "signature": "makeaff <aff>"
+   },
+   {
+    "context": "With CoE5SE",
+    "doc": "After newitem or selectitem: the holder has this affliction while it holds the item. Bitmask values as for the event command makeaff.",
+    "origin": "coe5se",
+    "signature": "makeaff <aff>"
    }
   ],
   "group": "Event actions",
@@ -7212,6 +7285,12 @@
     "context": "Events",
     "doc": "Gives the target unit a benefit; 2^26 is twiceborn, 2^24 Stygian Bath. Most benefits are temporary.",
     "origin": "vanilla",
+    "signature": "makeben <ben>"
+   },
+   {
+    "context": "With CoE5SE",
+    "doc": "After newitem or selectitem: the holder has this special benefit while it holds the item. Bitmask values as for the event command makeben.",
+    "origin": "coe5se",
     "signature": "makeben <ben>"
    }
   ],
@@ -7431,6 +7510,16 @@
   ],
   "origin": "coe5se",
   "signature": "maxdata <megabytes>"
+ },
+ "maxraise": {
+  "doc": "Ritual cannot create more than this number of units in one cast, from all its raisedead, raiseanimals and raisecorpses commands together.",
+  "docsUrl": "https://musical-pianist.github.io/coe5se-docs/commands/corpses/#maxraise",
+  "group": "CoE5SE",
+  "kinds": [
+   "coe5se"
+  ],
+  "origin": "coe5se",
+  "signature": "maxraise 1"
  },
  "maxsinners": {
   "docs": [
@@ -8363,6 +8452,15 @@
     "origin": "vanilla",
     "signature": "mutate",
     "url": "https://www.illwinter.com/coe5/coe5modding.pdf#page=4"
+   },
+   {
+    "args": {
+     "monster": "The monster's name, in double quotes."
+    },
+    "context": "With numbers after it (CoE5SE)",
+    "doc": "A victim killed by the weapon becomes this monster, instead of the monster that follows the killer in the monster list.",
+    "origin": "coe5se",
+    "signature": "mutate \"<monster>\""
    }
   ],
   "group": "Weapon special attributes",
@@ -8840,6 +8938,15 @@
     "origin": "vanilla",
     "signature": "newspell1 <path nbr>",
     "url": "https://www.illwinter.com/coe5/coe5modding.pdf#page=33"
+   },
+   {
+    "args": {
+     "nbr": "How many spells, not a path as in a ritual."
+    },
+    "context": "With numbers after it (CoE5SE)",
+    "doc": "After newitem or selectitem: using the item teaches this many new level 1 spells of the holder's own path, like a spell scroll.",
+    "origin": "coe5se",
+    "signature": "newspell1 <nbr>"
    }
   ],
   "group": "Ritual effects, restrictions, targeting, AI hints",
@@ -8857,6 +8964,12 @@
     "origin": "vanilla",
     "signature": "newspell2 <path nbr>",
     "url": "https://www.illwinter.com/coe5/coe5modding.pdf#page=33"
+   },
+   {
+    "context": "With CoE5SE",
+    "doc": "After newitem or selectitem: using the item teaches this many new level 2 spells of the holder's own path, like a spell scroll.",
+    "origin": "coe5se",
+    "signature": "newspell2"
    }
   ],
   "group": "Ritual effects, restrictions, targeting, AI hints",
@@ -8874,6 +8987,12 @@
     "origin": "vanilla",
     "signature": "newspell3 <path nbr>",
     "url": "https://www.illwinter.com/coe5/coe5modding.pdf#page=33"
+   },
+   {
+    "context": "With CoE5SE",
+    "doc": "After newitem or selectitem: using the item teaches this many new level 3 spells of the holder's own path, like a spell scroll.",
+    "origin": "coe5se",
+    "signature": "newspell3"
    }
   ],
   "group": "Ritual effects, restrictions, targeting, AI hints",
@@ -11429,6 +11548,16 @@
     "origin": "vanilla",
     "signature": "reanimate",
     "url": "https://www.illwinter.com/coe5/coe5modding.pdf#page=4"
+   },
+   {
+    "args": {
+     "monster": "The monster's name, in double quotes.",
+     "type": "Optional."
+    },
+    "context": "With numbers after it (CoE5SE)",
+    "doc": "A victim killed by the weapon becomes this monster instead of a Soulless; with a corpse type, only victims that leave a corpse of that type.",
+    "origin": "coe5se",
+    "signature": "reanimate [<type>] \"<monster>\""
    }
   ],
   "group": "Monster and magic item attributes (the manual lists them under each)",
@@ -15438,6 +15567,98 @@
   ],
   "origin": "vanilla",
   "signature": "useable"
+ },
+ "useableitem": {
+  "doc": "After newitem or selectitem: the holder can use the item and keep it, like a tome. useableitem 0 takes it off.",
+  "docsUrl": "https://musical-pianist.github.io/coe5se-docs/commands/magic-items/#useableitem",
+  "group": "CoE5SE",
+  "kinds": [
+   "coe5se"
+  ],
+  "origin": "coe5se",
+  "signature": "useableitem"
+ },
+ "usebeanstalk": {
+  "doc": "After newitem or selectitem: using the item grows a beanstalk with a portal to the plane above, like the Magic Bean.",
+  "docsUrl": "https://musical-pianist.github.io/coe5se-docs/commands/magic-items/#usebeanstalk",
+  "group": "CoE5SE",
+  "kinds": [
+   "coe5se"
+  ],
+  "origin": "coe5se",
+  "signature": "usebeanstalk"
+ },
+ "usebreakseal": {
+  "doc": "After newitem or selectitem: using the item breaks one of the seven seals, like the Heavenly Seal.",
+  "docsUrl": "https://musical-pianist.github.io/coe5se-docs/commands/magic-items/#usebreakseal",
+  "group": "CoE5SE",
+  "kinds": [
+   "coe5se"
+  ],
+  "origin": "coe5se",
+  "signature": "usebreakseal"
+ },
+ "useonlyin": {
+  "args": {
+   "terrain nbr": "A terrain number, or a negative one from the Negative Terrain Numbers table under {{ manual: Monster Modding Numbers }}."
+  },
+  "doc": "After newitem or selectitem: the item can only be used on this terrain, like the Magic Bean.",
+  "docsUrl": "https://musical-pianist.github.io/coe5se-docs/commands/magic-items/#useonlyin",
+  "group": "CoE5SE",
+  "kinds": [
+   "coe5se"
+  ],
+  "origin": "coe5se",
+  "signature": "useonlyin <terrain nbr>"
+ },
+ "usepit": {
+  "doc": "After newitem or selectitem: using the item digs a pit with a portal to a plane below, like the Portable Pit.",
+  "docsUrl": "https://musical-pianist.github.io/coe5se-docs/commands/magic-items/#usepit",
+  "group": "CoE5SE",
+  "kinds": [
+   "coe5se"
+  ],
+  "origin": "coe5se",
+  "signature": "usepit"
+ },
+ "useplanetravel": {
+  "args": {
+   "terrain nbr": "A terrain number, or a negative one from the Negative Terrain Numbers table under {{ manual: Monster Modding Numbers }}."
+  },
+  "doc": "After newitem or selectitem: using the item takes the army to this terrain and back to Elysium, like the Tome of Afterlife.",
+  "docsUrl": "https://musical-pianist.github.io/coe5se-docs/commands/magic-items/#useplanetravel",
+  "group": "CoE5SE",
+  "kinds": [
+   "coe5se"
+  ],
+  "origin": "coe5se",
+  "signature": "useplanetravel <terrain nbr>"
+ },
+ "usereveal": {
+  "args": {
+   "terrain nbr": "A terrain number, or a negative one from the Negative Terrain Numbers table under {{ manual: Monster Modding Numbers }}."
+  },
+  "doc": "After newitem or selectitem: using the item shows its player every square of this terrain, like the Map of Kokytos.",
+  "docsUrl": "https://musical-pianist.github.io/coe5se-docs/commands/magic-items/#usereveal",
+  "group": "CoE5SE",
+  "kinds": [
+   "coe5se"
+  ],
+  "origin": "coe5se",
+  "signature": "usereveal <terrain nbr>"
+ },
+ "useteleport": {
+  "args": {
+   "terrain nbr": "A terrain number, or a negative one from the Negative Terrain Numbers table under {{ manual: Monster Modding Numbers }}."
+  },
+  "doc": "After newitem or selectitem: using the item teleports the whole army to this terrain, like the Scroll of Astral Travel.",
+  "docsUrl": "https://musical-pianist.github.io/coe5se-docs/commands/magic-items/#useteleport",
+  "group": "CoE5SE",
+  "kinds": [
+   "coe5se"
+  ],
+  "origin": "coe5se",
+  "signature": "useteleport <terrain nbr>"
  },
  "varcost": {
   "docs": [
