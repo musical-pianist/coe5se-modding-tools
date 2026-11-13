@@ -1687,6 +1687,16 @@
   "origin": "vanilla",
   "signature": "castcount <value>"
  },
+ "castermaxcast": {
+  "doc": "Ritual cannot be cast more than this number of times per commander. At the limit it is greyed out.",
+  "docsUrl": "https://musical-pianist.github.io/coe5se-docs/commands/ritual-effects/#castermaxcast",
+  "group": "CoE5SE",
+  "kinds": [
+   "coe5se"
+  ],
+  "origin": "coe5se",
+  "signature": "castermaxcast"
+ },
  "castertarg": {
   "docs": [
    {
@@ -6482,6 +6492,23 @@
   "origin": "vanilla",
   "signature": "irongate"
  },
+ "itemslots": {
+  "args": {
+   "count": "How many slots of that type.",
+   "item type": "An item type by string or number."
+  },
+  "doc": "Gives the monster this many slots of an item type. Its first itemslots line replaces vanilla's slots, so list each type it needs.",
+  "docsUrl": "https://musical-pianist.github.io/coe5se-docs/commands/monster-traits/#itemslots",
+  "group": "CoE5SE",
+  "kinds": [
+   "coe5se"
+  ],
+  "origin": "coe5se",
+  "signature": "itemslots \"<item type>\" <count> or itemslots <type> <count>",
+  "tables": [
+   "monster-traits.md#item-types"
+  ]
+ },
  "itemwep": {
   "docs": [
    {
@@ -6529,6 +6556,16 @@
   ],
   "origin": "vanilla",
   "signature": "jungle2"
+ },
+ "keepweapons": {
+  "doc": "Makes each weapon item after the first add an attack, instead of going into another of the monster's damaging melee weapons.",
+  "docsUrl": "https://musical-pianist.github.io/coe5se-docs/commands/monster-traits/#keepweapons",
+  "group": "CoE5SE",
+  "kinds": [
+   "coe5se"
+  ],
+  "origin": "coe5se",
+  "signature": "keepweapons"
  },
  "key": {
   "doc": "Makes the setting a hotkey the player picks; your Lua script reads it and gives the key its job.",
@@ -10184,6 +10221,19 @@
   "origin": "vanilla",
   "signature": "+ownsloctarg <player> <terr nbr>"
  },
+ "parent": {
+  "args": {
+   "name": "The parent's name."
+  },
+  "doc": "Puts an onoff or key setting under an onoff setting: one switch for a group. They are greyed out and off while it is off.",
+  "docsUrl": "https://musical-pianist.github.io/coe5se-docs/commands/mod-settings/#parent",
+  "group": "CoE5SE",
+  "kinds": [
+   "coe5se"
+  ],
+  "origin": "coe5se",
+  "signature": "parent <name>"
+ },
  "passwall": {
   "docs": [
    {
@@ -11019,11 +11069,11 @@
    },
    {
     "args": {
-     "amount": "Add 10000 to scale with the sacrifice amount, as in the game's putcorpses.",
+     "amount": "A number, or open ended dice for a random amount, like 1d6+100.",
      "type": "A vanilla type, or a mod's corpse type in double quotes."
     },
     "context": "With numbers after it (CoE5SE)",
-    "doc": "With a type, creates corpses of this type instead of human corpses. Can also be used in events.",
+    "doc": "With a type, creates corpses of this type instead of human corpses. Also takes dice for a random amount, like 1d6+100, and works in events.",
     "origin": "coe5se",
     "signature": "putcorpses <amount> <type>"
    }

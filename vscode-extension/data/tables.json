@@ -345,6 +345,37 @@
    ],
    "title": "Hated kinds"
   },
+  "monster-traits.md#item-types": {
+   "flags": false,
+   "origin": "coe5se",
+   "rows": [
+    [
+     "1",
+     "weapon"
+    ],
+    [
+     "3",
+     "helmet"
+    ],
+    [
+     "4",
+     "body armor"
+    ],
+    [
+     "5",
+     "gauntlets"
+    ],
+    [
+     "6",
+     "boots"
+    ],
+    [
+     "7",
+     "misc item"
+    ]
+   ],
+   "title": "Item types"
+  },
   "monsters.md#magic-paths-path": {
    "flags": false,
    "origin": "vanilla",
@@ -3065,6 +3096,7 @@
   "flyspr": "weapons.md#fly-sprites-flyspr",
   "hated": "monster-traits.md#hated-kinds",
   "hates": "monster-traits.md#hated-kinds",
+  "itemslots": "monster-traits.md#item-types",
   "look": "weapons.md#visual-effects-look",
   "nametype": "monsters.md#nametypes",
   "randartifact": "ritual-effects.md#item-groups",
