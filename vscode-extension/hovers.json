@@ -4,6 +4,8 @@
  "raisecorpses": "Like raisedead, but turns the corpses on the caster's square into this monster. A number after the name sets the max.",
  "doubledmgvs": "Doubles the weapon's damage against units with the trait.",
  "beamwidth": "Widens the weapon's beam (aoe 10xx or 50xx) to this many squares. The side lanes hit the attacker's own units too; onlyenemy prevents it.",
+ "lookcolor": "Sets the color of the weapon's look, its smoke included; with smoke, of its smoke alone.",
+ "flylookcolor": "Sets the color of the weapon's flylook, its smoke included; with smoke, of its smoke alone.",
  "tag": "Tags the monster for a weapon's onlyaffects, doesntaffect or doubledmgvs tag \"<name>\".",
  "itemslots": "Gives the monster this many slots of an item type. Its first itemslots line replaces vanilla's slots, so list each type it needs.",
  "keepweapons": "Makes each weapon item after the first add an attack, instead of going into another of the monster's damaging melee weapons.",
@@ -180,10 +182,10 @@
  "corpsetype": "Sets the corpse the active monster leaves when it dies, whatever its traits.",
  "newcorpsetype": "Declares a new corpse type for your monsters to leave and your rituals and events to use.",
  "needcorpses": "Ritual cannot be cast unless the caster's square has a corpse its raisedead, raiseanimals or raisecorpses commands can use.",
-  "maxraise": "Ritual cannot create more than this number of units in one cast, from all its raisedead, raiseanimals and raisecorpses commands together.",
+  "maxraise": "Ritual cannot create more than this number of units in one cast, from all its raisedead, raiseanimals and raisecorpses commands together, far forms included.",
  "reanimate|CoE5SE": "A victim killed by the weapon becomes this monster instead of a Soulless; with a corpse type, only victims that leave a corpse of that type.",
  "mutate|CoE5SE": "A victim killed by the weapon becomes this monster, instead of the monster that follows the killer in the monster list.",
- "excludecorpses": "raisedead, raiseanimals and raisecorpses in this ritual will not use corpses of this type, except a raisecorpses that names it.",
+ "excludecorpses": "raisedead, raiseanimals, raisecorpses and their far forms in this ritual will not use corpses of this type, except a raisecorpses naming it.",
  "raisedead|CoE5SE": "With a type, Raise Dead will only use corpses of this type; same for raiseanimals. A number after the type sets the max.",
  "putcorpses|CoE5SE": "With a type, creates corpses of this type instead of human corpses. Also takes dice for a random amount, like 1d6+100, and works in events.",
  "planefill": "Sets the terrain every square starts as. Needed, unless the plane has planelike or planefile.",
@@ -261,5 +263,8 @@
  "end": "Not described in the manual: a vanilla word of monster modding, beside newmonster and copystats.",
  "meleeweaponlong": "Not in the manual: a vanilla word beside meleeweapon, with no meaning on record yet.",
  "eastcoast": "Not in the manual: a vanilla monster word beside forest and deepspawn, with no meaning on record yet.",
- "seasonleft": "Not in the manual: an event trigger beside +season, with no meaning on record yet."
+ "seasonleft": "Not in the manual: an event trigger beside +season, with no meaning on record yet.",
+ "farraisedead": "Like raisedead, but at the ritual's target location, as farsummon is to summoning. A number after the type sets the max.",
+ "farraiseanimals": "Like raiseanimals, but at the ritual's target location, as farraisedead. A number after the type sets the max.",
+ "farraisecorpses": "Like raisecorpses, but at the ritual's target location, as farraisedead. A number after the name sets the max."
 }

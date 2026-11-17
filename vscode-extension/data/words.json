@@ -3784,7 +3784,7 @@
   "args": {
    "Heavy Infantry": "A corpse type in double quotes, declared with newcorpsetype."
   },
-  "doc": "raisedead, raiseanimals and raisecorpses in this ritual will not use corpses of this type, except a raisecorpses that names it.",
+  "doc": "raisedead, raiseanimals, raisecorpses and their far forms in this ritual will not use corpses of this type, except a raisecorpses naming it.",
   "docsUrl": "https://musical-pianist.github.io/coe5se-docs/commands/corpses/#excludecorpses",
   "group": "CoE5SE",
   "kinds": [
@@ -4226,6 +4226,36 @@
   "origin": "vanilla",
   "signature": "falselife"
  },
+ "farraiseanimals": {
+  "doc": "Like raiseanimals, but at the ritual's target location, as farraisedead. A number after the type sets the max.",
+  "docsUrl": "https://musical-pianist.github.io/coe5se-docs/commands/corpses/#farraiseanimals",
+  "group": "CoE5SE",
+  "kinds": [
+   "coe5se"
+  ],
+  "origin": "coe5se",
+  "signature": "farraiseanimals"
+ },
+ "farraisecorpses": {
+  "doc": "Like raisecorpses, but at the ritual's target location, as farraisedead. A number after the name sets the max.",
+  "docsUrl": "https://musical-pianist.github.io/coe5se-docs/commands/corpses/#farraisecorpses",
+  "group": "CoE5SE",
+  "kinds": [
+   "coe5se"
+  ],
+  "origin": "coe5se",
+  "signature": "farraisecorpses"
+ },
+ "farraisedead": {
+  "doc": "Like raisedead, but at the ritual's target location, as farsummon is to summoning. A number after the type sets the max.",
+  "docsUrl": "https://musical-pianist.github.io/coe5se-docs/commands/corpses/#farraisedead",
+  "group": "CoE5SE",
+  "kinds": [
+   "coe5se"
+  ],
+  "origin": "coe5se",
+  "signature": "farraisedead humanoid 3"
+ },
  "farsight": {
   "docs": [
    {
@@ -4573,6 +4603,22 @@
   ],
   "origin": "vanilla",
   "signature": "flylook <look>"
+ },
+ "flylookcolor": {
+  "args": {
+   "blue": "Each color value is between 0 and 255.",
+   "green": "Each color value is between 0 and 255.",
+   "red": "Each color value is between 0 and 255.",
+   "smoke": "Optional."
+  },
+  "doc": "Sets the color of the weapon's flylook, its smoke included; with smoke, of its smoke alone.",
+  "docsUrl": "https://musical-pianist.github.io/coe5se-docs/commands/weapon-traits/#flylookcolor",
+  "group": "CoE5SE",
+  "kinds": [
+   "coe5se"
+  ],
+  "origin": "coe5se",
+  "signature": "flylookcolor [smoke] <red> <green> <blue>, each 0 to 255"
  },
  "flymode": {
   "docs": [
@@ -7167,6 +7213,22 @@
    "weapons.md#visual-effects-look"
   ]
  },
+ "lookcolor": {
+  "args": {
+   "blue": "Each color value is between 0 and 255, as in playercolor.",
+   "green": "Each color value is between 0 and 255, as in playercolor.",
+   "red": "Each color value is between 0 and 255, as in playercolor.",
+   "smoke": "Optional."
+  },
+  "doc": "Sets the color of the weapon's look, its smoke included; with smoke, of its smoke alone.",
+  "docsUrl": "https://musical-pianist.github.io/coe5se-docs/commands/weapon-traits/#lookcolor",
+  "group": "CoE5SE",
+  "kinds": [
+   "coe5se"
+  ],
+  "origin": "coe5se",
+  "signature": "lookcolor [smoke] <red> <green> <blue>, each 0 to 255"
+ },
  "lookslike": {
   "docs": [
    {
@@ -7549,7 +7611,7 @@
   "signature": "maxdata <megabytes>"
  },
  "maxraise": {
-  "doc": "Ritual cannot create more than this number of units in one cast, from all its raisedead, raiseanimals and raisecorpses commands together.",
+  "doc": "Ritual cannot create more than this number of units in one cast, from all its raisedead, raiseanimals and raisecorpses commands together, far forms included.",
   "docsUrl": "https://musical-pianist.github.io/coe5se-docs/commands/corpses/#maxraise",
   "group": "CoE5SE",
   "kinds": [
