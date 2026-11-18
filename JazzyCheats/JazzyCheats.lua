@@ -1,8 +1,9 @@
--- Jazzy Cheats: four lines in the Game Menu's own "Cheats" section, for the player whose turn
+-- Jazzy Cheats: five lines in the Game Menu's own "Cheats" section, for the player whose turn
 -- it is. "Resources" opens a screen that gives 10 or 100 of one resource per click, or 5000 of
 -- each with one line. "Units" lists the units of the player's class with their pictures; a click
 -- on one closes the menu, and the next left click on a map square places 1 or 10 of it there.
--- "Reveal Map" puts every plane in view until the player's next turn. "Events", last, lists every
+-- "Reveal Map" puts every plane in view until the player's next turn. "Unlimited movement" makes
+-- moves cost no action points until the turn ends, battles and ambushes aside. "Events", last, lists every
 -- enabled mod's events and runs one with its triggers skipped. Two lines under the
 -- selected commander's orders on the map, each turned off by its own setting: "Restore movement
 -- (cheat)" gives every unit on the next left-clicked square its action points back, and
@@ -857,6 +858,83 @@ coe5.addGameMenuLine{
     if not coe5.revealMap(player) then return coe5.gameMenu.stay end   -- logged by CoE5SE as lua_refused
     coe5.log(string.format("map_revealed slot=%d turn=%d", player, coe5.turn()))
     return coe5.gameMenu.close
+  end,
+}
+
+-- ---- Unlimited movement -------------------------------------------------------------------------
+-- For the player whose turn it is, until that turn ends: after each step, the player's units on the
+-- square stepped to get their action points back, so a route walks to its end. A battle or an
+-- ambush spends them as the game does (SPEND_ALL_AP_AT), and those units stay spent for the turn.
+---@type {player: integer, turn: integer, fought: table<integer, boolean>}|nil
+local unlimited = nil
+
+-- Whether Unlimited movement is on for player this turn.
+local function unlimitedFor(player)
+  return unlimited ~= nil and unlimited.player == player and unlimited.turn == coe5.turn()
+end
+
+-- Gives action points back to player's living units that test(x, y) passes and no fight spent; returns how many.
+local function refillUnits(player, test)
+  local count = 0
+  for u = 0, math.min(coe5.get("unitLastIndex"), UNIT_RECORDS - 1) do
+    if coe5.get("unitOwner", u) == player and coe5.get("unitHp", u) > 0 and coe5.get("unitMonster", u) >= 0
+        and not unlimited.fought[u] and coe5.get("unitApUsed", u) > 0
+        and test(coe5.get("unitX", u), coe5.get("unitY", u)) then
+      coe5.set("unitApUsed", u, 0)
+      count = count + 1
+    end
+  end
+  return count
+end
+
+-- A battle or an ambush: the units there that the game made spend all their action points keep them spent.
+local spendObserved = coe5.observe("SPEND_ALL_AP_AT", nil, function(_, player, x, y)
+  if unlimited == nil or not unlimitedFor(unlimited.player) or (player ~= unlimited.player and player ~= -1) then return end
+  local marked = 0
+  for u = 0, math.min(coe5.get("unitLastIndex"), UNIT_RECORDS - 1) do
+    if coe5.get("unitOwner", u) == unlimited.player and coe5.get("unitHp", u) > 0 and coe5.get("unitX", u) == x and coe5.get("unitY", u) == y then
+      unlimited.fought[u] = true
+      marked = marked + 1
+    end
+  end
+  coe5.log(string.format("unlimited_movement_fight slot=%d x=%d y=%d units=%d", unlimited.player, x, y, marked))
+end)
+
+-- After each step: the stepping player's units on the target square move again.
+local stepObserved = coe5.observe("MOVE_STEP_AFTER", nil, function()
+  local player = coe5.get("activePlayer")
+  if not unlimitedFor(player) then return end
+  local tx, ty = coe5.get("stepTargetX"), coe5.get("stepTargetY")
+  local count = refillUnits(player, function(x, y) return x == tx and y == ty end)
+  if count > 0 then coe5.log(string.format("unlimited_movement_step slot=%d x=%d y=%d units=%d", player, tx, ty, count)) end
+end)
+
+local unlimitedShown = function() return spendObserved and stepObserved and coe5.get("activePlayer") >= 0 end
+
+coe5.addGameMenuLine{
+  label = "Unlimited movement",
+  tooltip = "Moves cost no action points until the end of the turn. Battles and ambushes still spend them.",
+  section = CHEATS_SECTION,
+  visible = function() return unlimitedShown() and not unlimitedFor(coe5.get("activePlayer")) end,
+  onClick = function()
+    local player = coe5.get("activePlayer")
+    unlimited = {player = player, turn = coe5.turn(), fought = {}}
+    -- Units that moved before the line was clicked move again, but not those already in a battle.
+    local count = refillUnits(player, function(x, y) return coe5.get("squareArmy", x, y) ~= -1 end)
+    coe5.log(string.format("unlimited_movement_on slot=%d turn=%d units=%d", player, unlimited.turn, count))
+    return coe5.gameMenu.close
+  end,
+}
+
+coe5.addGameMenuLine{
+  label = "Stop unlimited movement",
+  tooltip = "Moves cost action points again",
+  section = CHEATS_SECTION,
+  visible = function() return unlimitedShown() and unlimitedFor(coe5.get("activePlayer")) end,
+  onClick = function()
+    coe5.log(string.format("unlimited_movement_off slot=%d turn=%d", unlimited.player, unlimited.turn))
+    unlimited = nil
+    return coe5.gameMenu.stay
   end,
 }
 
