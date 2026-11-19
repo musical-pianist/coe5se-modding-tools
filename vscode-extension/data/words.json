@@ -1406,6 +1406,16 @@
   "origin": "vanilla",
   "signature": "batmap <batmap nbr>"
  },
+ "battleaff": {
+  "doc": "Makes the affliction a battle affliction: vanilla's cures heal it, and a unit's vanilla affres also applies to it.",
+  "docsUrl": "https://musical-pianist.github.io/coe5se-docs/commands/afflictions/#battleaff",
+  "group": "CoE5SE",
+  "kinds": [
+   "coe5se"
+  ],
+  "origin": "coe5se",
+  "signature": "battleaff"
+ },
  "battlefast": {
   "docs": [
    {
@@ -3022,6 +3032,12 @@
     "doc": "Description of the monster. The ^ character will be replaced with a newline.",
     "origin": "vanilla",
     "signature": "descr \"text\""
+   },
+   {
+    "context": "With CoE5SE",
+    "doc": "After newaffliction: the affliction's description, read by clicking it on the unit stats screen.",
+    "origin": "coe5se",
+    "signature": "descr"
    }
   ],
   "group": "Monster modding: start, basic, copy and clear, weapons",
@@ -4210,6 +4226,16 @@
   "origin": "vanilla",
   "signature": "failplayer <player nbr>"
  },
+ "fallbackfont": {
+  "doc": "Adds a font for letters the game's fonts lack, such as Chinese, Japanese, Korean, Thai or emoji; the game's own fonts stay.",
+  "docsUrl": "https://musical-pianist.github.io/coe5se-docs/commands/languages/#fallbackfont",
+  "group": "CoE5SE",
+  "kinds": [
+   "coe5se"
+  ],
+  "origin": "coe5se",
+  "signature": "fallbackfont"
+ },
  "falselife": {
   "docs": [
    {
@@ -5357,6 +5383,19 @@
   "origin": "vanilla",
   "signature": "growhp <nbr>"
  },
+ "growkills": {
+  "args": {
+   "nbr": "The kills, 1 or more."
+  },
+  "doc": "Like growtime, but the unit grows after this many kills since it last grew; with growtime or growxp, whichever comes first. 0 takes it off.",
+  "docsUrl": "https://musical-pianist.github.io/coe5se-docs/commands/growth/#growkills",
+  "group": "CoE5SE",
+  "kinds": [
+   "coe5se"
+  ],
+  "origin": "coe5se",
+  "signature": "growkills <nbr>"
+ },
  "growoffs": {
   "docs": [
    {
@@ -5364,6 +5403,16 @@
     "doc": "To become other than next monster",
     "origin": "vanilla",
     "signature": "growoffs <value>"
+   },
+   {
+    "args": {
+     "chance": "1 or more.",
+     "monster": "The monster in double quotes, as on Monsters and Rituals by Name, or its offset."
+    },
+    "context": "With numbers after it (CoE5SE)",
+    "doc": "Adds a monster the unit may grow into, with this chance out of 100, weighted against the monster's other growoffs lines.",
+    "origin": "coe5se",
+    "signature": "growoffs \"<monster>\" <chance>"
    }
   ],
   "group": "Monster and magic item attributes (the manual lists them under each)",
@@ -5404,6 +5453,19 @@
   ],
   "origin": "vanilla",
   "signature": "growtime <value>"
+ },
+ "growxp": {
+  "args": {
+   "nbr": "The XP, 1 or more."
+  },
+  "doc": "Makes the unit grow after this much XP since it last grew; with growtime or growkills, whichever comes first. 0 takes it off.",
+  "docsUrl": "https://musical-pianist.github.io/coe5se-docs/commands/growth/#growxp",
+  "group": "CoE5SE",
+  "kinds": [
+   "coe5se"
+  ],
+  "origin": "coe5se",
+  "signature": "growxp <nbr>"
  },
  "hadesres": {
   "docs": [
@@ -6739,6 +6801,16 @@
   ],
   "origin": "vanilla",
   "signature": "landshape <value>"
+ },
+ "language": {
+  "doc": "Starts the lines for one language: they apply while a player has that language picked in Mod Settings.",
+  "docsUrl": "https://musical-pianist.github.io/coe5se-docs/commands/languages/#language",
+  "group": "CoE5SE",
+  "kinds": [
+   "coe5se"
+  ],
+  "origin": "coe5se",
+  "signature": "language"
  },
  "large": {
   "docs": [
@@ -8795,6 +8867,19 @@
   ],
   "origin": "vanilla",
   "signature": "neverturn <value>"
+ },
+ "newaffliction": {
+  "args": {
+   "Marsh Fever": "In double quotes, as the unit stats screen shows it."
+  },
+  "doc": "Creates an affliction of your mod, shown on the unit stats screen. A Lua script gives it its effect.",
+  "docsUrl": "https://musical-pianist.github.io/coe5se-docs/commands/afflictions/#newaffliction",
+  "group": "CoE5SE",
+  "kinds": [
+   "coe5se"
+  ],
+  "origin": "coe5se",
+  "signature": "newaffliction \"Marsh Fever\""
  },
  "newclass": {
   "docs": [
@@ -15293,6 +15378,56 @@
   "origin": "vanilla",
   "signature": "transport <value>"
  },
+ "transportair": {
+  "doc": "Like transportland, in the Sky and over water; with transportland too, a flying monster takes its army over water and into the Sky.",
+  "docsUrl": "https://musical-pianist.github.io/coe5se-docs/commands/vehicles/#transportair",
+  "group": "CoE5SE",
+  "kinds": [
+   "coe5se"
+  ],
+  "origin": "coe5se",
+  "signature": "transportair"
+ },
+ "transportheart": {
+  "doc": "Names the deck's object the monster is lost with, as a ship sinks with its hull. Needs transportmap.",
+  "docsUrl": "https://musical-pianist.github.io/coe5se-docs/commands/vehicles/#transportheart",
+  "group": "CoE5SE",
+  "kinds": [
+   "coe5se"
+  ],
+  "origin": "coe5se",
+  "signature": "transportheart"
+ },
+ "transportland": {
+  "doc": "Makes the monster carry its army on land, as a ship at sea; vanilla transport sets its places. 0 takes it off.",
+  "docsUrl": "https://musical-pianist.github.io/coe5se-docs/commands/vehicles/#transportland",
+  "group": "CoE5SE",
+  "kinds": [
+   "coe5se"
+  ],
+  "origin": "coe5se",
+  "signature": "transportland"
+ },
+ "transportmap": {
+  "doc": "Gives the monster a deck in battle: this battle map's objects, which its army boards, as vanilla ships do at sea.",
+  "docsUrl": "https://musical-pianist.github.io/coe5se-docs/commands/vehicles/#transportmap",
+  "group": "CoE5SE",
+  "kinds": [
+   "coe5se"
+  ],
+  "origin": "coe5se",
+  "signature": "transportmap"
+ },
+ "transportterrain": {
+  "doc": "Lets the monster's owner recruit on its square as if it held a citadel of this terrain, once a month.",
+  "docsUrl": "https://musical-pianist.github.io/coe5se-docs/commands/vehicles/#transportterrain",
+  "group": "CoE5SE",
+  "kinds": [
+   "coe5se"
+  ],
+  "origin": "coe5se",
+  "signature": "transportterrain"
+ },
  "tree": {
   "docs": [
    {
@@ -15629,6 +15764,19 @@
   ],
   "origin": "vanilla",
   "signature": "unique <nbr>"
+ },
+ "uniquegroup": {
+  "args": {
+   "name": "In double quotes (length limit), shared by every mod."
+  },
+  "doc": "Like unique, but every monster with the same group name counts as one unique monster: only one of the group in the entire world.",
+  "docsUrl": "https://musical-pianist.github.io/coe5se-docs/commands/monster-traits/#uniquegroup",
+  "group": "CoE5SE",
+  "kinds": [
+   "coe5se"
+  ],
+  "origin": "coe5se",
+  "signature": "uniquegroup \"<name>\""
  },
  "updatehome": {
   "docs": [

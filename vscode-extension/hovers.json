@@ -1,5 +1,11 @@
 {
  "_about": "Short hover lines for words whose reference or manual text runs past the hover rubric: one or two sentences, 25 words at most, pointing to the docs for the rest. Keys: a CoE5SE word, a CoE5SE form as word|form, or a game word as word|manual page. scripts/gen_vscode_data.py puts each in place of the long text and fails on any hover still over 25 words.",
+ "language": "Starts the lines for one language: they apply while a player has that language picked in Mod Settings.",
+ "uniquegroup": "Like unique, but every monster with the same group name counts as one unique monster: only one of the group in the entire world.",
+ "fallbackfont": "Adds a font for letters the game's fonts lack, such as Chinese, Japanese, Korean, Thai or emoji; the game's own fonts stay.",
+ "newaffliction": "Creates an affliction of your mod, shown on the unit stats screen. A Lua script gives it its effect.",
+ "battleaff": "Makes the affliction a battle affliction: vanilla's cures heal it, and a unit's vanilla affres also applies to it.",
+ "descr|CoE5SE": "After newaffliction: the affliction's description, read by clicking it on the unit stats screen.",
  "+setting": "True when your setting is on, or with an index, when that option or key is picked. -setting is the opposite.",
  "raisecorpses": "Like raisedead, but turns the corpses on the caster's square into this monster. A number after the name sets the max.",
  "doubledmgvs": "Doubles the weapon's damage against units with the trait.",
@@ -266,5 +272,13 @@
  "seasonleft": "Not in the manual: an event trigger beside +season, with no meaning on record yet.",
  "farraisedead": "Like raisedead, but at the ritual's target location, as farsummon is to summoning. A number after the type sets the max.",
  "farraiseanimals": "Like raiseanimals, but at the ritual's target location, as farraisedead. A number after the type sets the max.",
- "farraisecorpses": "Like raisecorpses, but at the ritual's target location, as farraisedead. A number after the name sets the max."
+ "farraisecorpses": "Like raisecorpses, but at the ritual's target location, as farraisedead. A number after the name sets the max.",
+ "growkills": "Like growtime, but the unit grows after this many kills since it last grew; with growtime or growxp, whichever comes first. 0 takes it off.",
+ "growxp": "Makes the unit grow after this much XP since it last grew; with growtime or growkills, whichever comes first. 0 takes it off.",
+ "growoffs|CoE5SE": "Adds a monster the unit may grow into, with this chance out of 100, weighted against the monster's other growoffs lines.",
+ "transportland": "Makes the monster carry its army on land, as a ship at sea; vanilla transport sets its places. 0 takes it off.",
+ "transportair": "Like transportland, in the Sky and over water; with transportland too, a flying monster takes its army over water and into the Sky.",
+ "transportmap": "Gives the monster a deck in battle: this battle map's objects, which its army boards, as vanilla ships do at sea.",
+ "transportheart": "Names the deck's object the monster is lost with, as a ship sinks with its hull. Needs transportmap.",
+ "transportterrain": "Lets the monster's owner recruit on its square as if it held a citadel of this terrain, once a month."
 }
