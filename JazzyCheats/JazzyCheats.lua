@@ -2,8 +2,9 @@
 -- it is. "Resources" opens a screen that gives 10 or 100 of one resource per click, or 5000 of
 -- each with one line. "Units" lists the units of the player's class with their pictures; a click
 -- on one closes the menu, and the next left click on a map square places 1 or 10 of it there.
--- "Reveal Map" puts every plane in view until the player's next turn. "Unlimited movement" makes
--- moves cost no action points until the turn ends, battles and ambushes aside. "Events", last, lists every
+-- "Reveal Map" puts every plane in view until the player's next turn. "Unlimited actions" makes
+-- everything the player's commanders and armies do (moves, rituals, ceremonies, items, sites, orders) cost no
+-- action points until the turn ends, battles and ambushes aside. "Events", last, lists every
 -- enabled mod's events and runs one with its triggers skipped. Two lines under the
 -- selected commander's orders on the map, each turned off by its own setting: "Restore movement
 -- (cheat)" gives every unit on the next left-clicked square its action points back, and
@@ -861,14 +862,17 @@ coe5.addGameMenuLine{
   end,
 }
 
--- ---- Unlimited movement -------------------------------------------------------------------------
--- For the player whose turn it is, until that turn ends: after each step, the player's units on the
--- square stepped to get their action points back, so a route walks to its end. A battle or an
--- ambush spends them as the game does (SPEND_ALL_AP_AT), and those units stay spent for the turn.
----@type {player: integer, turn: integer, fought: table<integer, boolean>}|nil
+-- ---- Unlimited actions --------------------------------------------------------------------------
+-- For the player whose turn it is, until that turn ends, nothing the player's commanders and armies do costs action
+-- points: after a step, the player's units on the square stepped to get them back, so a route walks to its end; after
+-- any other action (a ritual, a ceremony, an item, a special site, a library, an order), every unit of the player's
+-- gets them back before the next click, on the map, the ritual screen, the Ceremonies screen and the library. A battle or an ambush
+-- spends them as the game does (SPEND_ALL_AP_AT), and those units stay spent for the turn, as do units on a square
+-- where a battle waits.
+---@type {player: integer, turn: integer, fought: table<integer, boolean>, watch: integer[]|nil, watchFrames: integer}|nil
 local unlimited = nil
 
--- Whether Unlimited movement is on for player this turn.
+-- Whether Unlimited actions is on for player this turn.
 local function unlimitedFor(player)
   return unlimited ~= nil and unlimited.player == player and unlimited.turn == coe5.turn()
 end
@@ -887,6 +891,89 @@ local function refillUnits(player, test)
   return count
 end
 
+-- Every square but one where two players' armies at war wait for a battle.
+local function noBattleWaiting(x, y) return coe5.get("squareArmy", x, y) ~= -1 end
+
+local WATCH_REBUILD_FRAMES = 300   -- map frames between rebuilds of the commanders the map watches
+
+-- The units of player's living commanders that no fight spent.
+local function playerCommanderUnits(player)
+  local list = {}
+  for c = 0, math.min(coe5.get("commanderLastIndex"), COMMANDER_RECORDS - 1) do
+    local u = coe5.get("commanderUnit", c)
+    if u >= 0 and coe5.get("unitOwner", u) == player and coe5.get("unitHp", u) > 0 and not unlimited.fought[u] then
+      list[#list + 1] = u
+    end
+  end
+  return list
+end
+
+-- The selected commander's unit when it is player's, else nil.
+local function selectedUnit(player)
+  local commander = coe5.get("selectedCommander")
+  if commander < 0 then return nil end
+  local unit = coe5.get("commanderUnit", commander)
+  if unit < 0 or coe5.get("unitOwner", unit) ~= player then return nil end
+  return unit
+end
+
+-- Before each map frame and each ritual, Ceremonies or library screen pass: gives the player's units their action points back
+-- once a watched commander has spent some.
+-- @internal Every charge the game makes for an action, the commander's alone or his whole army's, lands on the
+-- commander's own unit (RVA_COMMANDER_ADD_AP_USED and its Mac copies), so the commanders' units tell whether anything was
+-- spent. The ritual, Ceremonies and library screens act for the selected commander only (RVA_RITUALS_OR_CEREMONIES,
+-- RVA_MAP_SCREEN's library click 0x29); the map
+-- also watches every commander of the player's, for the repeat-ritual button (RVA_PERFORM_REPEAT_RITUALS charges each
+-- caster). A watched unit the refill leaves spent (a battle waits on its square) counts as fought from then on, so it
+-- never sets the refill off again.
+local function refillAfterAction(screen, everyCommander)
+  local player = coe5.get("activePlayer")
+  if not unlimitedFor(player) then return end
+  local watched = {}
+  local unit = selectedUnit(player)
+  if unit then watched[1] = unit end
+  if everyCommander then
+    if unlimited.watch == nil or unlimited.watchFrames >= WATCH_REBUILD_FRAMES then
+      unlimited.watch, unlimited.watchFrames = playerCommanderUnits(player), 0
+    end
+    unlimited.watchFrames = unlimited.watchFrames + 1
+    for _, u in ipairs(unlimited.watch) do watched[#watched + 1] = u end
+  end
+  for _, u in ipairs(watched) do
+    if not unlimited.fought[u] and coe5.get("unitApUsed", u) > 0 then
+      local count = refillUnits(player, noBattleWaiting)
+      for _, w in ipairs(watched) do
+        if coe5.get("unitApUsed", w) > 0 then unlimited.fought[w] = true end
+      end
+      if count > 0 then coe5.log(string.format("unlimited_actions_refill slot=%d screen=%s units=%d", player, screen, count)) end
+      return
+    end
+  end
+end
+
+coe5.wrap("MAP_SCREEN_WAIT", function(next, block, mode)
+  refillAfterAction("map", true)
+  return next(block, mode)
+end)
+coe5.wrap("RITUAL_SCREEN_ROW", function(next, ...)
+  refillAfterAction("rituals", false)
+  return next(...)
+end)
+coe5.wrap("CEREMONY_SCREEN_WAIT", function(next, block, mode)
+  refillAfterAction("ceremonies", false)
+  return next(block, mode)
+end)
+-- The library screen reads its square's library level at the top of each pass, before its click.
+-- @internal RVA_LIBRARY_SCREEN: Windows' call at 0x2dda04, Mac's copy at RVA_LIBRARY_SCREEN_COPY_CALL, each after the loop's
+-- head; History of Elysium (1 AP) and Ritual of Mastery (3 AP) keep the screen open, and History and Study refuse on
+-- RVA_COMMANDER_MAY_ACT's AP test. The level's other readers (RVA_COMMANDER_PANEL every map frame, the AI, a player's
+-- total) cost the early return or one selected commander's reads; the panel's read can refill before MAP_SCREEN_WAIT, so
+-- the log names the site, not the screen.
+coe5.wrap("SQUARE_LIBRARY_LEVEL", function(next, player, x, y)
+  refillAfterAction("library_level", false)
+  return next(player, x, y)
+end)
+
 -- A battle or an ambush: the units there that the game made spend all their action points keep them spent.
 local spendObserved = coe5.observe("SPEND_ALL_AP_AT", nil, function(_, player, x, y)
   if unlimited == nil or not unlimitedFor(unlimited.player) or (player ~= unlimited.player and player ~= -1) then return end
@@ -897,42 +984,43 @@ local spendObserved = coe5.observe("SPEND_ALL_AP_AT", nil, function(_, player, x
       marked = marked + 1
     end
   end
-  coe5.log(string.format("unlimited_movement_fight slot=%d x=%d y=%d units=%d", unlimited.player, x, y, marked))
+  coe5.log(string.format("unlimited_actions_fight slot=%d x=%d y=%d units=%d", unlimited.player, x, y, marked))
 end)
 
 -- After each step: the stepping player's units on the target square move again.
+-- @internal A route walk takes all its steps before the map's next frame, so the frame's refill can't carry it.
 local stepObserved = coe5.observe("MOVE_STEP_AFTER", nil, function()
   local player = coe5.get("activePlayer")
   if not unlimitedFor(player) then return end
   local tx, ty = coe5.get("stepTargetX"), coe5.get("stepTargetY")
   local count = refillUnits(player, function(x, y) return x == tx and y == ty end)
-  if count > 0 then coe5.log(string.format("unlimited_movement_step slot=%d x=%d y=%d units=%d", player, tx, ty, count)) end
+  if count > 0 then coe5.log(string.format("unlimited_actions_step slot=%d x=%d y=%d units=%d", player, tx, ty, count)) end
 end)
 
 local unlimitedShown = function() return spendObserved and stepObserved and coe5.get("activePlayer") >= 0 end
 
 coe5.addGameMenuLine{
-  label = "Unlimited movement",
-  tooltip = "Moves cost no action points until the end of the turn. Battles and ambushes still spend them.",
+  label = "Unlimited actions",
+  tooltip = "Actions cost no action points until the end of the turn: moves, rituals, ceremonies, items, sites and orders. Battles and ambushes still spend them.",
   section = CHEATS_SECTION,
   visible = function() return unlimitedShown() and not unlimitedFor(coe5.get("activePlayer")) end,
   onClick = function()
     local player = coe5.get("activePlayer")
-    unlimited = {player = player, turn = coe5.turn(), fought = {}}
-    -- Units that moved before the line was clicked move again, but not those already in a battle.
-    local count = refillUnits(player, function(x, y) return coe5.get("squareArmy", x, y) ~= -1 end)
-    coe5.log(string.format("unlimited_movement_on slot=%d turn=%d units=%d", player, unlimited.turn, count))
+    unlimited = {player = player, turn = coe5.turn(), fought = {}, watch = nil, watchFrames = 0}
+    -- Units that acted before the line was clicked act again, but not those already in a battle.
+    local count = refillUnits(player, noBattleWaiting)
+    coe5.log(string.format("unlimited_actions_on slot=%d turn=%d units=%d", player, unlimited.turn, count))
     return coe5.gameMenu.close
   end,
 }
 
 coe5.addGameMenuLine{
-  label = "Stop unlimited movement",
-  tooltip = "Moves cost action points again",
+  label = "Stop unlimited actions",
+  tooltip = "Actions cost action points again",
   section = CHEATS_SECTION,
   visible = function() return unlimitedShown() and unlimitedFor(coe5.get("activePlayer")) end,
   onClick = function()
-    coe5.log(string.format("unlimited_movement_off slot=%d turn=%d", unlimited.player, unlimited.turn))
+    coe5.log(string.format("unlimited_actions_off slot=%d turn=%d", unlimited.player, unlimited.turn))
     unlimited = nil
     return coe5.gameMenu.stay
   end,
