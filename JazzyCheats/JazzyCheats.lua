@@ -4,8 +4,9 @@
 -- on one closes the menu, and the next left click on a map square places 1 or 10 of it there.
 -- "Reveal Map" puts every plane in view until the player's next turn. "Unlimited actions" makes
 -- everything the player's commanders and armies do (moves, rituals, ceremonies, items, sites, orders) cost no
--- action points until the turn ends, battles and ambushes aside. "Events", last, lists every
--- enabled mod's events and runs one with its triggers skipped. Two lines under the
+-- action points until the turn ends, battles and ambushes aside. "Events", last, lists the
+-- game's own world events, which a click queues for the end of the turn with their own tests passed,
+-- and every enabled mod's events, which a click runs with their triggers skipped. Two lines under the
 -- selected commander's orders on the map, each turned off by its own setting: "Restore movement
 -- (cheat)" gives every unit on the next left-clicked square its action points back, and
 -- "Teleport (cheat)" moves the commander and his army to the next left-clicked square, as a
@@ -74,14 +75,82 @@ coe5.addGameMenuLine{
   end,
 }
 
+-- ---- Live search --------------------------------------------------------------------------------
+-- The Search line takes typed text straight from the keyboard while its screen is up
+-- (coe5.ui.setTextFocus), and the lists filter on every key. Backspace and Ctrl+Backspace edit;
+-- Esc clears the text, and with no text goes back. A CoE5SE older than coe5.ui.setTextFocus, or one
+-- that refuses it, gets the game's text box on a click instead, with a "Clear search" line.
+local ID_SEARCH = 23
+local ID_CLEAR_SEARCH = 24
+local SEARCH_TEXT_MAX = 32        -- the search's characters
+local SEARCH_HOVER = "Type to filter. Esc clears the search, then goes back"
+
+-- A search: its text, and whether it takes typed keys (live) or a click on its line opens the text box.
+local function newSearch()
+  return {text = "", focused = false, changed = false, live = coe5.ui.setTextFocus ~= nil and coe5.ui.takeTextEvents ~= nil}
+end
+
+-- Takes what was typed since the last frame. Returns true when Esc came with no text to clear.
+-- Call after screenBegin, every frame. A refused focus turns the search to the text box, so the
+-- refusal is logged once.
+local function readSearch(search)
+  if not search.live then return false end
+  local typed = coe5.ui.takeTextEvents()
+  local back = false
+  for _, e in ipairs(typed and typed.events or {}) do
+    local before = search.text
+    if e.type == "text" then
+      local longer = search.text .. e.text
+      if (utf8.len(longer) or SEARCH_TEXT_MAX + 1) <= SEARCH_TEXT_MAX then search.text = longer end
+    elseif e.type == "backspace" then
+      search.text = search.text:gsub("[%z\1-\127\194-\244][\128-\191]*$", "")
+    elseif e.type == "clear" then
+      search.text = ""
+    elseif e.type == "cancel" then
+      if search.text == "" then back = true else search.text = "" end
+    end
+    if search.text ~= before then search.changed = true end
+  end
+  search.focused = typed ~= nil and typed.focused
+  if not search.focused and not back then
+    search.focused = coe5.ui.setTextFocus(true) == true   -- else logged by CoE5SE as lua_refused
+    search.live = search.focused
+  end
+  return back
+end
+
+-- Gives the keyboard back, when the search took it.
+local function endSearch(search)
+  if search.live then coe5.ui.setTextFocus(false) end
+end
+
+-- The search's words, trimmed, or nil when there are none.
+local function searchFilter(search)
+  local text = search.text:match("^%s*(.-)%s*$")
+  return text ~= "" and text or nil
+end
+
+-- The Search section: the typed text, or with the text box a line to click and "Clear search".
+local function drawSearch(search, hover)
+  coe5.ui.sectionBegin("Search")
+  if search.live then
+    coe5.ui.text(0, "Search: " .. search.text .. "_")
+    coe5.ui.tooltip(SEARCH_HOVER)
+  else
+    local filter = searchFilter(search)
+    coe5.ui.text(ID_SEARCH, filter and "Search: " .. filter or "Search")
+    coe5.ui.tooltip(hover)
+    if filter then coe5.ui.text(ID_CLEAR_SEARCH, "Clear search") end
+  end
+  coe5.ui.sectionEnd()
+end
+
 -- ---- Units --------------------------------------------------------------------------------------
 local UNIT_AMOUNTS = {1, 10}
 local ID_UNIT_AMOUNT_FIRST = 10   -- UNIT_AMOUNTS[i] is line ID_UNIT_AMOUNT_FIRST + i - 1
 local ID_PREVIOUS_PAGE = 20
 local ID_NEXT_PAGE = 21
 local ID_PICK_AGAIN = 22          -- the refusal screen's "Pick another square"
-local ID_SEARCH = 23
-local ID_CLEAR_SEARCH = 24
 local ID_OK = 25                  -- the "Movement restored" screen's Ok
 local SEARCH_LENGTH = 32          -- the search box's length (coe5.ui.nameBox takes 1 to 42)
 local ID_UNIT_FIRST = 1000        -- the list's unit i is row ID_UNIT_FIRST + i
@@ -119,8 +188,8 @@ local placing = nil          -- the picked unit until a map square takes it
 local restoring = nil        -- set by Restore movement until a map square is picked
 ---@type {player: integer, commander: integer, name: string}|nil
 local teleporting = nil      -- set by the commander's Teleport line until a map square is picked
----@type {player: integer, index: integer, label: string}|nil
-local eventPicking = nil     -- a squareevent picked on the Events screen until a map square takes it
+---@type {player: integer, event: table, label: string}|nil
+local eventPicking = nil     -- an event picked on the Events screen until a map square takes it
 local stopPicking            -- stops every pick for a square, below
 local lastButtons = 0        -- the map frame's mouseButtons a frame before, to see a press start
 local swallowing = false     -- a click the mod used: its button reads 0 until let go
@@ -304,9 +373,11 @@ local function openUnits()
   -- The search box shows the class leader's picture, or the first unit's.
   local leader = coe5.findMonster(coe5.get("classLeader", class) or "")
   local searchMonster = leader or (allUnits[1] and allUnits[1].monster)
-  local filter = nil   -- the search text, kept until the screen closes
+  local search = newSearch()
+  local filter = nil   -- the search's words, kept until the screen closes
   local units, pages
   local function applyFilter()
+    filter = searchFilter(search)
     units = matchingUnits(allUnits, filter)
     pages = math.max(1, (#units + UNITS_PER_PAGE - 1) // UNITS_PER_PAGE)
   end
@@ -314,14 +385,22 @@ local function openUnits()
   if unitPageClass ~= class or unitPage >= pages then unitPage, unitPageClass = 0, class end
   while true do
     coe5.ui.screenBegin("Units")
+    do
+      if readSearch(search) then endSearch(search) return false end
+      if search.changed then
+        search.changed = false
+        applyFilter()
+        unitPage = 0
+        search.logged = false
+      elseif search.logged == false then   -- the first frame with no typing logs the search once
+        search.logged = true
+        coe5.log(string.format("unit_search text=%s matches=%d", filter or "", #units))
+      end
+    end
     coe5.ui.sectionBegin("Amount")
     for i, a in ipairs(UNIT_AMOUNTS) do coe5.ui.choice(ID_UNIT_AMOUNT_FIRST + i - 1, a == unitAmount, tostring(a)) end
     coe5.ui.sectionEnd()
-    coe5.ui.sectionBegin("Search")
-    coe5.ui.text(ID_SEARCH, filter and "Search: " .. filter or "Search")
-    coe5.ui.tooltip("Filter units by name or source")
-    if filter then coe5.ui.text(ID_CLEAR_SEARCH, "Clear search") end
-    coe5.ui.sectionEnd()
+    drawSearch(search, "Filter units by name or source")
     if filter and #units == 0 then
       coe5.ui.sectionBegin("Units")
       coe5.ui.text(0, "No units match")
@@ -354,27 +433,26 @@ local function openUnits()
     coe5.ui.text(ID_BACK, "Back")
     coe5.ui.bindEscape(ID_BACK)
     local id = coe5.ui.wait()
-    if id == ID_BACK then return false end
+    if id == ID_BACK then endSearch(search) return false end
     if id >= ID_UNIT_AMOUNT_FIRST and id < ID_UNIT_AMOUNT_FIRST + #UNIT_AMOUNTS then
       unitAmount = UNIT_AMOUNTS[id - ID_UNIT_AMOUNT_FIRST + 1]
     end
     if id == ID_PREVIOUS_PAGE then unitPage = (unitPage - 1) % pages end
     if id == ID_NEXT_PAGE then unitPage = (unitPage + 1) % pages end
-    if id == ID_SEARCH and searchMonster then
+    if id == ID_SEARCH and not search.live and searchMonster then
       -- The game's own text box; Cancel or Esc (nil) keeps the search there was, empty text clears
       -- it. The prompt sits between the picture and the field, so it stays short to fit the box.
       local text = coe5.ui.nameBox("Search units", "Name:",
         coe5.get("monsterSprite", searchMonster), SEARCH_LENGTH)
       if text then
-        text = text:match("^%s*(.-)%s*$")
-        filter = text ~= "" and text or nil
+        search.text = text
         applyFilter()
         unitPage = 0
         coe5.log(string.format("unit_search text=%s matches=%d", filter or "", #units))
       end
     end
     if id == ID_CLEAR_SEARCH then
-      filter = nil
+      search.text = ""
       applyFilter()
       unitPage = 0
     end
@@ -383,6 +461,7 @@ local function openUnits()
       placing = {player = player, monster = unit.monster, name = unit.name, commander = unit.commander, amount = unitAmount}
       lastButtons = BUTTON_LEFT   -- the click that picked it may still be held when the map is back
       coe5.log(string.format("unit_picked slot=%d monster=%d amount=%d", player, unit.monster, unitAmount))
+      endSearch(search)
       return true
     end
   end
@@ -400,23 +479,76 @@ coe5.addGameMenuLine{
 }
 
 -- ---- Events -------------------------------------------------------------------------------------
--- Every enabled mod's playerevent and squareevent (coe5.modEvents), a page at a time, with a search;
--- a click runs the event's actions for the player whose turn it is, its triggers left out
--- (coe5.runModEvent). A playerevent runs at once; a squareevent waits for a left click on a map square,
--- as a picked unit does. Each row's hover lists the triggers the click skips. A CoE5SE older than
--- coe5.modEvents leaves the line out.
-local ID_EVENT_FIRST = 1000       -- the list's event i is row ID_EVENT_FIRST + i
-local EVENTS_PER_PAGE = 14        -- one-line rows a page: they fit the 600-high UI under the Search section
-local EVENT_LABEL_MAX = 64        -- a row's characters before "..."
-local NEED_LINE_MAX = 60          -- a trigger line's characters in the hover before "...", so each stays one line
+-- Two lists, a page at a time, under one search: "Game events", the game's own world events
+-- (coe5.gameEvents), and "Mods' events", every enabled mod's playerevent and squareevent
+-- (coe5.modEvents). A game event's click queues it for the end of the turn (coe5.queueGameEvent):
+-- the game's month update fires it with its own tests passed, and the screen stays up, the row then
+-- marked queued. A mod's playerevent runs at once (coe5.runModEvent) and closes the menu; a
+-- squareevent closes it and waits for a left click on a map square, as a picked unit does. Each
+-- list is always EVENT_ROWS rows in the game's stripes, a short page's last ones empty stripes as
+-- an empty list's, and its page line sits under them, so the box keeps one height on every page and
+-- filter. A CoE5SE older than coe5.modEvents leaves the line out.
+local ID_GAME_EVENT_FIRST = 1000  -- the game list's event i is row ID_GAME_EVENT_FIRST + i
+local ID_MOD_EVENT_FIRST = 3000   -- the mods' list's event i is row ID_MOD_EVENT_FIRST + i
+local ID_GAME_NEXT_PAGE = 26
+local ID_MOD_NEXT_PAGE = 27
+local ID_GAME_PREVIOUS_PAGE = 28
+local ID_MOD_PREVIOUS_PAGE = 29
+local EVENT_ROWS = 6              -- rows the game events' list shows on a page
+local MOD_EVENT_ROWS = 10         -- rows the mods' events' list shows on a page: real mod sets hold hundreds
+local EVENT_NEXT_X = 160          -- the page line's "Next page", right of "Previous page"
+local EVENT_LABEL_MAX = 80        -- a row's characters before "...", so a row never wraps
+local EVENTS_SCREEN_WIDTH = 440   -- the screen's width in UI units: 64 characters fit on one line
+local EVENT_ROW_WIDTH = 440       -- a row's stripe: the screen's width, the section's inside
+local EVENT_TEXT_X = 0            -- a row's text, at the section's own text x (the Search line's)
+-- The game's own row stripes (its row stripe table, read from the exe): the monster picker's on a
+-- parchment section take turns of none and this faint red-brown; Load Game's stronger one marks a
+-- queued row.
+local EVENT_STRIPE = {0.7, 0.3, 0.2, 0.1}
+local QUEUED_STRIPE = {0.7, 0.3, 0.2, 0.4}
+local QUEUED_TEXT = " (queued)"
+local NEED_LINE_MAX = 60          -- a need's characters in the hover before "...", so each stays one line
+local BLOCK_HOVER_MS = 2000       -- how long the pointer rests on a mod's row before its hover shows the whole event
 local BOX_BOTTOM, BOX_DROP, BOX_PAD = 16, 2, 5   -- the hover box's place in UI units, as Jazzy UI Tweaks reads it
-local eventPage = 0
+local gamePage, modPage = 0, 0
 
--- A row's text: the mod, then the event's first message, or its line in the mod's file.
-local function eventLabel(e)
-  local text = e.mod .. ": " .. (e.message ~= "" and e.message or ("line " .. e.line))
-  if #text > EVENT_LABEL_MAX then text = text:sub(1, EVENT_LABEL_MAX - 3) .. "..." end
+local function cut(text, max)
+  if #text > max then return text:sub(1, max - 3) .. "..." end
   return text
+end
+
+-- A game event's row: its headline, and " (queued)" kept whole at the end once queued.
+local function gameEventLabel(e)
+  if e.queued then return cut(e.label, EVENT_LABEL_MAX - #QUEUED_TEXT) .. QUEUED_TEXT end
+  return cut(e.label, EVENT_LABEL_MAX)
+end
+
+-- Action words that set the event up rather than say what it does, so a row's label passes over them.
+local GIST_SKIP = {endevent = true, randloc = true, setvar = true, incvar = true, decvar = true, holdit = true,
+  makestationary = true, nolog = true, ["if"] = true, ["else"] = true, endif = true, setplane = true}
+
+-- What a mod's event does, for its row: its first message; with none, its first action line that names
+-- something in quotes (a unit, a site, a terrain), else its first action line, else its line number in the file.
+local function modEventGist(e)
+  if e.message ~= "" then return e.message end
+  local first
+  for i = 2, #(e.lines or {}) do
+    local line = e.lines[i]:match("^%s*(.-)%s*$")
+    local word = line:match("^(%S+)")
+    if line ~= "" and not line:find("^[+-]") and not line:find("^#") and not GIST_SKIP[word] then
+      if line:find('"') then return line end
+      local terrain = word == "alterterrain" and tonumber(line:match("^%S+%s+(%-?%d+)"))
+      local name = terrain and terrain >= 0 and terrain <= coe5.get("terrainLastIndex") and coe5.get("terrainName", terrain)
+      if name and name ~= "" then line = "alterterrain " .. name end   -- the terrain's name says more than its number
+      first = first or line
+    end
+  end
+  return first or tostring(e.line)
+end
+
+-- A mod's row: the mod, then what the event does.
+local function modEventLabel(e)
+  return cut(e.mod .. ": " .. modEventGist(e), EVENT_LABEL_MAX)
 end
 
 -- Where the game puts the hover box, in UI units, y counting up from the bottom of the screen (Jazzy
@@ -431,107 +563,239 @@ local function fits(n, height)
   return BOX_BOTTOM + BOX_PAD + (n + boxPad(n, height)) * (height - BOX_DROP) <= coe5.get("screenH")
 end
 
--- A row's hover: what a click does, then each trigger the run leaves out, as the mod writes it, as many
--- as fit on the screen with "and n more" for the rest, then the blank lines that lift the box.
-local function eventHover(e)
+-- A row's hover: what a click does, then the needs under `header`, as many as fit on the screen with
+-- "and n more" for the rest (`none` in their place when there are none), then `last` if given, then the blank
+-- lines that lift the box.
+local function eventHover(action, header, needs, none, last, top)
   local height = coe5.get("tooltipLineHeight")
-  local lines = {e.kind == "squareevent" and "Run on a square: click, then a map square" or "Run now"}
-  if #e.needs == 0 then
-    lines[#lines + 1] = "Needs nothing"
-  else
-    lines[#lines + 1] = "Needs (skipped):"
-    for i, need in ipairs(e.needs) do
-      local room = i == #e.needs and 1 or 2   -- the last needs no "and n more" line after it
+  local lines = top and {top, action} or {action}
+  local room0 = last and 1 or 0   -- the line kept for `last`
+  if #needs == 0 and none then lines[#lines + 1] = none end
+  if #needs > 0 then
+    lines[#lines + 1] = header
+    for i, need in ipairs(needs) do
+      local room = (i == #needs and 1 or 2) + room0   -- the last needs no "and n more" line after it
       if not fits(#lines + room, height) then
-        lines[#lines + 1] = string.format("and %d more", #e.needs - i + 1)
+        lines[#lines + 1] = string.format("and %d more", #needs - i + 1)
         break
       end
-      lines[#lines + 1] = #need > NEED_LINE_MAX and need:sub(1, NEED_LINE_MAX - 3) .. "..." or need
+      lines[#lines + 1] = cut(need, NEED_LINE_MAX)
     end
+  end
+  if last then lines[#lines + 1] = last end
+  return table.concat(lines, "\n") .. string.rep("\n", boxPad(#lines, height))
+end
+
+local function gameEventHover(e)
+  if e.queued then return eventHover("Queued for the end of the turn", "Needs on the map:", e.needs) end
+  return eventHover("At the end of the turn", "Needs on the map:", e.needs)
+end
+
+-- Where a mod's event is: its mod, and its line in the mod's file (the search finds it by that number).
+local function modEventPlace(e)
+  return string.format("%s, line %d", e.mod, e.line)
+end
+
+local function modEventHover(e)
+  return eventHover(e.square and "Run on a square: click, then a map square" or "Run now", "Needs (skipped):", e.needs, "Needs nothing",
+    nil, modEventPlace(e))
+end
+
+-- A mod row's hover once the pointer has rested on it for BLOCK_HOVER_MS: what a click does, then the
+-- event's lines as the mod wrote them, as many as fit on the screen with "and n more lines" for the rest.
+local function modEventBlockHover(e)
+  local height = coe5.get("tooltipLineHeight")
+  local lines = {modEventPlace(e), e.square and "Run on a square: click, then a map square" or "Run now"}
+  for i, line in ipairs(e.lines) do
+    local room = i == #e.lines and 1 or 2   -- the last needs no "and n more lines" after it
+    if not fits(#lines + room, height) then
+      lines[#lines + 1] = string.format("and %d more lines", #e.lines - i + 1)
+      break
+    end
+    lines[#lines + 1] = cut(line, NEED_LINE_MAX)
   end
   return table.concat(lines, "\n") .. string.rep("\n", boxPad(#lines, height))
 end
 
--- The Events screen. Returns true when an event ran or waits for a square, so the Game Menu closes.
+-- The hold timer, as Jazzy UI Tweaks' ritual readout keeps it: the row the pointer was last seen on,
+-- the clock ("ticksMs") when it got there, and the last reading while it stayed. A gap over half a
+-- second, or a clock that went backwards, starts the wait again.
+local holdRow, holdSince, holdSeen = nil, 0, 0
+local function heldOn(id)
+  local now = coe5.get("ticksMs")
+  if holdRow ~= id or now - holdSeen > 500 or now < holdSeen then holdRow, holdSince = id, now end
+  holdSeen = now
+  return now - holdSince >= BLOCK_HOVER_MS
+end
+
+-- The two lists' rows: {label, hover, the event}.
+local function gameEventRows()
+  local rows = {}
+  for _, e in ipairs(coe5.gameEvents and coe5.gameEvents() or {}) do
+    rows[#rows + 1] = {label = gameEventLabel(e), hover = gameEventHover(e), event = e}
+  end
+  return rows
+end
+local function modEventRows()
+  local rows = {}
+  for i, m in ipairs(coe5.modEvents()) do
+    local e = {index = i, mod = m.mod, line = m.line, square = m.kind == "squareevent", needs = m.needs, lines = m.lines}
+    e.label = modEventLabel(m)
+    rows[#rows + 1] = {label = e.label, hover = modEventHover(e), event = e,
+      text = (e.label .. "\n" .. m.line .. "\n" .. table.concat(m.lines or {}, "\n")):lower()}   -- a modder finds an event by its line
+  end
+  return rows
+end
+
+-- The rows whose label holds `filter`, ignoring case; all of them with no filter.
+local function matchingRows(rows, filter)
+  if not filter then return rows end
+  local wanted, found = filter:lower(), {}
+  for _, row in ipairs(rows) do
+    if (row.text or row.label:lower()):find(wanted, 1, true) then found[#found + 1] = row end
+  end
+  return found
+end
+
+-- One row of a list, striped as the game's monster picker (the k-th row's stripe), the stronger
+-- stripe for a queued game event; `label` nil draws it empty, the stripe alone.
+local function eventRow(id, k, label, hover, queued)
+  local stripe = queued and QUEUED_STRIPE or (k % 2 == 0 and EVENT_STRIPE or nil)
+  if stripe then
+    coe5.ui.rowBegin(id, EVENT_ROW_WIDTH, stripe[1], stripe[2], stripe[3], stripe[4])
+  else
+    coe5.ui.rowBegin(id, EVENT_ROW_WIDTH)
+  end
+  coe5.ui.columnX(EVENT_TEXT_X)
+  coe5.ui.text(id, label or " ")
+  if hover then coe5.ui.tooltip(hover) end
+  coe5.ui.rowEnd()
+end
+
+-- A list's section, headed with how many rows match of `total`: page `page` of `rows` in EVENT_ROWS
+-- stripes (the first an empty list's line), then its page line. Returns the page, kept inside the pages there are.
+local function eventList(title, rows, total, page, firstId, prevId, nextId, emptyText, perPage)
+  local pages = math.max(1, (#rows + perPage - 1) // perPage)
+  page = page % pages
+  coe5.ui.sectionBegin(#rows < total and string.format("%s (%d of %d)", title, #rows, total) or string.format("%s (%d)", title, total))
+  local first, hovered = page * perPage, coe5.get("hoveredId")
+  for k = 1, perPage do
+    local i = first + k
+    local row = rows[i]
+    if row then
+      local hover = row.hover
+      if row.event.lines and firstId + i == hovered and heldOn(hovered) then hover = modEventBlockHover(row.event) end
+      eventRow(firstId + i, k, row.label, hover, row.event.queued)
+    elseif k == 1 then
+      eventRow(0, k, emptyText)
+    else
+      eventRow(0, k, nil)
+    end
+  end
+  coe5.ui.rowBegin(0, EVENT_ROW_WIDTH)   -- the page line, at the rows' text x
+  coe5.ui.columnX(EVENT_TEXT_X)
+  if pages > 1 then
+    coe5.ui.text(prevId, "Previous page")
+    coe5.ui.tooltip("Show the page before; from the first, the last")
+    coe5.ui.columnX(EVENT_NEXT_X)
+    coe5.ui.text(nextId, string.format("Next page (%d of %d)", page + 1, pages))
+    coe5.ui.tooltip("Show the next page; from the last, the first")
+  else
+    coe5.ui.text(0, "Page 1 of 1")
+  end
+  coe5.ui.rowEnd()
+  coe5.ui.sectionEnd()
+  return page
+end
+
+-- Queues game event e for the end of the turn; true when it is queued.
+local function queueGameEvent(player, e)
+  if e.queued then return false end
+  if coe5.queueGameEvent(e.name) then   -- else logged by CoE5SE as lua_refused
+    coe5.log(string.format("game_event_queued slot=%d event=%s", player, e.name))
+    return true
+  end
+  return false
+end
+
+-- Runs mod event e now, or picks it for the next map click when it needs a square; true when it did.
+local function startModEvent(player, e)
+  if e.square then
+    eventPicking = {player = player, event = e, label = e.label}
+    lastButtons = BUTTON_LEFT   -- the click that picked it may still be held when the map is back
+    coe5.log(string.format("event_picked slot=%d event=%s:%d", player, e.mod, e.line))
+    return true
+  end
+  if coe5.runModEvent(e.index) then   -- else logged by CoE5SE as lua_refused
+    coe5.log(string.format("event_run slot=%d mod=%s line=%d", player, e.mod, e.line))
+    return true
+  end
+  return false
+end
+
+-- The Events screen. Returns true when a mod's event ran or waits for a square, so the Game Menu closes.
 local function openEvents()
   local player = coe5.get("activePlayer")
-  local all = {}   -- a row for each event: its place in coe5.modEvents() and its text
-  for i, e in ipairs(coe5.modEvents()) do
-    all[i] = {index = i, label = eventLabel(e), mod = e.mod, line = e.line, kind = e.kind, needs = e.needs}
-  end
+  local gameRows, modRows = gameEventRows(), modEventRows()
   local class = coe5.get("slotClass", player)
   local searchMonster = coe5.findMonster(coe5.get("classLeader", class) or "")
-  local filter = nil   -- the search text, kept until the screen closes
-  local shown, pages
+  local search = newSearch()
+  local filter, gameShown, modShown
   local function applyFilter()
-    shown = all
-    if filter then
-      local wanted = filter:lower()
-      shown = {}
-      for _, e in ipairs(all) do
-        if e.label:lower():find(wanted, 1, true) then shown[#shown + 1] = e end
-      end
-    end
-    pages = math.max(1, (#shown + EVENTS_PER_PAGE - 1) // EVENTS_PER_PAGE)
-    if eventPage >= pages then eventPage = 0 end
+    filter = searchFilter(search)
+    gameShown, modShown = matchingRows(gameRows, filter), matchingRows(modRows, filter)
   end
   applyFilter()
   while true do
     coe5.ui.screenBegin("Events")
-    coe5.ui.sectionBegin("Search")
-    coe5.ui.text(ID_SEARCH, filter and "Search: " .. filter or "Search")
-    coe5.ui.tooltip("Filter events by mod or message")
-    if filter then coe5.ui.text(ID_CLEAR_SEARCH, "Clear search") end
-    coe5.ui.sectionEnd()
-    coe5.ui.sectionBegin("Mods' events")
-    if #all == 0 then coe5.ui.text(0, "No enabled mod has events")
-    elseif #shown == 0 then coe5.ui.text(0, "No events match") end
-    local first = eventPage * EVENTS_PER_PAGE
-    for i = first + 1, math.min(#shown, first + EVENTS_PER_PAGE) do
-      coe5.ui.text(ID_EVENT_FIRST + i, shown[i].label)
-      coe5.ui.tooltip(eventHover(shown[i]))
+    coe5.ui.screenWidth(EVENTS_SCREEN_WIDTH)
+    do
+      if readSearch(search) then endSearch(search) return false end
+      if search.changed then
+        search.changed = false
+        gamePage, modPage = 0, 0
+        applyFilter()
+        search.logged = false
+      elseif search.logged == false then   -- the first frame with no typing logs the search once
+        search.logged = true
+        coe5.log(string.format("event_search text=%s game_matches=%d mod_matches=%d", filter or "", #gameShown, #modShown))
+      end
     end
-    coe5.ui.sectionEnd()
+    drawSearch(search, "Filter events by their text")
+    gamePage = eventList("Game events", gameShown, #gameRows, gamePage, ID_GAME_EVENT_FIRST, ID_GAME_PREVIOUS_PAGE, ID_GAME_NEXT_PAGE,
+      filter and "No game events match" or "No game events", EVENT_ROWS)
+    modPage = eventList("Mods' events", modShown, #modRows, modPage, ID_MOD_EVENT_FIRST, ID_MOD_PREVIOUS_PAGE, ID_MOD_NEXT_PAGE,
+      filter and "No mods' events match" or "No mods' events", MOD_EVENT_ROWS)
     coe5.ui.buttonRow()
-    if pages > 1 then
-      coe5.ui.text(0, string.format("Page %d of %d", eventPage + 1, pages))
-      coe5.ui.text(ID_PREVIOUS_PAGE, "Previous page")
-      coe5.ui.text(ID_NEXT_PAGE, "Next page")
-    end
     coe5.ui.text(ID_BACK, "Back")
     coe5.ui.bindEscape(ID_BACK)
     local id = coe5.ui.wait()
-    if id == ID_BACK then return false end
-    if id == ID_PREVIOUS_PAGE then eventPage = (eventPage - 1) % pages end
-    if id == ID_NEXT_PAGE then eventPage = (eventPage + 1) % pages end
-    if id == ID_SEARCH and searchMonster then
+    if id == ID_BACK then endSearch(search) return false end
+    if id == ID_GAME_NEXT_PAGE then gamePage = gamePage + 1 end   -- eventList wraps it past the last page
+    if id == ID_MOD_NEXT_PAGE then modPage = modPage + 1 end
+    if id == ID_GAME_PREVIOUS_PAGE then gamePage = gamePage - 1 end   -- eventList wraps it before the first page
+    if id == ID_MOD_PREVIOUS_PAGE then modPage = modPage - 1 end
+    if id == ID_SEARCH and not search.live and searchMonster then
       local text = coe5.ui.nameBox("Search events", "Text:", coe5.get("monsterSprite", searchMonster), SEARCH_LENGTH)
       if text then
-        text = text:match("^%s*(.-)%s*$")
-        filter = text ~= "" and text or nil
-        eventPage = 0
+        search.text = text
+        gamePage, modPage = 0, 0
         applyFilter()
-        coe5.log(string.format("event_search text=%s matches=%d", filter or "", #shown))
+        coe5.log(string.format("event_search text=%s game_matches=%d mod_matches=%d", filter or "", #gameShown, #modShown))
       end
     end
     if id == ID_CLEAR_SEARCH then
-      filter = nil
-      eventPage = 0
+      search.text = ""
+      gamePage, modPage = 0, 0
       applyFilter()
     end
-    local e = shown[id - ID_EVENT_FIRST]
-    if id > ID_EVENT_FIRST and e then
-      if e.kind == "squareevent" then
-        eventPicking = {player = player, index = e.index, label = e.label}
-        lastButtons = BUTTON_LEFT   -- the click that picked it may still be held when the map is back
-        coe5.log(string.format("event_picked slot=%d mod=%s line=%d", player, e.mod, e.line))
-        return true
-      end
-      if coe5.runModEvent(e.index) then   -- else logged by CoE5SE as lua_refused
-        coe5.log(string.format("event_run slot=%d mod=%s line=%d", player, e.mod, e.line))
-        return true
-      end
+    local game = id > ID_GAME_EVENT_FIRST and id < ID_MOD_EVENT_FIRST and gameShown[id - ID_GAME_EVENT_FIRST]
+    if game and queueGameEvent(player, game.event) then
+      gameRows = gameEventRows()   -- the row now reads queued; the search and the pages stay
+      applyFilter()
     end
+    local mod = id > ID_MOD_EVENT_FIRST and modShown[id - ID_MOD_EVENT_FIRST]
+    if mod and startModEvent(player, mod.event) then endSearch(search) return true end
   end
 end
 
@@ -544,8 +808,8 @@ end
 local function runEventAt(x, y)
   local p = eventPicking
   eventPicking = nil
-  if coe5.runModEvent(p.index, x, y) then   -- else logged by CoE5SE as lua_refused
-    coe5.log(string.format("event_run slot=%d index=%d x=%d y=%d", p.player, p.index, x, y))
+  if coe5.runModEvent(p.event.index, x, y) then   -- else logged by CoE5SE as lua_refused
+    coe5.log(string.format("event_run slot=%d index=%d x=%d y=%d", p.player, p.event.index, x, y))
   end
 end
 
@@ -1029,7 +1293,7 @@ coe5.addGameMenuLine{
 -- The Events line, last in the Cheats section; openEvents is above.
 coe5.addGameMenuLine{
   label = "Events",
-  tooltip = "Run any mod's event, its triggers skipped",
+  tooltip = "Queue one of the game's world events, or run a mod's event, its needs skipped",
   section = CHEATS_SECTION,
   visible = function() return coe5.modEvents ~= nil and coe5.get("activePlayer") >= 0 end,
   onClick = function()
