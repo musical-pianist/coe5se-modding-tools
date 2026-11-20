@@ -322,6 +322,13 @@
   "origin": "vanilla",
   "signature": "addvar <var> <value>"
  },
+ "adventurer": {
+  "group": "Monster and magic item attributes (the manual lists them under each)",
+  "kinds": [
+   "parser"
+  ],
+  "origin": "vanilla"
+ },
  "affectanimal": {
   "docs": [
    {
@@ -1432,6 +1439,16 @@
   "origin": "vanilla",
   "signature": "battlefast"
  },
+ "battlesize": {
+  "doc": "Like size2x2, but the monster takes up width x height squares on the battlefield; 9 squares or more also makes it huge.",
+  "docsUrl": "https://musical-pianist.github.io/coe5se-docs/commands/monster-traits/#battlesize",
+  "group": "CoE5SE",
+  "kinds": [
+   "coe5se"
+  ],
+  "origin": "coe5se",
+  "signature": "battlesize"
+ },
  "battleslow": {
   "docs": [
    {
@@ -1641,6 +1658,13 @@
   ],
   "origin": "vanilla",
   "signature": "bramblegate"
+ },
+ "brigand": {
+  "group": "Monster and magic item attributes (the manual lists them under each)",
+  "kinds": [
+   "parser"
+  ],
+  "origin": "vanilla"
  },
  "burnable": {
   "docs": [
@@ -8135,7 +8159,7 @@
   ],
   "group": "Event triggers (written with + or -)",
   "kinds": [
-   "trigger"
+   "action"
   ],
   "origin": "vanilla",
   "signature": "+minunitshere <player> <nbr> \"monster name\""
@@ -10381,6 +10405,13 @@
   "origin": "coe5se",
   "signature": "parent <name>"
  },
+ "partyleader": {
+  "group": "Monster and magic item attributes (the manual lists them under each)",
+  "kinds": [
+   "parser"
+  ],
+  "origin": "vanilla"
+ },
  "passwall": {
   "docs": [
    {
@@ -10478,6 +10509,13 @@
   "origin": "vanilla",
   "signature": "phantasm <value>"
  },
+ "pickupadvent": {
+  "group": "Monster and magic item attributes (the manual lists them under each)",
+  "kinds": [
+   "parser"
+  ],
+  "origin": "vanilla"
+ },
  "pickupanimals": {
   "docs": [
    {
@@ -10493,6 +10531,13 @@
   ],
   "origin": "vanilla",
   "signature": "pickupanimals <0-1>"
+ },
+ "pickupbrigands": {
+  "group": "Monster and magic item attributes (the manual lists them under each)",
+  "kinds": [
+   "parser"
+  ],
+  "origin": "vanilla"
  },
  "pierceres": {
   "docs": [
@@ -12504,6 +12549,19 @@
   ],
   "origin": "vanilla",
   "signature": "ritrebate <percent>"
+ },
+ "ritualmenu": {
+  "args": {
+   "name": "In double quotes (length limit), shared by every mod."
+  },
+  "doc": "Puts the ritual in a menu, one line of the ritual screen that opens every ritual sharing its name.",
+  "docsUrl": "https://musical-pianist.github.io/coe5se-docs/commands/ritual-effects/#ritualmenu",
+  "group": "CoE5SE",
+  "kinds": [
+   "coe5se"
+  ],
+  "origin": "coe5se",
+  "signature": "ritualmenu \"<name>\""
  },
  "riverdmg": {
   "docs": [
