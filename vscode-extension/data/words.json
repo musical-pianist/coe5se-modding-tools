@@ -1,8 +1,8 @@
 {
  "+setting": {
   "args": {
-   "index": "For a choice, the option the player picked; for a key, the key it holds.",
-   "name": "The name on the setting's newsetting line."
+   "index": "Option number for a choice, or key value for a key setting (optional).",
+   "name": "The setting name from newsetting, case-insensitive."
   },
   "doc": "True when your setting is on, or with an index, when that option or key is picked. -setting is the opposite.",
   "docsUrl": "https://musical-pianist.github.io/coe5se-docs/commands/mod-settings/#setting",
@@ -1483,8 +1483,8 @@
  },
  "beamwidth": {
   "args": {
-   "lines": "Draws a trail for each lane instead of one trail as wide as the beam.",
-   "width": "The beam's width in squares, 1 to 15."
+   "lines": "Draws one narrow trail per lane instead of a single wide trail (optional).",
+   "width": "Beam width in squares, 1 to 15."
   },
   "doc": "Widens the weapon's beam (aoe 10xx or 50xx) to this many squares. The side lanes hit the attacker's own units too; onlyenemy prevents it.",
   "docsUrl": "https://musical-pianist.github.io/coe5se-docs/commands/weapon-traits/#beamwidth",
@@ -2961,7 +2961,7 @@
  },
  "default": {
   "args": {
-   "value": "0 or 1 for onoff; an option's number for choice; a key in double quotes for key."
+   "value": "0 or 1 for onoff, an option number for choice, or a key name in double quotes for key (or \"none\" for unbound)."
   },
   "doc": "Sets the setting's starting value.",
   "docsUrl": "https://musical-pianist.github.io/coe5se-docs/commands/mod-settings/#default",
@@ -3435,7 +3435,7 @@
  },
  "doesntaffect": {
   "args": {
-   "trait": "A vanilla trait, movement or ability command, small, combatcaster, or tag \"<name>\"."
+   "trait": "A monster trait, movement or ability command, small, combatcaster, or tag \"<name>\"."
   },
   "doc": "Makes units with the trait unaffected by the weapon.",
   "docsUrl": "https://musical-pianist.github.io/coe5se-docs/commands/weapon-traits/#doesntaffect",
@@ -3448,7 +3448,7 @@
  },
  "doubledmgvs": {
   "args": {
-   "trait": "A vanilla trait, movement or ability command, small, combatcaster, or tag \"<name>\"."
+   "trait": "A monster trait, movement or ability command, small, combatcaster, or tag \"<name>\"."
   },
   "doc": "Doubles the weapon's damage against units with the trait.",
   "docsUrl": "https://musical-pianist.github.io/coe5se-docs/commands/weapon-traits/#doubledmgvs",
@@ -3822,7 +3822,7 @@
  },
  "excludecorpses": {
   "args": {
-   "Heavy Infantry": "A corpse type in double quotes, declared with newcorpsetype."
+   "Heavy Infantry": "A custom corpse type in double quotes, declared with newcorpsetype."
   },
   "doc": "raisedead, raiseanimals, raisecorpses and their far forms in this ritual will not use corpses of this type, except a raisecorpses naming it.",
   "docsUrl": "https://musical-pianist.github.io/coe5se-docs/commands/corpses/#excludecorpses",
@@ -3922,8 +3922,8 @@
  },
  "factionavoid": {
   "args": {
-   "faction": "A faction by string, yours or a vanilla one.",
-   "percent": "The chance the faction's armies step onto that faction's armies, 0 to 100."
+   "faction": "A custom or vanilla faction by string, or none to clear the list.",
+   "percent": "Percent chance (0 to 100) that this faction's armies will step onto that faction's armies (0 always avoids, 100 never avoids)."
   },
   "doc": "Makes the faction's armies step onto another faction's armies only at that chance. The first factionavoid replaces the cloned faction's list.",
   "docsUrl": "https://musical-pianist.github.io/coe5se-docs/commands/factions/#factionavoid",
@@ -3936,11 +3936,12 @@
  },
  "factioncaravan": {
   "args": {
-   "chance": "In 350, each turn, 1 to 350.",
-   "group": "The units, as a sitepop group string.",
-   "month": "The turn the caravan can start after.",
-   "news": "The World News, %s once for the square, %% for a percent sign.",
-   "terrain": "The terrain the caravan arrives beside, a terrain number or group."
+   "chance": "Chance per turn out of 350 (1 to 350).",
+   "group": "Optional sitepop group string for the caravan's units.",
+   "month": "Turn the caravan can begin spawning after.",
+   "news": "Optional World News message.",
+   "plane": "Plane to spawn on, by string.",
+   "terrain": "Terrain number or group the caravan arrives beside."
   },
   "doc": "Gives the faction a caravan, beside vanilla's caravan.",
   "docsUrl": "https://musical-pianist.github.io/coe5se-docs/commands/factions/#factioncaravan",
@@ -3953,9 +3954,9 @@
  },
  "factioncolor": {
   "args": {
-   "blue": "0 to 255 each.",
-   "green": "0 to 255 each.",
-   "red": "0 to 255 each."
+   "blue": "Color channels, 0 to 255 each.",
+   "green": "Color channels, 0 to 255 each.",
+   "red": "Color channels, 0 to 255 each."
   },
   "doc": "Sets the faction's colour.",
   "docsUrl": "https://musical-pianist.github.io/coe5se-docs/commands/factions/#factioncolor",
@@ -3977,6 +3978,9 @@
   "signature": "factionconquest independent or normal"
  },
  "factionfuel": {
+  "args": {
+   "monster": "Monster name in double quotes (case-insensitive)."
+  },
   "doc": "Sets the monster the faction uses up to spawn units.",
   "docsUrl": "https://musical-pianist.github.io/coe5se-docs/commands/factions/#factionfuel",
   "group": "CoE5SE",
@@ -3988,11 +3992,11 @@
  },
  "factiongateway": {
   "args": {
-   "exit": "Terrain numbers: the ruin, the restored gateway, and its exit.",
-   "fuel": "The fuel on the ruin that restores it, 1 to 10000.",
-   "gate": "Terrain numbers: the ruin, the restored gateway, and its exit.",
-   "news": "The World News, with no %s; %% for a percent sign.",
-   "ruin": "Terrain numbers: the ruin, the restored gateway, and its exit."
+   "exit": "Terrain numbers for the ruined gateway on Elysium, the restored gateway on Elysium, and its exit terrain on the home plane.",
+   "fuel": "Number of factionfuel units required on the ruin square to restore it, 1 to 10000.",
+   "gate": "Terrain numbers for the ruined gateway on Elysium, the restored gateway on Elysium, and its exit terrain on the home plane.",
+   "news": "Optional World News message.",
+   "ruin": "Terrain numbers for the ruined gateway on Elysium, the restored gateway on Elysium, and its exit terrain on the home plane."
   },
   "doc": "Sets the ruined gateway on Elysium the faction's carriers restore, and where it leads on the faction's home.",
   "docsUrl": "https://musical-pianist.github.io/coe5se-docs/commands/factions/#factiongateway",
@@ -4005,7 +4009,7 @@
  },
  "factiongather": {
   "args": {
-   "ability": "An ability number."
+   "ability": "Ability number, or none to disable."
   },
   "doc": "Makes the faction's units with this ability gather its fuel from Elysium's settlements and bring it home.",
   "docsUrl": "https://musical-pianist.github.io/coe5se-docs/commands/factions/#factiongather",
@@ -4018,7 +4022,7 @@
  },
  "factionhome": {
   "args": {
-   "plane": "A vanilla plane or one of your planes, by string."
+   "plane": "A vanilla plane (by short name such as \"Inferno\" or \"Void\", or full name such as \"Celestial Plane\") or a custom plane, by string."
   },
   "doc": "Sets the faction's home plane: where its citadel spawns, its gateway leads, and its wanderers wait.",
   "docsUrl": "https://musical-pianist.github.io/coe5se-docs/commands/factions/#factionhome",
@@ -4041,7 +4045,7 @@
  },
  "factionlike": {
   "args": {
-   "faction": "A vanilla faction by string: \"Independents\", \"Special Monsters\", \"Horrors\", \"Hades\", \"Inferno\", \"Celestial\" or \"Empire\" (\"Kingdom\")."
+   "faction": "A vanilla faction by string: \"Independents\", \"Special Monsters\", \"Horrors\", \"Hades\", \"Inferno\", \"Celestial\", or \"Empire\" (\"Kingdom\")."
   },
   "doc": "Clones a vanilla faction's rules; each line your block leaves out keeps the cloned faction's.",
   "docsUrl": "https://musical-pianist.github.io/coe5se-docs/commands/factions/#factionlike",
@@ -4053,6 +4057,9 @@
   "signature": "factionlike \"<faction>\""
  },
  "factionloyalty": {
+  "args": {
+   "monster": "Monster name in double quotes (case-insensitive), or none to disable."
+  },
   "doc": "Makes every unit of the monster on the monument's plane owned by the faction while the faction's monument stands.",
   "docsUrl": "https://musical-pianist.github.io/coe5se-docs/commands/factions/#factionloyalty",
   "group": "CoE5SE",
@@ -4063,6 +4070,9 @@
   "signature": "factionloyalty \"<monster>\" or none"
  },
  "factionmonument": {
+  "args": {
+   "monster": "Monster name in double quotes (case-insensitive), or none to clear."
+  },
   "doc": "Sets the monster the faction uses as its monument.",
   "docsUrl": "https://musical-pianist.github.io/coe5se-docs/commands/factions/#factionmonument",
   "group": "CoE5SE",
@@ -4074,10 +4084,11 @@
  },
  "factionmonumentevent": {
   "args": {
-   "chance": "In 1000, each turn.",
-   "monster": "The unfinished monument the faction summons on the square.",
-   "month": "The turn the founding can start after.",
-   "news": "The World News, %s once for the commander, %% for a percent sign.",
+   "chance": "Chance per turn out of 1000 (1 to 1000).",
+   "monster": "The monument (or unfinished monument) monster summoned on the square.",
+   "month": "Turn the event can start triggering after (for example, 24 starts on turn 25).",
+   "news": "Optional World News message.",
+   "plane": "Plane to search, by string.",
    "terrain": "A terrain number or group."
   },
   "doc": "Lets the faction found its monument on a square the Independents own.",
@@ -4101,8 +4112,9 @@
  },
  "factionplaneshift": {
   "args": {
-   "each": "The chance each of the monster's units on a picked square moves, 1 to 100.",
-   "percent": "The chance each square of the home holding an army is picked, 1 to 100."
+   "each": "Percent chance (1 to 100) that each matching unit on a picked square shifts to Elysium.",
+   "monster": "Monster name in double quotes (case-insensitive), or none to disable.",
+   "percent": "Percent chance (1 to 100) that each home-plane square holding an army is picked each turn."
   },
   "doc": "Moves the monster from the faction's home to the matching square on Elysium while the faction's monument stands.",
   "docsUrl": "https://musical-pianist.github.io/coe5se-docs/commands/factions/#factionplaneshift",
@@ -4125,7 +4137,7 @@
  },
  "factionpopulateterrain": {
   "args": {
-   "plane": "Without it, every plane.",
+   "plane": "A plane by string.",
    "terrain": "A terrain number or group."
   },
   "doc": "Independents that world generation placed on that terrain are then owned by the faction, along with their squares.",
@@ -4139,10 +4151,10 @@
  },
  "factionspawn": {
   "args": {
-   "chance": "In 100, 1 to 100.",
-   "group": "The units, as a sitepop group string.",
-   "min": "The fuel the site needs, 0 to 10000.",
-   "use": "The fuel the spawn uses up, 0 to min."
+   "chance": "Percent chance to spawn, 1 to 100.",
+   "group": "Units to spawn, as a sitepop group string.",
+   "min": "Minimum fuel units required at the site, 0 to 10000.",
+   "use": "Fuel units consumed when the spawn triggers, 0 to min."
   },
   "doc": "Adds a spawn the faction tries each turn at its sites; each site sends only the first spawn that passes, so declare the biggest first.",
   "docsUrl": "https://musical-pianist.github.io/coe5se-docs/commands/factions/#factionspawn",
@@ -4185,11 +4197,11 @@
  },
  "factionunits": {
   "args": {
-   "chance": "In 100 for each free square, 1 to 100.",
-   "count": "1 to 1000, doubled with Wilder.",
-   "monster": "The units' monster.",
-   "plane": "Without it, every plane.",
-   "terrain": "A terrain number or group."
+   "chance": "Percent chance (1 to 100) per free square.",
+   "count": "Units per square, 1 to 1000 (doubled when Wilder is enabled).",
+   "monster": "The monster to place, by string.",
+   "plane": "A plane by string (vanilla name or custom plane).",
+   "terrain": "A terrain number or group (-1 or omitted for any terrain)."
   },
   "doc": "At world generation, the faction places owned units on free squares and owns each square.",
   "docsUrl": "https://musical-pianist.github.io/coe5se-docs/commands/factions/#factionunits",
@@ -4202,7 +4214,7 @@
  },
  "factionwander": {
   "args": {
-   "word": "\"wander\", \"indwander\", \"infwander\", \"hadeswander\" or \"celwander\"."
+   "word": "\"wander\", \"indwander\", \"infwander\", \"hadeswander\", or \"celwander\"."
   },
   "doc": "Sets the wander command the faction's commanders follow.",
   "docsUrl": "https://musical-pianist.github.io/coe5se-docs/commands/factions/#factionwander",
@@ -4656,10 +4668,10 @@
  },
  "flylookcolor": {
   "args": {
-   "blue": "Each color value is between 0 and 255.",
-   "green": "Each color value is between 0 and 255.",
-   "red": "Each color value is between 0 and 255.",
-   "smoke": "Optional."
+   "blue": "Color channels from 0 to 255.",
+   "green": "Color channels from 0 to 255.",
+   "red": "Color channels from 0 to 255.",
+   "smoke": "Tints only the flight smoke particles, overriding the color set by a plain flylookcolor line (optional)."
   },
   "doc": "Sets the color of the weapon's flylook, its smoke included; with smoke, of its smoke alone.",
   "docsUrl": "https://musical-pianist.github.io/coe5se-docs/commands/weapon-traits/#flylookcolor",
@@ -5777,7 +5789,7 @@
  },
  "hated": {
   "args": {
-   "kind": "The same kinds as hates, by string or number, or 0 to take it off."
+   "kind": "One of the same hated kinds as hates, by string or number, or 0 to remove it."
   },
   "doc": "Makes the unit hated as this kind: each turn, a hater on its team and square has a 15% chance to kill it.",
   "docsUrl": "https://musical-pianist.github.io/coe5se-docs/commands/monster-traits/#hated",
@@ -5793,7 +5805,7 @@
  },
  "hates": {
   "args": {
-   "kind": "A kind by string or number, or 0 to take it off."
+   "kind": "A hated kind by string or number, or 0 to remove it."
   },
   "doc": "Makes the unit hate this kind: each turn, it has a 15% chance to kill one hated unit of its team on its square.",
   "docsUrl": "https://musical-pianist.github.io/coe5se-docs/commands/monster-traits/#hates",
@@ -5874,7 +5886,7 @@
  },
  "heartitem": {
   "args": {
-   "nbr": "2 for a heart any unit can hold, like the Heart of Life."
+   "nbr": "Use 2 for a heart any unit can hold (like the Heart of Life), or 0 to remove it."
   },
   "doc": "After newitem or selectitem: the item is a heart, like the Crystal Heart; a lifeless unit cannot hold it. heartitem 2: any unit can.",
   "docsUrl": "https://musical-pianist.github.io/coe5se-docs/commands/magic-items/#heartitem",
@@ -6199,6 +6211,16 @@
   "origin": "vanilla",
   "signature": "+humanplayer <player>"
  },
+ "humanrec": {
+  "doc": "Human recruitment: scales gold price by the player's class's humancost / 100; a class with humancost 999 or more never gets it.",
+  "docsUrl": "https://musical-pianist.github.io/coe5se-docs/commands/recruitment/#humanrec",
+  "group": "CoE5SE",
+  "kinds": [
+   "coe5se"
+  ],
+  "origin": "coe5se",
+  "signature": "humanrec"
+ },
  "iceprot": {
   "docs": [
    {
@@ -6367,6 +6389,16 @@
   ],
   "origin": "vanilla",
   "signature": "indepitem <percent>"
+ },
+ "indestructible": {
+  "doc": "After newitem or selectitem: the item is never destroyed. Where the game would destroy it, it lies on that square for the next commander.",
+  "docsUrl": "https://musical-pianist.github.io/coe5se-docs/commands/magic-items/#indestructible",
+  "group": "CoE5SE",
+  "kinds": [
+   "coe5se"
+  ],
+  "origin": "coe5se",
+  "signature": "indestructible"
  },
  "indwander": {
   "docs": [
@@ -6626,7 +6658,7 @@
  },
  "itemslots": {
   "args": {
-   "count": "How many slots of that type.",
+   "count": "Number of slots of that type.",
    "item type": "An item type by string or number."
   },
   "doc": "Gives the monster this many slots of an item type. Its first itemslots line replaces vanilla's slots, so list each type it needs.",
@@ -7311,10 +7343,10 @@
  },
  "lookcolor": {
   "args": {
-   "blue": "Each color value is between 0 and 255, as in playercolor.",
-   "green": "Each color value is between 0 and 255, as in playercolor.",
-   "red": "Each color value is between 0 and 255, as in playercolor.",
-   "smoke": "Optional."
+   "blue": "Color channels from 0 to 255, like playercolor.",
+   "green": "Color channels from 0 to 255, like playercolor.",
+   "red": "Color channels from 0 to 255, like playercolor.",
+   "smoke": "Tints only the smoke particles, overriding the color set by a plain lookcolor line (optional)."
   },
   "doc": "Sets the color of the weapon's look, its smoke included; with smoke, of its smoke alone.",
   "docsUrl": "https://musical-pianist.github.io/coe5se-docs/commands/weapon-traits/#lookcolor",
@@ -7695,7 +7727,7 @@
  },
  "maxdata": {
   "args": {
-   "megabytes": "The room your script's data files may take, 1 to 100."
+   "megabytes": "Storage cap from 1 to 100 MB (defaults to 10)."
   },
   "doc": "Sets the room, in MB, for the data files your Lua script saves; 10 without the line.",
   "docsUrl": "https://musical-pianist.github.io/coe5se-docs/commands/other-commands/#maxdata",
@@ -8650,7 +8682,7 @@
    },
    {
     "args": {
-     "monster": "The monster's name, in double quotes."
+     "monster": "Target monster name in double quotes."
     },
     "context": "With numbers after it (CoE5SE)",
     "doc": "A victim killed by the weapon becomes this monster, instead of the monster that follows the killer in the monster list.",
@@ -8932,7 +8964,7 @@
  },
  "newcorpsetype": {
   "args": {
-   "Uruk-hai": "In double quotes."
+   "Uruk-hai": "Corpse type name in double quotes, case-insensitive."
   },
   "doc": "Declares a new corpse type for your monsters to leave and your rituals and events to use.",
   "docsUrl": "https://musical-pianist.github.io/coe5se-docs/commands/corpses/#newcorpsekind",
@@ -9027,7 +9059,7 @@
  },
  "newplane": {
   "args": {
-   "name": "The plane's name, in double quotes."
+   "name": "In double quotes, case-insensitive."
   },
   "doc": "Creates a plane. No other plane may share its name, a vanilla plane's short name included.",
   "docsUrl": "https://musical-pianist.github.io/coe5se-docs/commands/planes/#newplane",
@@ -9091,7 +9123,7 @@
  },
  "newsetting": {
   "args": {
-   "name": "The word your events and scripts read the setting by: letters, digits and _, starting with a letter."
+   "name": "Identifier used by events and Lua scripts: letters, digits, and _, starting with a letter."
   },
   "doc": "Creates a setting on your mod's Mod Settings page.",
   "docsUrl": "https://musical-pianist.github.io/coe5se-docs/commands/mod-settings/#newsetting",
@@ -9114,7 +9146,7 @@
  },
  "newsettingpage": {
   "args": {
-   "name": "The page's name: 1 to 32 letters, digits and _, starting with a letter."
+   "name": "Sub-page identifier: 1 to 32 letters, digits, and _, starting with a letter (unique per mod, case-insensitive)."
   },
   "doc": "Puts the settings after it on a sub-page, up to the next newsettingpage.",
   "docsUrl": "https://musical-pianist.github.io/coe5se-docs/commands/mod-settings/#newsettingpage",
@@ -9149,7 +9181,7 @@
    },
    {
     "args": {
-     "nbr": "How many spells, not a path as in a ritual."
+     "nbr": "Number of spells to teach."
     },
     "context": "With numbers after it (CoE5SE)",
     "doc": "After newitem or selectitem: using the item teaches this many new level 1 spells of the holder's own path, like a spell scroll.",
@@ -9564,6 +9596,16 @@
   ],
   "origin": "vanilla",
   "signature": "nofxherereq <fx nbr>"
+ },
+ "nogathererrec": {
+  "doc": "Adds twice the offer's chance, up to 10%, while none of the player's living commanders gathers a special resource.",
+  "docsUrl": "https://musical-pianist.github.io/coe5se-docs/commands/recruitment/#nogathererrec",
+  "group": "CoE5SE",
+  "kinds": [
+   "coe5se"
+  ],
+  "origin": "coe5se",
+  "signature": "nogathererrec"
  },
  "noheal": {
   "docs": [
@@ -10150,7 +10192,7 @@
  },
  "onlyaffects": {
   "args": {
-   "trait": "A vanilla trait, movement or ability command, small, combatcaster, or tag \"<name>\"."
+   "trait": "A monster trait, movement or ability command, small, combatcaster, or tag \"<name>\"."
   },
   "doc": "Makes the weapon affect only units with the trait.",
   "docsUrl": "https://musical-pianist.github.io/coe5se-docs/commands/weapon-traits/#onlyaffects",
@@ -10207,8 +10249,8 @@
  },
  "option": {
   "args": {
-   "number": "The option's number, from 0, with no gaps.",
-   "text": "The option's text."
+   "number": "Option index starting at 0, with no gaps.",
+   "text": "Option display text in double quotes."
   },
   "doc": "Adds an option to a choice setting.",
   "docsUrl": "https://musical-pianist.github.io/coe5se-docs/commands/mod-settings/#option",
@@ -10221,7 +10263,7 @@
  },
  "optiontip": {
   "args": {
-   "number": "The number of the option it describes."
+   "number": "Index of the option this tooltip describes."
   },
   "doc": "Sets an option's hover text.",
   "docsUrl": "https://musical-pianist.github.io/coe5se-docs/commands/mod-settings/#optiontip",
@@ -10394,7 +10436,7 @@
  },
  "parent": {
   "args": {
-   "name": "The parent's name."
+   "name": "The parent setting's name."
   },
   "doc": "Puts an onoff or key setting under an onoff setting: one switch for a group. They are greyed out and off while it is off.",
   "docsUrl": "https://musical-pianist.github.io/coe5se-docs/commands/mod-settings/#parent",
@@ -10592,7 +10634,7 @@
  },
  "planefill": {
   "args": {
-   "terrain": "A terrain by number, 0 to 32767, or its name in double quotes."
+   "terrain": "A terrain number (0 to 32767) or name in double quotes."
   },
   "doc": "Sets the terrain every square starts as. Needed, unless the plane has planelike or planefile.",
   "docsUrl": "https://musical-pianist.github.io/coe5se-docs/commands/planes/#planefill",
@@ -10615,7 +10657,7 @@
  },
  "planelike": {
   "args": {
-   "plane": "\"Celestial\", \"Sky\", \"Agartha\", \"Inferno\", \"Hades\", \"Elemental\" or \"Void\"."
+   "plane": "\"Celestial\", \"Sky\", \"Agartha\", \"Inferno\", \"Hades\", \"Elemental\", or \"Void\"."
   },
   "doc": "Builds the plane the way vanilla builds that plane: its map, ground pictures and independents.",
   "docsUrl": "https://musical-pianist.github.io/coe5se-docs/commands/planes/#planelike",
@@ -10655,7 +10697,7 @@
  },
  "planepopulate": {
   "args": {
-   "plane": "A vanilla plane's name, or off for none."
+   "plane": "A vanilla plane name in double quotes, or off."
   },
   "doc": "Places that vanilla plane's independents on the plane, or none with off.",
   "docsUrl": "https://musical-pianist.github.io/coe5se-docs/commands/planes/#planepopulate",
@@ -10676,7 +10718,7 @@
     "url": "https://www.illwinter.com/coe5/coe5modding.pdf#page=33"
    },
    {
-    "context": "With CoE5SE",
+    "context": "With numbers after it (CoE5SE)",
     "doc": "Takes a plane's name in double quotes where vanilla takes its number. Put the line in the .c5se or on a #!@ line.",
     "origin": "coe5se",
     "signature": "planereq \"<plane>\""
@@ -10693,6 +10735,10 @@
   ]
  },
  "planeshape": {
+  "args": {
+   "monster": "The target monster in double quotes, or \"\" to clear an existing shape.",
+   "plane": "A modded plane by string."
+  },
   "doc": "Makes this monster turn into the named monster on that plane, as elysiumshape does on Elysium.",
   "docsUrl": "https://musical-pianist.github.io/coe5se-docs/commands/planes/#planeshape",
   "group": "CoE5SE",
@@ -10720,8 +10766,8 @@
  },
  "planesize": {
   "args": {
-   "h": "The plane's height in squares, 1 to 159.",
-   "w": "The plane's width in squares, 1 to 999."
+   "h": "Height in squares, 1 to 159.",
+   "w": "Width in squares, 1 to 999."
   },
   "doc": "Sets the plane's width and height in squares. Needed unless planefile, or planelike Sky, Agartha, Hades or Inferno, gives the size.",
   "docsUrl": "https://musical-pianist.github.io/coe5se-docs/commands/planes/#planesize",
@@ -10743,7 +10789,7 @@
    },
    {
     "args": {
-     "terrain": "The first is a game terrain; the second, any terrain."
+     "terrain": "The terrain to replace, followed by the replacement, each as a terrain number or name in double quotes."
     },
     "context": "With numbers after it (CoE5SE)",
     "doc": "Inside a newplane block: turns each square of the first terrain into the second, after the independents are placed.",
@@ -10760,8 +10806,8 @@
  },
  "planeunits": {
   "args": {
-   "chance": "The percent chance on each square.",
-   "count": "How many on a square."
+   "chance": "Percent chance on each eligible square, 1 to 100.",
+   "count": "Units per square (scales with Wilder)."
   },
   "doc": "Gives the plane only these monsters, outside zones with their own.",
   "docsUrl": "https://musical-pianist.github.io/coe5se-docs/commands/planes/#planeunits",
@@ -10774,7 +10820,7 @@
  },
  "planezone": {
   "args": {
-   "radius": "The distance in squares."
+   "radius": "Distance in squares from the piece's edge."
   },
   "doc": "Creates a zone around each copy of a planepiece file; the zone lines below act on it.",
   "docsUrl": "https://musical-pianist.github.io/coe5se-docs/commands/planes/#planezone",
@@ -10797,7 +10843,7 @@
  },
  "planezoneswap": {
   "args": {
-   "terrain": "The terrain to replace, then the terrain it becomes, each by number or its name in double quotes."
+   "terrain": "The terrain to replace, followed by the replacement, each as a terrain number or name in double quotes."
   },
   "doc": "Turns each square of the first terrain in the zone into the second.",
   "docsUrl": "https://musical-pianist.github.io/coe5se-docs/commands/planes/#planezoneswap",
@@ -10810,8 +10856,8 @@
  },
  "planezoneunits": {
   "args": {
-   "chance": "The percent chance on each square.",
-   "count": "How many on a square."
+   "chance": "Percent chance on each eligible square, 1 to 100.",
+   "count": "Units per square (scales with Wilder)."
   },
   "doc": "Gives the zone only these monsters instead of its independents.",
   "docsUrl": "https://musical-pianist.github.io/coe5se-docs/commands/planes/#planezoneunits",
@@ -11061,6 +11107,19 @@
   "origin": "vanilla",
   "signature": "prebatweapon <dmg> \"weapon\""
  },
+ "priestrec": {
+  "args": {
+   "level": "2 (like an Arch Bishop) or 3 (like a Cardinal)."
+  },
+  "doc": "Sets the offer's chance to 0% unless the player's class or a living unit they own has at least this priest level.",
+  "docsUrl": "https://musical-pianist.github.io/coe5se-docs/commands/recruitment/#priestrec",
+  "group": "CoE5SE",
+  "kinds": [
+   "coe5se"
+  ],
+  "origin": "coe5se",
+  "signature": "priestrec <level>, 2 or 3"
+ },
  "primable": {
   "docs": [
    {
@@ -11261,8 +11320,8 @@
    },
    {
     "args": {
-     "amount": "A number, or open ended dice for a random amount, like 1d6+100.",
-     "type": "A vanilla type, or a mod's corpse type in double quotes."
+     "amount": "A whole number, or open-ended dice with lowercase d (such as 1d6+100).",
+     "type": "A vanilla type or a custom corpse type in double quotes (optional, defaults to human)."
     },
     "context": "With numbers after it (CoE5SE)",
     "doc": "With a type, creates corpses of this type instead of human corpses. Also takes dice for a random amount, like 1d6+100, and works in events.",
@@ -11311,6 +11370,9 @@
   "signature": "raiseanimals"
  },
  "raisecorpses": {
+  "args": {
+   "Fell Beast": "A vanilla type, a group (humanoid, animal, or all), or a custom corpse type in double quotes."
+  },
   "doc": "Like raisedead, but turns the corpses on the caster's square into this monster. A number after the name sets the max.",
   "docsUrl": "https://musical-pianist.github.io/coe5se-docs/commands/corpses/#raisecorpses",
   "group": "CoE5SE",
@@ -11331,8 +11393,8 @@
    },
    {
     "args": {
-     "cap": "Optional.",
-     "type": "A humanoid type or humanoid for raisedead, an animal type or animal for raiseanimals."
+     "cap": "Maximum number of corpses used (optional).",
+     "type": "A vanilla humanoid type or humanoid for raisedead, or a vanilla animal type or animal for raiseanimals."
     },
     "context": "With numbers after it (CoE5SE)",
     "doc": "With a type, Raise Dead will only use corpses of this type; same for raiseanimals. A number after the type sets the max.",
@@ -11399,6 +11461,16 @@
   "origin": "vanilla",
   "signature": "randitem <rare chance>"
  },
+ "randitemloc": {
+  "doc": "Sets loc to a random square where a matching magic item is, on the ground or carried by a commander of an enemy player.",
+  "docsUrl": "https://musical-pianist.github.io/coe5se-docs/commands/ritual-effects/#randitemloc",
+  "group": "CoE5SE",
+  "kinds": [
+   "coe5se"
+  ],
+  "origin": "coe5se",
+  "signature": "randitemloc"
+ },
  "randloc": {
   "docs": [
    {
@@ -11433,6 +11505,16 @@
   ],
   "origin": "vanilla",
   "signature": "randmisc <rare chance>"
+ },
+ "randnewitemloc": {
+  "doc": "Like randitemloc, but tries to find a square the caster's player cannot see first.",
+  "docsUrl": "https://musical-pianist.github.io/coe5se-docs/commands/ritual-effects/#randnewitemloc",
+  "group": "CoE5SE",
+  "kinds": [
+   "coe5se"
+  ],
+  "origin": "coe5se",
+  "signature": "randnewitemloc"
  },
  "randnewloc": {
   "docs": [
@@ -11793,8 +11875,8 @@
    },
    {
     "args": {
-     "monster": "The monster's name, in double quotes.",
-     "type": "Optional."
+     "monster": "Target monster name in double quotes.",
+     "type": "Restricts this line to victims leaving a specific corpse type or group (optional, vanilla or custom in double quotes)."
     },
     "context": "With numbers after it (CoE5SE)",
     "doc": "A victim killed by the weapon becomes this monster instead of a Soulless; with a corpse type, only victims that leave a corpse of that type.",
@@ -12375,7 +12457,7 @@
  },
  "requires": {
   "args": {
-   "ModName": "The other mod's .c5m file name without .c5m, capitals included.",
+   "ModName": "The other mod's .c5m filename without .c5m, case-sensitive (quote names containing spaces).",
    "minimum version": "The lowest modversion of that mod your mod works with."
   },
   "doc": "Ensures that mod's DLLs and Lua scripts load before yours. Write it on a plain .c5m line; your mod loads without that mod.",
@@ -14798,9 +14880,9 @@
  },
  "tag": {
   "args": {
-   "name": "In double quotes (length limit), shared by every mod."
+   "name": "Tag name in double quotes (length limit), shared across all mods."
   },
-  "doc": "Tags the monster for a weapon's onlyaffects, doesntaffect or doubledmgvs tag \"<name>\".",
+  "doc": "Tags the monster for a weapon's onlyaffects, doesntaffect or doubledmgvs tag \"<name>\", or the magic item for randitemloc.",
   "docsUrl": "https://musical-pianist.github.io/coe5se-docs/commands/monster-traits/#tag",
   "group": "CoE5SE",
   "kinds": [
@@ -15239,6 +15321,16 @@
   ],
   "origin": "coe5se",
   "signature": "tip \"<text>\""
+ },
+ "towerrec": {
+  "doc": "After recterr -81 to -84 in a class list: lets the offer also recruit at towers once the player owns that gem's location.",
+  "docsUrl": "https://musical-pianist.github.io/coe5se-docs/commands/recruitment/#towerrec",
+  "group": "CoE5SE",
+  "kinds": [
+   "coe5se"
+  ],
+  "origin": "coe5se",
+  "signature": "towerrec"
  },
  "town1": {
   "docs": [
@@ -15825,7 +15917,7 @@
  },
  "uniquegroup": {
   "args": {
-   "name": "In double quotes (length limit), shared by every mod."
+   "name": "Group name in double quotes (length limit), shared across all mods."
   },
   "doc": "Like unique, but every monster with the same group name counts as one unique monster: only one of the group in the entire world.",
   "docsUrl": "https://musical-pianist.github.io/coe5se-docs/commands/monster-traits/#uniquegroup",
@@ -15918,7 +16010,7 @@
  },
  "useonlyin": {
   "args": {
-   "terrain nbr": "A terrain number, or a negative one from the Negative Terrain Numbers table under {{ manual: Monster Modding Numbers }}."
+   "terrain nbr": "A terrain number, or a negative number from the Negative Terrain Numbers table in {{ manual: Monster Modding Numbers }}."
   },
   "doc": "After newitem or selectitem: the item can only be used on this terrain, like the Magic Bean.",
   "docsUrl": "https://musical-pianist.github.io/coe5se-docs/commands/magic-items/#useonlyin",
@@ -15941,7 +16033,7 @@
  },
  "useplanetravel": {
   "args": {
-   "terrain nbr": "A terrain number, or a negative one from the Negative Terrain Numbers table under {{ manual: Monster Modding Numbers }}."
+   "terrain nbr": "A terrain number, or a negative number from the Negative Terrain Numbers table in {{ manual: Monster Modding Numbers }}."
   },
   "doc": "After newitem or selectitem: using the item takes the army to this terrain and back to Elysium, like the Tome of Afterlife.",
   "docsUrl": "https://musical-pianist.github.io/coe5se-docs/commands/magic-items/#useplanetravel",
@@ -15954,7 +16046,7 @@
  },
  "usereveal": {
   "args": {
-   "terrain nbr": "A terrain number, or a negative one from the Negative Terrain Numbers table under {{ manual: Monster Modding Numbers }}."
+   "terrain nbr": "A terrain number, or a negative number from the Negative Terrain Numbers table in {{ manual: Monster Modding Numbers }}."
   },
   "doc": "After newitem or selectitem: using the item shows its player every square of this terrain, like the Map of Kokytos.",
   "docsUrl": "https://musical-pianist.github.io/coe5se-docs/commands/magic-items/#usereveal",
@@ -15967,7 +16059,7 @@
  },
  "useteleport": {
   "args": {
-   "terrain nbr": "A terrain number, or a negative one from the Negative Terrain Numbers table under {{ manual: Monster Modding Numbers }}."
+   "terrain nbr": "A terrain number, or a negative number from the Negative Terrain Numbers table in {{ manual: Monster Modding Numbers }}."
   },
   "doc": "After newitem or selectitem: using the item teleports the whole army to this terrain, like the Scroll of Astral Travel.",
   "docsUrl": "https://musical-pianist.github.io/coe5se-docs/commands/magic-items/#useteleport",
