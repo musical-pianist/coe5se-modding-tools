@@ -4944,6 +4944,16 @@
   "origin": "vanilla",
   "signature": "frontpos"
  },
+ "fullforest": {
+  "doc": "In a selectterr block: gives this terrain the forest flag, heartclaim, wildspawn, and hotconvert to Savanna (119). A later hotconvert sets another target.",
+  "docsUrl": "https://musical-pianist.github.io/coe5se-docs/commands/terrain-scatter/#fullforest",
+  "group": "CoE5SE",
+  "kinds": [
+   "coe5se"
+  ],
+  "origin": "coe5se",
+  "signature": "fullforest"
+ },
  "fullsweep": {
   "docs": [
    {
@@ -5884,6 +5894,16 @@
   "origin": "vanilla",
   "signature": "healonterr <terrain nbr>"
  },
+ "heartclaim": {
+  "doc": "In a selectterr block: lets Heart of the Forest claim squares of this terrain the way it claims Forest.",
+  "docsUrl": "https://musical-pianist.github.io/coe5se-docs/commands/terrain-scatter/#heartclaim",
+  "group": "CoE5SE",
+  "kinds": [
+   "coe5se"
+  ],
+  "origin": "coe5se",
+  "signature": "heartclaim"
+ },
  "heartitem": {
   "args": {
    "nbr": "Use 2 for a heart any unit can hold (like the Heart of Life), or 0 to remove it."
@@ -6096,6 +6116,19 @@
   "origin": "vanilla",
   "signature": "horror"
  },
+ "hotconvert": {
+  "args": {
+   "terrain nbr": "The terrain number heat turns the square into, as destroyto takes."
+  },
+  "doc": "In a selectterr block: turns this terrain into the given terrain when temperature is above 65; above 100, the game's Desert change runs instead.",
+  "docsUrl": "https://musical-pianist.github.io/coe5se-docs/commands/terrain-scatter/#hotconvert",
+  "group": "CoE5SE",
+  "kinds": [
+   "coe5se"
+  ],
+  "origin": "coe5se",
+  "signature": "hotconvert <terrain nbr>"
+ },
  "hp": {
   "docs": [
    {
@@ -6244,6 +6277,15 @@
     "doc": "Icon shown when selecting the mod in CoE5. It should be a 256x64 large TGA or PNG image.",
     "origin": "vanilla",
     "signature": "icon \"image.tga\""
+   },
+   {
+    "args": {
+     "nbr or ./file": "A vanilla icon number from res.trs (for example, 32 for a gold star on a red disc, or 211 for Magic Shield)."
+    },
+    "context": "With numbers after it (CoE5SE)",
+    "doc": "After newaffliction: the affliction's icon on the unit stats screen; left out, the Diseased icon.",
+    "origin": "coe5se",
+    "signature": "icon <nbr> | \"./<file>\""
    }
   ],
   "group": "Mod info, maps, fonts and translation, sound samples, misc",
@@ -9254,6 +9296,19 @@
   ],
   "origin": "coe5se",
   "signature": "newspellpath \"<name>\""
+ },
+ "newspritepack": {
+  "args": {
+   "name": "The pack's name, in double quotes."
+  },
+  "doc": "Starts a sprite pack: the pictures named by the spr lines right under it, one file or folder ending in / a line.",
+  "docsUrl": "https://musical-pianist.github.io/coe5se-docs/commands/terrain-scatter/#newspritepack",
+  "group": "CoE5SE",
+  "kinds": [
+   "coe5se"
+  ],
+  "origin": "coe5se",
+  "signature": "newspritepack \"<name>\""
  },
  "newunits": {
   "docs": [
@@ -15160,6 +15215,21 @@
   "origin": "vanilla",
   "signature": "+terrain <terr nbr>"
  },
+ "terraincenter": {
+  "args": {
+   "pack": "A sprite pack of your mod, by name in double quotes.",
+   "size": "The piece's height, 1 to 200 percent of a square.",
+   "version": "snow, cold or snowcold, as for terrainscatter."
+  },
+  "doc": "Draws one still piece of the pack in the middle of each square of the selected terrain, as the game draws its towers.",
+  "docsUrl": "https://musical-pianist.github.io/coe5se-docs/commands/terrain-scatter/#terraincenter",
+  "group": "CoE5SE",
+  "kinds": [
+   "coe5se"
+  ],
+  "origin": "coe5se",
+  "signature": "terraincenter \"<pack>\" <size> [<version>]"
+ },
  "terraindecor": {
   "args": {
    "terrain": "The vanilla terrain whose decorations it takes, by number or its name in double quotes."
@@ -15195,6 +15265,25 @@
   ],
   "origin": "coe5se",
   "signature": "terrainlooks <terrain>"
+ },
+ "terrainscatter": {
+  "args": {
+   "clearcenter radius": "Keeps the pieces out of a circle in the middle of the square, as the Brigand Lair's trees stand around it.",
+   "count": "Pieces on each square, 1 to 100, at full graphics detail.",
+   "pack": "A sprite pack of your mod, by name in double quotes.",
+   "shade": "0 to 100: how much darker a piece may be drawn than its picture.",
+   "size": "The pieces' height, 1 to 200 percent of a square.",
+   "sway": "How far the pieces sway, 0 (still) to 500 percent of Forest's trees.",
+   "version": "snow (snow ground: below temperature 1, so most Forest on Elysium in Winter), cold (a cold square) or snowcold (snow ground on a cold square)."
+  },
+  "doc": "Scatters the pack's pictures over each square of the selected terrain, as the game scatters Forest's trees; cold, snow or snowcold makes a version.",
+  "docsUrl": "https://musical-pianist.github.io/coe5se-docs/commands/terrain-scatter/#terrainscatter",
+  "group": "CoE5SE",
+  "kinds": [
+   "coe5se"
+  ],
+  "origin": "coe5se",
+  "signature": "terrainscatter \"<pack>\" <count> <size> <sway> <shade> [clearcenter <radius>] [<version>]"
  },
  "terrainsprite": {
   "args": {
@@ -16562,6 +16651,16 @@
   ],
   "origin": "vanilla",
   "signature": "weed <nbr>"
+ },
+ "wildspawn": {
+  "doc": "In a selectterr block: lets Call of the Wild spawn its animals on squares of this terrain the way it does on Forest.",
+  "docsUrl": "https://musical-pianist.github.io/coe5se-docs/commands/terrain-scatter/#wildspawn",
+  "group": "CoE5SE",
+  "kinds": [
+   "coe5se"
+  ],
+  "origin": "coe5se",
+  "signature": "wildspawn"
  },
  "winteridle": {
   "docs": [

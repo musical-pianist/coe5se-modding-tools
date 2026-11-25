@@ -7,6 +7,7 @@
  "newaffliction": "Creates an affliction of your mod, shown on the unit stats screen. A Lua script gives it its effect.",
  "battleaff": "Makes the affliction a battle affliction: vanilla's cures heal it, and a unit's vanilla affres also applies to it.",
  "descr|CoE5SE": "After newaffliction: the affliction's description, read by clicking it on the unit stats screen.",
+ "icon|CoE5SE": "After newaffliction: the affliction's icon on the unit stats screen; left out, the Diseased icon.",
  "+setting": "True when your setting is on, or with an index, when that option or key is picked. -setting is the opposite.",
  "raisecorpses": "Like raisedead, but turns the corpses on the caster's square into this monster. A number after the name sets the max.",
  "doubledmgvs": "Doubles the weapon's damage against units with the trait.",
@@ -289,5 +290,12 @@
  "transportair": "Like transportland, in the Sky and over water; with transportland too, a flying monster takes its army over water and into the Sky.",
  "transportmap": "Gives the monster a deck in battle: this battle map's objects, which its army boards, as vanilla ships do at sea.",
  "transportheart": "Names the deck's object the monster is lost with, as a ship sinks with its hull. Needs transportmap.",
- "transportterrain": "Lets the monster's owner recruit on its square as if it held a citadel of this terrain, once a month."
+ "transportterrain": "Lets the monster's owner recruit on its square as if it held a citadel of this terrain, once a month.",
+ "newspritepack": "Starts a sprite pack: the pictures named by the spr lines right under it, one file or folder ending in / a line.",
+ "terrainscatter": "Scatters the pack's pictures over each square of the selected terrain, as the game scatters Forest's trees; cold, snow or snowcold makes a version.",
+ "terraincenter": "Draws one still piece of the pack in the middle of each square of the selected terrain, as the game draws its towers.",
+ "heartclaim": "In a selectterr block: lets Heart of the Forest claim squares of this terrain the way it claims Forest.",
+ "wildspawn": "In a selectterr block: lets Call of the Wild spawn its animals on squares of this terrain the way it does on Forest.",
+ "hotconvert": "In a selectterr block: turns this terrain into the given terrain when temperature is above 65; above 100, the game's Desert change runs instead.",
+ "fullforest": "In a selectterr block: gives this terrain the forest flag, heartclaim, wildspawn, and hotconvert to Savanna (119). A later hotconvert sets another target."
 }
